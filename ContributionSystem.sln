@@ -3,17 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.Presentation", "WebApplication1\ContributionSystem.Presentation.csproj", "{789B6D3A-7DD3-465D-90F7-FF0EDE40E70E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.API", "WebApplication1\ContributionSystem.API.csproj", "{789B6D3A-7DD3-465D-90F7-FF0EDE40E70E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.Infrastructure", "Infrastructure\ContributionSystem.Infrastructure.csproj", "{73E9A579-9B5A-4527-8C5D-A552ADDE39CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.BusinesLogic", "Infrastructure\ContributionSystem.BusinesLogic.csproj", "{73E9A579-9B5A-4527-8C5D-A552ADDE39CA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.Core", "Core\ContributionSystem.Core.csproj", "{2774E05F-C049-40FE-B0F6-E100A371AF8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.DataAccess", "Core\ContributionSystem.DataAccess.csproj", "{2774E05F-C049-40FE-B0F6-E100A371AF8F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{A734D72E-EB5C-4DBC-B286-A05F71E854A5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{A734D72E-EB5C-4DBC-B286-A05F71E854A5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{D84ADA24-3721-4471-A34D-50CBA0FFE7C4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessLogic", "BusinessLogic", "{D84ADA24-3721-4471-A34D-50CBA0FFE7C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{C0408494-574B-4E17-AA11-5BA9E3D9CD9B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{1DF8B816-DA8D-4907-B06A-901EEB745F28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ViewModels", "ViewModels", "{1DEF7A37-0612-4410-8BE1-1A19F4140C3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContributionSystem.Entities", "ContributionSystem.Entities\ContributionSystem.Entities.csproj", "{33314229-1721-4305-9D15-63D3D5BAAA1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContributionSystem.ViewModels", "ContributionSystem.ViewModels\ContributionSystem.ViewModels.csproj", "{BF7D3DC5-B2BF-4956-9024-C0FEB07D191E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +41,14 @@ Global
 		{2774E05F-C049-40FE-B0F6-E100A371AF8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2774E05F-C049-40FE-B0F6-E100A371AF8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2774E05F-C049-40FE-B0F6-E100A371AF8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33314229-1721-4305-9D15-63D3D5BAAA1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33314229-1721-4305-9D15-63D3D5BAAA1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33314229-1721-4305-9D15-63D3D5BAAA1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33314229-1721-4305-9D15-63D3D5BAAA1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF7D3DC5-B2BF-4956-9024-C0FEB07D191E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF7D3DC5-B2BF-4956-9024-C0FEB07D191E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF7D3DC5-B2BF-4956-9024-C0FEB07D191E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF7D3DC5-B2BF-4956-9024-C0FEB07D191E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +57,8 @@ Global
 		{789B6D3A-7DD3-465D-90F7-FF0EDE40E70E} = {C0408494-574B-4E17-AA11-5BA9E3D9CD9B}
 		{73E9A579-9B5A-4527-8C5D-A552ADDE39CA} = {D84ADA24-3721-4471-A34D-50CBA0FFE7C4}
 		{2774E05F-C049-40FE-B0F6-E100A371AF8F} = {A734D72E-EB5C-4DBC-B286-A05F71E854A5}
+		{33314229-1721-4305-9D15-63D3D5BAAA1D} = {1DF8B816-DA8D-4907-B06A-901EEB745F28}
+		{BF7D3DC5-B2BF-4956-9024-C0FEB07D191E} = {1DEF7A37-0612-4410-8BE1-1A19F4140C3D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9797A996-E3AB-4CE1-9E5E-D761184E97DD}
