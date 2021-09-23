@@ -9,9 +9,7 @@ namespace ContributionSystem.ViewModels.Models
     public class RequestPostContributionViewModel
     {
         public decimal StartValue { get; set; }
-
         public int Term { get; set; }
-
         public int Percent { get; set; }
     }
 }
