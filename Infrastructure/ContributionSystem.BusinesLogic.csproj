@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ContributionSystem.Entities\ContributionSystem.Entities.csproj" />
+    <ProjectReference Include="..\ContributionSystem.ViewModels\ContributionSystem.ViewModels.csproj" />
+    <ProjectReference Include="..\Core\ContributionSystem.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>
