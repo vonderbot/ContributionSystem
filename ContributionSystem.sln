@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.API", "WebApplication1\ContributionSystem.API.csproj", "{789B6D3A-7DD3-465D-90F7-FF0EDE40E70E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.API", "Presentation\ContributionSystem.API.csproj", "{789B6D3A-7DD3-465D-90F7-FF0EDE40E70E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.BusinesLogic", "Infrastructure\ContributionSystem.BusinesLogic.csproj", "{73E9A579-9B5A-4527-8C5D-A552ADDE39CA}"
 EndProject
