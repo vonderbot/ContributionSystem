@@ -19,14 +19,16 @@ namespace ContributionSystem.API.Controllers
         [HttpPost]
         public IActionResult Calculate(RequestPostContributionViewModel request)
         {
-            string validationResult = PostContributionService.RequestValidation(request);
-            if (PostContributionService.RequestValidation(request) != null)
+            try
             {
-                return BadRequest(validationResult);
-            }
-            ResponsePostContributionViewModel response = PostContributionService.Calculate(request);
+                ResponsePostContributionViewModel response = PostContributionService.Calculate(request);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
+                return ValidationProblem(ex.Message);
+            };
         }
     }
 }
