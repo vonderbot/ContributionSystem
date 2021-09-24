@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.API", "Presentation\ContributionSystem.API.csproj", "{789B6D3A-7DD3-465D-90F7-FF0EDE40E70E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.API", "ContributionSystem.API\ContributionSystem.API.csproj", "{789B6D3A-7DD3-465D-90F7-FF0EDE40E70E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.BusinesLogic", "Infrastructure\ContributionSystem.BusinesLogic.csproj", "{73E9A579-9B5A-4527-8C5D-A552ADDE39CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.BusinesLogic", "ContributionSystem.BusinesLogic\ContributionSystem.BusinesLogic.csproj", "{73E9A579-9B5A-4527-8C5D-A552ADDE39CA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.DataAccess", "Core\ContributionSystem.DataAccess.csproj", "{2774E05F-C049-40FE-B0F6-E100A371AF8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.DataAccess", "ContributionSystem.DataAccess\ContributionSystem.DataAccess.csproj", "{2774E05F-C049-40FE-B0F6-E100A371AF8F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{A734D72E-EB5C-4DBC-B286-A05F71E854A5}"
 EndProject

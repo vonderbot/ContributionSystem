@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ContributionSystem.BusinesLogic\ContributionSystem.BusinesLogic.csproj" />
     <ProjectReference Include="..\ContributionSystem.ViewModels\ContributionSystem.ViewModels.csproj" />
-    <ProjectReference Include="..\Infrastructure\ContributionSystem.BusinesLogic.csproj" />
   </ItemGroup>
 
 </Project>
