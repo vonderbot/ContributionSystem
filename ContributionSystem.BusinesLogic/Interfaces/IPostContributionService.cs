@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.BusinesLogic.Interfaces
 {
-    public interface IContributionService
+    public interface IPostContributionService
     {
-        public ArrayList MonthsInfo(RequestPostContributionViewModel request);
+        public ResponsePostContributionViewModel Calculate(RequestPostContributionViewModel request);
     }
 }

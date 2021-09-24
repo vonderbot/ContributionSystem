@@ -10,6 +10,6 @@ namespace ContributionSystem.ViewModels.Models
     {
         public decimal StartValue { get; set; }
         public int Term { get; set; }
-        public int Percent { get; set; }
+        public decimal Percent { get; set; }
     }
 }

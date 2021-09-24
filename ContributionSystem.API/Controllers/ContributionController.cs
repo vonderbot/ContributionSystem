@@ -14,11 +14,11 @@ namespace ContributionSystem.API.Controllers
     [Route("[controller]")]
     public class ContributionController : ControllerBase
     {
+        IPostContributionService PostContributionService = new PostContributionService();
         [HttpPost]
-        public IActionResult Post(RequestPostContributionViewModel request)
+        public IActionResult Calculate(RequestPostContributionViewModel request)
         {
-            IContributionService contributionService = new ContributionService();
-            ResponsePostContributionViewModel response = new ResponsePostContributionViewModel() { items = contributionService.MonthsInfo(request) };
+            ResponsePostContributionViewModel response = PostContributionService.Calculate(request);
 
             return Ok(response);
         }

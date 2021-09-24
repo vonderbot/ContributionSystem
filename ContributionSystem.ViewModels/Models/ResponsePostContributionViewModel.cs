@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ContributionSystem.ViewModels.Items;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace ContributionSystem.ViewModels.Models
 {
     public class ResponsePostContributionViewModel
     {
-        public ArrayList items { get; set; }
+        public ResponsePostContributionViewModelItem[] Items { get; set; }
     }
 }

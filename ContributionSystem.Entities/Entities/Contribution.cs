@@ -6,9 +6,9 @@ namespace ContributionSystem.Entities.Entities
     {
         public decimal StartValue { get; set; }
         public int Term { get; set; }
-        public int Percent { get; set; }
+        public decimal Percent { get; set; }
 
-        public Contribution(decimal newValue, int newTerm, int newPercent)
+        public Contribution(decimal newValue, int newTerm, decimal newPercent)
         {
             newValue = Math.Round(newValue, 2);
             StartValue = newValue;
