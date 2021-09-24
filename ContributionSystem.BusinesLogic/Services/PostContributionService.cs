@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using ContributionSystem.ViewModels.Items;
+using System.Text.RegularExpressions;
 
 namespace ContributionSystem.BusinesLogic.Services
 {
@@ -15,9 +16,9 @@ namespace ContributionSystem.BusinesLogic.Services
     {
         public ResponsePostContributionViewModel Calculate(RequestPostContributionViewModel request)
         {
-            decimal newValue = Math.Round(request.StartValue, 2);
-            decimal newPercent = Math.Round(request.Percent, 2);
-            Contribution contribution = new Contribution(newValue, request.Term, newPercent);
+            //decimal newValue = Math.Round(request.StartValue, 2);
+            //decimal newPercent = Math.Round(request.Percent, 2);
+            Contribution contribution = new Contribution(request.StartValue, request.Term, request.Percent);
             decimal income = Math.Round((contribution.StartValue / 100 * ((decimal)contribution.Percent / 12)), 2);
             ResponsePostContributionViewModelItem[] allMonthsInfo = new ResponsePostContributionViewModelItem[contribution.Term];
             for (int i = 0; i < contribution.Term; i++)
@@ -32,6 +33,21 @@ namespace ContributionSystem.BusinesLogic.Services
             }
 
             return new ResponsePostContributionViewModel() { Items = allMonthsInfo };
+        }
+
+        public string RequestValidation(RequestPostContributionViewModel request) 
+        {
+            string pattern = @"^\-?[0-9]+(?:\.[0-9]{1,2})?$";
+
+            if(Regex.IsMatch(request.StartValue.ToString(), pattern) ? false : true)
+            {
+                return "Contribution value can't have more than two decimal places.";
+            }
+            else if (Regex.IsMatch(request.Percent.ToString(), pattern) ? false : true)
+            {
+                return "Percent value can't have more than two decimal places.";
+            }
+            return null;
         }
     }
 }

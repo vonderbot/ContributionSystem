@@ -12,5 +12,6 @@ namespace ContributionSystem.BusinesLogic.Interfaces
     public interface IPostContributionService
     {
         public ResponsePostContributionViewModel Calculate(RequestPostContributionViewModel request);
+        public string RequestValidation(RequestPostContributionViewModel request);
     }
 }

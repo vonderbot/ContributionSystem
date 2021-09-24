@@ -15,9 +15,15 @@ namespace ContributionSystem.API.Controllers
     public class ContributionController : ControllerBase
     {
         IPostContributionService PostContributionService = new PostContributionService();
+
         [HttpPost]
         public IActionResult Calculate(RequestPostContributionViewModel request)
         {
+            string validationResult = PostContributionService.RequestValidation(request);
+            if (PostContributionService.RequestValidation(request) != null)
+            {
+                return BadRequest(validationResult);
+            }
             ResponsePostContributionViewModel response = PostContributionService.Calculate(request);
 
             return Ok(response);
