@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ContributionSystem.API.Controllers
 {
@@ -14,21 +15,25 @@ namespace ContributionSystem.API.Controllers
     [Route("[controller]")]
     public class ContributionController : ControllerBase
     {
-        IPostContributionService PostContributionService = new PostContributionService();
+        private readonly IContributionService postContributionService;
+
+        public ContributionController()
+        {
+            postContributionService = new ContributionService();
+        }
 
         [HttpPost]
-        public IActionResult Calculate(RequestPostContributionViewModel request)
+        public IActionResult Calculate(RequestCalculateContributionViewModel request)
         {
-            try
-            {
-                ResponsePostContributionViewModel response = PostContributionService.Calculate(request);
+            //var results = new List<ValidationResult>();
+            //var context = new ValidationContext(request);
+            //if (!Validator.TryValidateObject(request, context, results, true))
+            //{
+            //    return BadRequest("Request unvalid");
+            //}
+            ResponseCalculateContributionViewModel response = postContributionService.Calculate(request);
 
-                return Ok(response);
-            }
-            catch(Exception ex)
-            {
-                return ValidationProblem(ex.Message);
-            };
+            return Ok(response);
         }
     }
 }

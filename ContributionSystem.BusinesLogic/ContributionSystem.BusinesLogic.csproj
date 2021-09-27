@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.3.3" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.3" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ContributionSystem.DataAccess\ContributionSystem.DataAccess.csproj" />
     <ProjectReference Include="..\ContributionSystem.Entities\ContributionSystem.Entities.csproj" />
     <ProjectReference Include="..\ContributionSystem.ViewModels\ContributionSystem.ViewModels.csproj" />

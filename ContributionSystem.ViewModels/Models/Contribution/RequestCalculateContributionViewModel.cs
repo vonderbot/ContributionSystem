@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.ViewModels.Models
 {
-    public class RequestPostContributionViewModel
+    public class RequestCalculateContributionViewModel
     {
-        [Required]
-        [RegularExpression(@"^\-?[0-9]+(?:\.[0-9]{1,2})?$")]
+        //[Required]
+        //[RegularExpression(@"^\-?[0-9]+(?:\.[0-9]{1,2})?$")]
         public decimal StartValue { get; set; }
-        [Required]
+
+        //[Required]
         public int Term { get; set; }
-        [Required]
-        [RegularExpression(@"^\-?[0-9]+(?:\.[0-9]{1,2})?$")]
+
+        //[Required]
+        //[RegularExpression(@"^\-?[0-9]+(?:\.[0-9]{1,2})?$")]
         public decimal Percent { get; set; }
     }
 }

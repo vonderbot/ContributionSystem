@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.BusinesLogic.Interfaces
 {
-    public interface IPostContributionService
+    public interface IContributionService
     {
-        public ResponsePostContributionViewModel Calculate(RequestPostContributionViewModel request);
+        public ResponseCalculateContributionViewModel Calculate(RequestCalculateContributionViewModel request);
     }
 }

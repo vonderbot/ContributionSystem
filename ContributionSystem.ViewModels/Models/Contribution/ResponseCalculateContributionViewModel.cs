@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ContributionSystem.ViewModels.Items
+namespace ContributionSystem.ViewModels.Models
 {
-    public class ResponsePostContributionViewModelItem
+    public class ResponseCalculateContributionViewModel
     {
-        [Required]
+        public ResponseCalculateContributionViewModelItem[] Items { get; set; }
+    }
+
+    public class ResponseCalculateContributionViewModelItem
+    {
         public int MonthNumber { get; set; }
-        [Required]
-        [RegularExpression(@"^\-?[0-9]+(?:\.[0-9]{1,2})?$")]
+
         public decimal Income { get; set; }
-        [Required]
-        [RegularExpression(@"^\-?[0-9]+(?:\.[0-9]{1,2})?$")]
+
         public decimal Sum { get; set; }
     }
 }
