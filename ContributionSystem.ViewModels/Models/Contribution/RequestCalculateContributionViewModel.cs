@@ -9,15 +9,10 @@ namespace ContributionSystem.ViewModels.Models
 {
     public class RequestCalculateContributionViewModel
     {
-        //[Required]
-        //[RegularExpression(@"^\-?[0-9]+(?:\.[0-9]{1,2})?$")]
         public decimal StartValue { get; set; }
 
-        //[Required]
         public int Term { get; set; }
 
-        //[Required]
-        //[RegularExpression(@"^\-?[0-9]+(?:\.[0-9]{1,2})?$")]
         public decimal Percent { get; set; }
     }
 }

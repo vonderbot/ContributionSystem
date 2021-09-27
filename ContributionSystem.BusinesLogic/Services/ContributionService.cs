@@ -16,8 +16,6 @@ namespace ContributionSystem.BusinesLogic.Services
     {
         public ResponseCalculateContributionViewModel Calculate(RequestCalculateContributionViewModel request)
         {
-            //decimal newValue = Math.Round(request.StartValue, 2);
-            //decimal newPercent = Math.Round(request.Percent, 2);
             Contribution contribution = new Contribution(request.StartValue, request.Term, request.Percent);
             decimal income = Math.Round(contribution.StartValue / 100 * (contribution.Percent / 12), 2);
             ResponseCalculateContributionViewModelItem[] allMonthsInfo = new ResponseCalculateContributionViewModelItem[contribution.Term];

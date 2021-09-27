@@ -25,12 +25,6 @@ namespace ContributionSystem.API.Controllers
         [HttpPost]
         public IActionResult Calculate(RequestCalculateContributionViewModel request)
         {
-            //var results = new List<ValidationResult>();
-            //var context = new ValidationContext(request);
-            //if (!Validator.TryValidateObject(request, context, results, true))
-            //{
-            //    return BadRequest("Request unvalid");
-            //}
             ResponseCalculateContributionViewModel response = postContributionService.Calculate(request);
 
             return Ok(response);
