@@ -12,7 +12,8 @@ using System.ComponentModel.DataAnnotations;
 namespace ContributionSystem.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    //[Route("[controller]")]
+    [Route("api/Contribution")]
     public class ContributionController : ControllerBase
     {
         private readonly IContributionService postContributionService;
@@ -22,8 +23,9 @@ namespace ContributionSystem.API.Controllers
             postContributionService = new ContributionService();
         }
 
-        [HttpPost]
-        public IActionResult Calculate(RequestCalculateContributionViewModel request)
+        [HttpPost("action")]
+        [Route("api/contribution/calculate")]
+        public IActionResult Calculate([FromBody] RequestCalculateContributionViewModel request)
         {
             ResponseCalculateContributionViewModel response = postContributionService.Calculate(request);
 

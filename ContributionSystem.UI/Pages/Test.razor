@@ -1,0 +1,61 @@
+﻿@page "/test"
+@using System.Net.Http
+@using System.Net.Http.Json
+@using System.Threading.Tasks
+@inject HttpClient Http
+@*@inherits Test.razor.cs*@
+<div class="row">
+    <Form role="form" class="col-3">
+        <div class="form-group">
+            <div class="row">
+                <input @bind="newPercent" class="form-control" placeholder="Percent" />
+            </div>
+            <br />
+            <div class="row">
+                <input class="form-control" placeholder="Term" />
+            </div>
+            <br />
+            <div class="row">
+                <input class="form-control" placeholder="Summ" />
+            </div>
+            <br />
+            <div class="row text-center">
+                <button type="button" class="btn btn-secondary" @onclick="AddItem">Calculate</button>
+            </div>
+        </div>
+    </Form>
+    <div class="col-9 text-center">
+        <table class="table table-bordered">
+            <thead>
+                <tr class="active bg-light">
+                    <th>
+                        Month
+                    </th>
+                    <th>
+                        %
+                    </th>
+                    <th>
+                        Sum
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@code {
+    private string newPercent;
+
+    private async Task AddItem()
+    {
+        RequestCalculateContributionViewModel addItem = new RequestCalculateContributionViewModel
+        {
+            StartValue = 1500.50M,
+            Term = 12,
+            Percent = 5.25M
+        };
+        await Http.PostAsJsonAsync("api/contribution/calculate", addItem);
+
+        //var content = await response.Content.ReadFromJsonAsync<WeatherForecast>();
+    }
+}
