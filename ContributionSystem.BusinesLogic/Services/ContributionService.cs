@@ -1,6 +1,5 @@
 ﻿using ContributionSystem.BusinesLogic.Interfaces;
 using ContributionSystem.Entities.Entities;
-using ContributionSystem.ViewModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
+using ContributionSystem.ViewModels.Models.Contribution;
 
 namespace ContributionSystem.BusinesLogic.Services
 {

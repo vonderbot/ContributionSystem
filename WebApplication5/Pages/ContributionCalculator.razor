@@ -1,11 +1,11 @@
-﻿@page "/test"
+﻿@page "/ContributionCalculator"
 @using System.Net.Http
 @using System.Net.Http.Json
 @using System.Threading.Tasks
+@using ContributionSystem.ViewModels.Models.Contribution;
 @inject HttpClient Http
-@*@inherits Test.razor.cs*@
 <div class="row">
-    <Form role="form" class="col-3">
+    <orm role="form" class="col-3">
         <div class="form-group">
             <div class="row">
                 <input @bind="newPercent" class="form-control" placeholder="Percent" />
@@ -23,7 +23,7 @@
                 <button type="button" class="btn btn-secondary" @onclick="AddItem">Calculate</button>
             </div>
         </div>
-    </Form>
+    </orm>
     <div class="col-9 text-center">
         <table class="table table-bordered">
             <thead>
@@ -48,7 +48,7 @@
 
     private async Task AddItem()
     {
-        RequestCalculateContributionViewModel addItem = new RequestCalculateContributionViewModel
+        var addItem = new RequestCalculateContributionViewModel
         {
             StartValue = 1500.50M,
             Term = 12,

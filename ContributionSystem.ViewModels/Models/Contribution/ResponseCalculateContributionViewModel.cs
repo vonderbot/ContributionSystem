@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ContributionSystem.ViewModels.Models
+namespace ContributionSystem.ViewModels.Models.Contribution
 {
     public class ResponseCalculateContributionViewModel
     {

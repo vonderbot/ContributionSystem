@@ -1,11 +1,7 @@
-﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ContributionSystem.ViewModels.Models.Contribution;
+using FluentValidation;
 
-namespace ContributionSystem.ViewModels.Models.Contribution.Validators
+namespace ContributionSystem.API.Validators
 {
     public class RequestCalculateContributionViewModelValidator : AbstractValidator<RequestCalculateContributionViewModel>
     {

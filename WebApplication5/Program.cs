@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ContributionSystem.UI
+namespace WebApplication5
 {
     public class Program
     {
