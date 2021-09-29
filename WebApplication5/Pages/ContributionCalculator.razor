@@ -5,57 +5,91 @@
 @using ContributionSystem.ViewModels.Models.Contribution;
 @inject HttpClient Http
 <div class="row">
-    <orm role="form" class="col-3">
+    <EditForm  role="form" class="col-3" OnValidSubmit="@AddItem" Model="@newItem">
         <div class="form-group">
             <div class="row">
-                <input @bind="newPercent" class="form-control" placeholder="Percent" />
+                <InputText class="form-control" placeholder="Percent" @bind-Value="newPercent"/>
             </div>
             <br />
             <div class="row">
-                <input class="form-control" placeholder="Term" />
+                <InputText class="form-control" placeholder="Term" @bind-Value="newTerm"/>
             </div>
             <br />
             <div class="row">
-                <input class="form-control" placeholder="Summ" />
+                <InputText class="form-control" placeholder="Summ" @bind-Value="newStartValue"/>
             </div>
             <br />
-            <div class="row text-center">
-                <button type="button" class="btn btn-secondary" @onclick="AddItem">Calculate</button>
+            <div class="text-center">
+                <button class="btn btn-secondary" type="submit">Calculate</button>
             </div>
         </div>
-    </orm>
-    <div class="col-9 text-center">
+    </EditForm>
+    <div class="col-9 text-center" style="max-height: 643.5px; overflow: auto;">
         <table class="table table-bordered">
             <thead>
                 <tr class="active bg-light">
-                    <th>
+                    <th class="col-4" scope="row">
                         Month
                     </th>
-                    <th>
+                    <th class="col-2">
                         %
                     </th>
-                    <th>
+                    <th class="col-3">
                         Sum
                     </th>
                 </tr>
             </thead>
+            <tbody>
+                @if (content != null)
+                {
+                    @foreach (var item in content.Items)
+                    {
+                        <tr>
+                            <td scope="row">
+                                @item.MonthNumber
+                            </td>
+                            <td>
+                                @item.Income
+                            </td>
+                            <td>
+                                @item.Sum
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
         </table>
     </div>
 </div>
 
 @code {
-    private string newPercent;
+
+    private string newStartValue { get; set; }
+
+    private string newTerm { get; set; }
+
+    private string newPercent { get; set; }
+
+    RequestCalculateContributionViewModel newItem = new();
+
+    ResponseCalculateContributionViewModel content;
 
     private async Task AddItem()
     {
-        var addItem = new RequestCalculateContributionViewModel
+        var newItem = new RequestCalculateContributionViewModel
         {
-            StartValue = 1500.50M,
-            Term = 12,
-            Percent = 5.25M
+            StartValue = decimal.Parse(newStartValue),
+            Term = Int32.Parse(newTerm),
+            Percent = decimal.Parse(newPercent)
         };
-        await Http.PostAsJsonAsync("api/contribution/calculate", addItem);
-
-        //var content = await response.Content.ReadFromJsonAsync<WeatherForecast>();
+        var response = await Http.PostAsJsonAsync("/api/contribution/calculate", newItem);
+        if(((int)response.StatusCode) == 400)
+        {
+            var errorMessage = response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>()
+        }
+        if (((int)response.StatusCode) == 200)
+        {
+            content = await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
+        }
     }
 }

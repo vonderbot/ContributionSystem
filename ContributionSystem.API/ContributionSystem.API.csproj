@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ContributionSystem.BusinesLogic\ContributionSystem.BusinesLogic.csproj" />
     <ProjectReference Include="..\ContributionSystem.ViewModels\ContributionSystem.ViewModels.csproj" />
+    <ProjectReference Include="..\WebApplication5\WebApplication5.csproj" />
   </ItemGroup>
 
 </Project>

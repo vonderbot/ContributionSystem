@@ -1,5 +1,6 @@
 ﻿using ContributionSystem.BusinesLogic.Services;
 using ContributionSystem.BusinesLogic.Interfaces;
+using ContributionSystem.ViewModels.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,8 +13,7 @@ using ContributionSystem.ViewModels.Models.Contribution;
 namespace ContributionSystem.API.Controllers
 {
     [ApiController]
-    //[Route("[controller]")]
-    [Route("api/Contribution")]
+    [Route("/api/[controller]")]
     public class ContributionController : ControllerBase
     {
         private readonly IContributionService postContributionService;
@@ -23,9 +23,18 @@ namespace ContributionSystem.API.Controllers
             postContributionService = new ContributionService();
         }
 
-        [HttpPost("action")]
-        [Route("api/contribution/calculate")]
-        public IActionResult Calculate([FromBody] RequestCalculateContributionViewModel request)
+        [HttpGet]
+        [Route("/api/[controller]/get")]
+        public IActionResult Get()
+        {
+
+            return Ok("conected");
+        }
+
+        [HttpPost]
+        [Route("/api/[controller]/calculate")]
+        //[Route("/calculate")]
+        public IActionResult Calculate(RequestCalculateContributionViewModel request)
         {
             ResponseCalculateContributionViewModel response = postContributionService.Calculate(request);
 

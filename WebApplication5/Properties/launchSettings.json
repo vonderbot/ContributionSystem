@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WebApplication5": {
+    "WebApplication1": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

@@ -12,8 +12,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using FluentValidation;
-using ContributionSystem.API.Validators;
+using ContributionSystem.ViewModels.Models;
 using ContributionSystem.ViewModels.Models.Contribution;
+using ContributionSystem.API.Validators;
 
 namespace ContributionSystem.API
 {
@@ -29,6 +30,8 @@ namespace ContributionSystem.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddControllers().AddFluentValidation(fv =>
             {
                 fv.DisableDataAnnotationsValidation = true;
@@ -43,17 +46,26 @@ namespace ContributionSystem.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }
