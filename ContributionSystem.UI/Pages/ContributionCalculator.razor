@@ -6,6 +6,7 @@
 @using Microsoft.AspNetCore.Components.Forms
 @using ContributionSystem.UI.Validators
 @using Blazored.FluentValidation
+@using Microsoft.AspNetCore.Components.Web
 @inject HttpClient Http
 
 <div class="row">
@@ -31,7 +32,9 @@
             </div>
             <br />
             <div class="text-center">
-                <button class="btn btn-secondary" type="submit">Calculate</button>
+                <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethodnumber(0)">Simpl percent</button>
+                <br /><br />
+                <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethodnumber(1)">Complex percent</button>
             </div>
         </div>
     </EditForm>
@@ -60,10 +63,10 @@
                                 @item.MonthNumber
                             </td>
                             <td>
-                                @item.Income
+                                @Math.Round(item.Income, 2)
                             </td>
                             <td>
-                                @item.Sum
+                                @Math.Round(item.Sum, 2)
                             </td>
                         </tr>
                     }
@@ -77,22 +80,44 @@
 </div>
 
 @code {
+    int Methodnumber;
+
     RequestCalculateContributionViewModel newItem = new();
 
     ResponseCalculateContributionViewModel content;
 
     string errorMessage;
 
+    private void ChangeMethodnumber(int num)
+    {
+        Methodnumber = num;
+    }
+
     private async Task AddItem()
     {
-        var response = await Http.PostAsJsonAsync("/api/contribution/calculate", newItem);
-        if (((int)response.StatusCode) == 200)
+        if (Methodnumber == 0)
         {
-            content = await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
+            var response = await Http.PostAsJsonAsync("/api/contribution/SimplCalculate", newItem);
+            if (((int)response.StatusCode) == 200)
+            {
+                content = await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
+            }
+            else
+            {
+                errorMessage = "Error!";
+            }
         }
-        else
+        if (Methodnumber == 1)
         {
-            errorMessage = "Error!";
+            var response = await Http.PostAsJsonAsync("/api/contribution/ComplexCalculate", newItem);
+            if (((int)response.StatusCode) == 200)
+            {
+                content = await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
+            }
+            else
+            {
+                errorMessage = "Error!";
+            }
         }
     }
 }

@@ -32,11 +32,19 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpPost]
-        [Route("/api/[controller]/calculate")]
-        //[Route("/calculate")]
-        public IActionResult Calculate(RequestCalculateContributionViewModel request)
+        [Route("/api/[controller]/SimplCalculate")]
+        public IActionResult SimplCalculate(RequestCalculateContributionViewModel request)
         {
-            ResponseCalculateContributionViewModel response = postContributionService.Calculate(request);
+            ResponseCalculateContributionViewModel response = postContributionService.SimplCalculate(request);
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("/api/[controller]/ComplexCalculate")]
+        public IActionResult ComplexCalculate(RequestCalculateContributionViewModel request)
+        {
+            ResponseCalculateContributionViewModel response = postContributionService.ComplexCalculate(request);
 
             return Ok(response);
         }
