@@ -3,20 +3,28 @@
 @using System.Net.Http.Json
 @using System.Threading.Tasks
 @using ContributionSystem.ViewModels.Models.Contribution;
+@using Microsoft.AspNetCore.Components.Forms
+@using WebApplication5.Validators
+@using Blazored.FluentValidation
 @inject HttpClient Http
 <div class="row">
-    <EditForm  role="form" class="col-3" OnValidSubmit="@AddItem" Model="@newItem">
+    <EditForm role="form" class="col-3" OnValidSubmit="@AddItem" Model="@newItem">
+        <FluentValidationValidator />
+        <ValidationSummary />
         <div class="form-group">
             <div class="row">
-                <InputText class="form-control" placeholder="Percent" @bind-Value="newPercent"/>
+                <InputNumber class="form-control" placeholder="Percent" @bind-Value="newItem.Percent" />
+                <ValidationMessage For="@(() => newItem.Percent)" />
             </div>
             <br />
             <div class="row">
-                <InputText class="form-control" placeholder="Term" @bind-Value="newTerm"/>
+                <InputNumber class="form-control" placeholder="Term" @bind-Value="newItem.Term" />
+                <ValidationMessage For="@(() => newItem.Term)" />
             </div>
             <br />
             <div class="row">
-                <InputText class="form-control" placeholder="Summ" @bind-Value="newStartValue"/>
+                <InputNumber class="form-control" placeholder="Summ" @bind-Value="newItem.StartValue" />
+                <ValidationMessage For="@(() => newItem.StartValue)" />
             </div>
             <br />
             <div class="text-center">
@@ -61,31 +69,30 @@
         </table>
     </div>
 </div>
+<div class="row">
+    <h1>@errorMessage</h1>
+</div>
 
 @code {
 
-    private string newStartValue { get; set; }
+    public int? Hour { get; set; }
 
-    private string newTerm { get; set; }
+    public decimal? Hour { get; set; }
 
-    private string newPercent { get; set; }
+    public decimal? Hour { get; set; }
 
     RequestCalculateContributionViewModel newItem = new();
 
     ResponseCalculateContributionViewModel content;
 
+    string errorMessage;
+
     private async Task AddItem()
     {
-        var newItem = new RequestCalculateContributionViewModel
-        {
-            StartValue = decimal.Parse(newStartValue),
-            Term = Int32.Parse(newTerm),
-            Percent = decimal.Parse(newPercent)
-        };
         var response = await Http.PostAsJsonAsync("/api/contribution/calculate", newItem);
-        if(((int)response.StatusCode) == 400)
+        if (((int)response.StatusCode) == 400)
         {
-            var errorMessage = response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>()
+            errorMessage = "Server error!";
         }
         if (((int)response.StatusCode) == 200)
         {

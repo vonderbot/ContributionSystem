@@ -14,7 +14,7 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using ContributionSystem.ViewModels.Models;
 using ContributionSystem.ViewModels.Models.Contribution;
-using ContributionSystem.API.Validators;
+using ContributionSystem.ViewModels.Validators;
 
 namespace ContributionSystem.API
 {
