@@ -1,4 +1,4 @@
-﻿@page "/ContributionCalculator"
+﻿@page "/"
 @using System.Net.Http
 @using System.Net.Http.Json
 @using System.Threading.Tasks
@@ -10,18 +10,20 @@
 <div class="row">
     <EditForm role="form" class="col-3" OnValidSubmit="@AddItem" Model="@newItem">
         <FluentValidationValidator />
-        <ValidationSummary />
         <div class="form-group">
+            <label>Percent:</label>
             <div class="row">
                 <InputNumber class="form-control" placeholder="Percent" @bind-Value="newItem.Percent" />
                 <ValidationMessage For="@(() => newItem.Percent)" />
             </div>
             <br />
+            <label>Term:</label>
             <div class="row">
                 <InputNumber class="form-control" placeholder="Term" @bind-Value="newItem.Term" />
                 <ValidationMessage For="@(() => newItem.Term)" />
             </div>
             <br />
+            <label>StartValue:</label>
             <div class="row">
                 <InputNumber class="form-control" placeholder="Summ" @bind-Value="newItem.StartValue" />
                 <ValidationMessage For="@(() => newItem.StartValue)" />
@@ -74,13 +76,6 @@
 </div>
 
 @code {
-
-    public int? Hour { get; set; }
-
-    public decimal? Hour { get; set; }
-
-    public decimal? Hour { get; set; }
-
     RequestCalculateContributionViewModel newItem = new();
 
     ResponseCalculateContributionViewModel content;
@@ -90,13 +85,13 @@
     private async Task AddItem()
     {
         var response = await Http.PostAsJsonAsync("/api/contribution/calculate", newItem);
-        if (((int)response.StatusCode) == 400)
-        {
-            errorMessage = "Server error!";
-        }
         if (((int)response.StatusCode) == 200)
         {
             content = await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
+        }
+        else
+        {
+            errorMessage = "Error!";
         }
     }
 }

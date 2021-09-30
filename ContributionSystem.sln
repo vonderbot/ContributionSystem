@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.ViewMode
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{8B785A68-63B8-4B10-96BB-212B00DC13F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication5", "WebApplication5\WebApplication5.csproj", "{A580E381-5A10-4F62-B4FD-7C288A40982D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.UI", "ContributionSystem.UI\ContributionSystem.UI.csproj", "{A580E381-5A10-4F62-B4FD-7C288A40982D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
