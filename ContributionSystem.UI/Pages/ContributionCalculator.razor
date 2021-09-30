@@ -7,6 +7,7 @@
 @using WebApplication5.Validators
 @using Blazored.FluentValidation
 @inject HttpClient Http
+
 <div class="row">
     <EditForm role="form" class="col-3" OnValidSubmit="@AddItem" Model="@newItem">
         <FluentValidationValidator />
