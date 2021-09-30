@@ -4,7 +4,7 @@
 @using System.Threading.Tasks
 @using ContributionSystem.ViewModels.Models.Contribution;
 @using Microsoft.AspNetCore.Components.Forms
-@using WebApplication5.Validators
+@using ContributionSystem.UI.Validators
 @using Blazored.FluentValidation
 @inject HttpClient Http
 
@@ -24,7 +24,7 @@
                 <ValidationMessage For="@(() => newItem.Term)" />
             </div>
             <br />
-            <label>StartValue:</label>
+            <label>Summ:</label>
             <div class="row">
                 <InputNumber class="form-control" placeholder="Summ" @bind-Value="newItem.StartValue" />
                 <ValidationMessage For="@(() => newItem.StartValue)" />
