@@ -13,30 +13,20 @@ using ContributionSystem.ViewModels.Models.Contribution;
 namespace ContributionSystem.API.Controllers
 {
     [ApiController]
-    [Route("/api/[controller]")]
+    [Route("/api/[controller]/[action]")]
     public class ContributionController : ControllerBase
     {
-        private readonly IContributionService postContributionService;
+        private readonly IContributionService contributionService;
 
         public ContributionController()
         {
-            postContributionService = new ContributionService();
-        }
-
-        [HttpGet]
-        [Route("/api/[controller]/get")]
-        public IActionResult Get()
-        {
-
-            return Ok("conected");
+            contributionService = new ContributionService();
         }
 
         [HttpPost]
-        [Route("/api/[controller]/calculate")]
-        //[Route("/calculate")]
         public IActionResult Calculate(RequestCalculateContributionViewModel request)
         {
-            ResponseCalculateContributionViewModel response = postContributionService.Calculate(request);
+            ResponseCalculateContributionViewModel response = contributionService.Calculate(request);
 
             return Ok(response);
         }
