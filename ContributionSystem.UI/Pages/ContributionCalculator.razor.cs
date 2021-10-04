@@ -1,31 +1,32 @@
-﻿using ContributionSystem.UI.Services;
+﻿using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Pages
 {
-    public class ContributionCalculatorComponent : ComponentBase
+    public partial class ContributionCalculator : ComponentBase
     {
-        private static ContributionCalculatorService contributionCalculatorService = new();
+        [Inject]
+        IContributionService ContributionCalculatorService { get; set; }
+        private RequestCalculateContributionViewModel Request;
+        private ResponseCalculateContributionViewModel Content;
+        private string ErrorMessage;
 
-        public RequestCalculateContributionViewModel request = new();
-
-        public ResponseCalculateContributionViewModel content;
-
-        public string errorMessage;
+        public ContributionCalculator()
+        {
+            Request = new();
+        }
 
         public async Task Calculate()
         {
-            var response = await contributionCalculatorService.СontributionСalculate(request);
-            if (((int)response.StatusCode) == 200)
+            try
             {
-                content = await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
+                Content = await ContributionCalculatorService.Сalculate(Request);
             }
-            else
+            catch
             {
-                errorMessage = "Error!";
+                ErrorMessage = "Error!";
             }
         }
     }

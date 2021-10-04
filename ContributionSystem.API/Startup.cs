@@ -15,6 +15,8 @@ using FluentValidation;
 using ContributionSystem.ViewModels.Models;
 using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.ViewModels.Validators;
+using ContributionSystem.UI.Services;
+using ContributionSystem.UI.Interfaces;
 
 namespace ContributionSystem.API
 {
@@ -37,6 +39,7 @@ namespace ContributionSystem.API
                 fv.DisableDataAnnotationsValidation = true;
                 fv.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
+
             services.AddTransient<IValidator<RequestCalculateContributionViewModel>, RequestCalculateContributionViewModelValidator>();
         }
 
