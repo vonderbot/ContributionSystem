@@ -1,25 +1,25 @@
 ﻿@page "/"
 
 <div class="row">
-    <EditForm role="form" class="col-3" OnValidSubmit="@Calculate" Model="@Request">
+    <EditForm role="form" class="col-3" OnValidSubmit="@Calculate" Model="@request">
         <FluentValidationValidator />
         <div class="form-group">
             <label for="Percent">Percent:</label>
             <div class="row">
-                <InputNumber class="form-control" placeholder="Percent" id="Percent" @bind-Value="Request.Percent" />
-                <ValidationMessage For="@(() => Request.Percent)" />
+                <InputNumber class="form-control" placeholder="Percent" id="Percent" @bind-Value="request.Percent" />
+                <ValidationMessage For="@(() => request.Percent)" />
             </div>
             <br />
             <label for="Percent">Term:</label>
             <div class="Term">
-                <InputNumber class="form-control" placeholder="Term" id="Term" @bind-Value="Request.Term" />
-                <ValidationMessage For="@(() => Request.Term)" />
+                <InputNumber class="form-control" placeholder="Term" id="Term" @bind-Value="request.Term" />
+                <ValidationMessage For="@(() => request.Term)" />
             </div>
             <br />
             <label for="Sum">Sum:</label>
             <div class="row">
-                <InputNumber class="form-control" placeholder="Sum" id="Sum" @bind-Value="Request.StartValue" />
-                <ValidationMessage For="@(() => Request.StartValue)" />
+                <InputNumber class="form-control" placeholder="Sum" id="Sum" @bind-Value="request.StartValue" />
+                <ValidationMessage For="@(() => request.StartValue)" />
             </div>
             <br />
             <div class="text-center">
@@ -43,9 +43,9 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Content != null)
+                @if (response != null)
                 {
-                    @foreach (var item in Content.Items)
+                    @foreach (var item in response.Items)
                     {
                         <tr>
                             <td scope="row">
@@ -65,5 +65,5 @@
     </div>
 </div>
 <div class="row">
-    <h1>@ErrorMessage</h1>
+    <h1>@errorMessage</h1>
 </div>

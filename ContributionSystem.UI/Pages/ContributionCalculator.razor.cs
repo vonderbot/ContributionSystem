@@ -9,24 +9,25 @@ namespace ContributionSystem.UI.Pages
     {
         [Inject]
         IContributionService ContributionCalculatorService { get; set; }
-        private RequestCalculateContributionViewModel Request;
-        private ResponseCalculateContributionViewModel Content;
-        private string ErrorMessage;
+
+        private RequestCalculateContributionViewModel request;
+        private ResponseCalculateContributionViewModel response;
+        private string errorMessage;
 
         public ContributionCalculator()
         {
-            Request = new();
+            request = new();
         }
 
         public async Task Calculate()
         {
             try
             {
-                Content = await ContributionCalculatorService.Сalculate(Request);
+                response = await ContributionCalculatorService.Сalculate(request);
             }
             catch
             {
-                ErrorMessage = "Error!";
+                errorMessage = "Error!";
             }
         }
     }
