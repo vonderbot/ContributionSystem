@@ -10,7 +10,7 @@ namespace ContributionSystem.BusinesLogic.Services
         private const int Hundred = 100;
         private const int NumberOfMonthsInAYear = 12;
         private const int NumberOfDigitsAfterDecimalPoint = 2;
-        public ResponseCalculateContributionViewModel SimplCalculate(RequestCalculateContributionViewModel request)
+        public ResponseCalculateContributionViewModel SimpleCalculate(RequestCalculateContributionViewModel request)
         {
             var contribution = new Contribution(request.StartValue, request.Term, request.Percent);
             decimal income = contribution.StartValue / Hundred * (contribution.Percent / NumberOfMonthsInAYear);

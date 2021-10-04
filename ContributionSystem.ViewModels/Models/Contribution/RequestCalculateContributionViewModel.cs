@@ -9,7 +9,11 @@ namespace ContributionSystem.ViewModels.Models.Contribution
 {
     public class RequestCalculateContributionViewModel
     {
-
+        public enum Methods
+        {
+            Simple,
+            Complex
+        }
         public int MethodNumber { get; set; }
 
         public decimal StartValue { get; set; }

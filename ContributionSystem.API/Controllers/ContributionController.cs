@@ -22,7 +22,7 @@ namespace ContributionSystem.API.Controllers
             ResponseCalculateContributionViewModel response = new();
             if (request.MethodNumber == 0)
             {
-                response = contributionService.SimplCalculate(request);
+                response = contributionService.SimpleCalculate(request);
             }
             else if(request.MethodNumber == 1)
             {
