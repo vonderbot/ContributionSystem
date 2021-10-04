@@ -10,7 +10,7 @@ namespace ContributionSystem.ViewModels.Models.Contribution
 {
     public class RequestCalculateContributionViewModel
     {
-        public CalculationMethodEnumView.CalculationMethod CalculationMethod { get; set; }
+        public CalculationMethodEnumView CalculationMethod { get; set; }
 
         public decimal StartValue { get; set; }
 

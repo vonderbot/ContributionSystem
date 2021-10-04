@@ -32,9 +32,9 @@ namespace ContributionSystem.UI.Pages
             }
         }
 
-        public void ChangeMethod(CalculationMethodEnumView.CalculationMethod method)
+        public void ChangeMethod(CalculationMethodEnumView method)
         {
-            Request.Method = method;
+            Request.CalculationMethod = method;
         }
     }
 }

@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.ViewModels.Enums
 {
-    public class CalculationMethodEnumView
+    public enum CalculationMethodEnumView
     {
-        public enum CalculationMethod
-        {
-            Simple = 0,
-            Complex = 1
-        }
+        Simple = 0,
+        Complex = 1
     }
 }
