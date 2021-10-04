@@ -1,34 +1,26 @@
 ﻿@page "/"
-@using System.Net.Http
-@using System.Net.Http.Json
-@using System.Threading.Tasks
-@using ContributionSystem.ViewModels.Models.Contribution;
-@using Microsoft.AspNetCore.Components.Forms
-@using ContributionSystem.UI.Validators
-@using Blazored.FluentValidation
-@using Microsoft.AspNetCore.Components.Web
-@inject HttpClient Http
+@inherits ContributionCalculatorComponent
 
 <div class="row">
-    <EditForm role="form" class="col-3" OnValidSubmit="@AddItem" Model="@newItem">
+    <EditForm role="form" class="col-3" OnValidSubmit="@Calculate" Model="@request">
         <FluentValidationValidator />
         <div class="form-group">
-            <label>Percent:</label>
+            <label for="Percent">Percent:</label>
             <div class="row">
-                <InputNumber class="form-control" placeholder="Percent" @bind-Value="newItem.Percent" />
-                <ValidationMessage For="@(() => newItem.Percent)" />
+                <InputNumber class="form-control" placeholder="Percent" id="Percent" @bind-Value="request.Percent" />
+                <ValidationMessage For="@(() => request.Percent)" />
             </div>
             <br />
-            <label>Term:</label>
-            <div class="row">
-                <InputNumber class="form-control" placeholder="Term" @bind-Value="newItem.Term" />
-                <ValidationMessage For="@(() => newItem.Term)" />
+            <label for="Percent">Term:</label>
+            <div class="Term">
+                <InputNumber class="form-control" placeholder="Term" id="Term" @bind-Value="request.Term" />
+                <ValidationMessage For="@(() => request.Term)" />
             </div>
             <br />
-            <label>Summ:</label>
+            <label for="Sum">Sum:</label>
             <div class="row">
-                <InputNumber class="form-control" placeholder="Summ" @bind-Value="newItem.StartValue" />
-                <ValidationMessage For="@(() => newItem.StartValue)" />
+                <InputNumber class="form-control" placeholder="Sum" id="Sum" @bind-Value="request.StartValue" />
+                <ValidationMessage For="@(() => request.StartValue)" />
             </div>
             <br />
             <div class="text-center">
@@ -78,46 +70,3 @@
 <div class="row">
     <h1>@errorMessage</h1>
 </div>
-
-@code {
-    int Methodnumber;
-
-    RequestCalculateContributionViewModel newItem = new();
-
-    ResponseCalculateContributionViewModel content;
-
-    string errorMessage;
-
-    private void ChangeMethodnumber(int num)
-    {
-        Methodnumber = num;
-    }
-
-    private async Task AddItem()
-    {
-        if (Methodnumber == 0)
-        {
-            var response = await Http.PostAsJsonAsync("/api/contribution/SimplCalculate", newItem);
-            if (((int)response.StatusCode) == 200)
-            {
-                content = await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
-            }
-            else
-            {
-                errorMessage = "Error!";
-            }
-        }
-        if (Methodnumber == 1)
-        {
-            var response = await Http.PostAsJsonAsync("/api/contribution/ComplexCalculate", newItem);
-            if (((int)response.StatusCode) == 200)
-            {
-                content = await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
-            }
-            else
-            {
-                errorMessage = "Error!";
-            }
-        }
-    }
-}
