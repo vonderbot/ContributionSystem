@@ -8,6 +8,8 @@ namespace ContributionSystem.UI.Pages
 {
     public class ContributionCalculatorComponent : ComponentBase
     {
+        private int MethodNumber;
+
         private static ContributionCalculatorService contributionCalculatorService = new();
 
         public RequestCalculateContributionViewModel request = new();
@@ -18,6 +20,7 @@ namespace ContributionSystem.UI.Pages
 
         public async Task Calculate()
         {
+            request.MethodNumber = MethodNumber;
             var response = await contributionCalculatorService.СontributionСalculate(request);
             if (((int)response.StatusCode) == 200)
             {
@@ -27,6 +30,11 @@ namespace ContributionSystem.UI.Pages
             {
                 errorMessage = "Error!";
             }
+        }
+
+        public void ChangeMethodNumber(int methodNumber)
+        {
+            MethodNumber = methodNumber;
         }
     }
 }

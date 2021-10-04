@@ -9,6 +9,9 @@ namespace ContributionSystem.ViewModels.Models.Contribution
 {
     public class RequestCalculateContributionViewModel
     {
+
+        public int MethodNumber { get; set; }
+
         public decimal StartValue { get; set; }
 
         public int Term { get; set; }

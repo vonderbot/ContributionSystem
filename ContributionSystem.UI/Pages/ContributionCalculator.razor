@@ -11,8 +11,8 @@
                 <ValidationMessage For="@(() => request.Percent)" />
             </div>
             <br />
-            <label for="Percent">Term:</label>
-            <div class="Term">
+            <label for="Term">Term:</label>
+            <div class="row">
                 <InputNumber class="form-control" placeholder="Term" id="Term" @bind-Value="request.Term" />
                 <ValidationMessage For="@(() => request.Term)" />
             </div>
@@ -24,9 +24,9 @@
             </div>
             <br />
             <div class="text-center">
-                <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethodnumber(0)">Simpl percent</button>
+                <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethodNumber(0)">Simpl percent</button>
                 <br /><br />
-                <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethodnumber(1)">Complex percent</button>
+                <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethodNumber(1)">Complex percent</button>
             </div>
         </div>
     </EditForm>

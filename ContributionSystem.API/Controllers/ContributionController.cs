@@ -1,13 +1,6 @@
 ﻿using ContributionSystem.BusinesLogic.Services;
 using ContributionSystem.BusinesLogic.Interfaces;
-using ContributionSystem.ViewModels.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 using ContributionSystem.ViewModels.Models.Contribution;
 
 namespace ContributionSystem.API.Controllers
@@ -26,7 +19,15 @@ namespace ContributionSystem.API.Controllers
         [HttpPost]
         public IActionResult Calculate(RequestCalculateContributionViewModel request)
         {
-            ResponseCalculateContributionViewModel response = contributionService.Calculate(request);
+            ResponseCalculateContributionViewModel response = new();
+            if (request.MethodNumber == 0)
+            {
+                response = contributionService.SimplCalculate(request);
+            }
+            else if(request.MethodNumber == 1)
+            {
+                response = contributionService.ComplexCalculate(request);
+            }
 
             return Ok(response);
         }
