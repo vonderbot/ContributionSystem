@@ -16,7 +16,7 @@ namespace ContributionSystem.BusinesLogic.Services
         {
             var contribution = new Contribution(request.StartValue, request.Term, request.Percent);
             var allMonthsInfo = new ResponseCalculateContributionViewModelItem[contribution.Term];
-            if (request.Method == CalculationMethodEnumView.CalculationMethod.Simple) {
+            if (request.CalculationMethod == CalculationMethodEnumView.CalculationMethod.Simple) {
                 decimal income = contribution.StartValue / Hundred * (contribution.Percent / NumberOfMonthsInAYear);
                 for (int i = 0; i < contribution.Term; i++)
                 {
@@ -30,7 +30,7 @@ namespace ContributionSystem.BusinesLogic.Services
                     allMonthsInfo[i] = monthInfo;
                 }
             }
-            else if (request.Method == CalculationMethodEnumView.CalculationMethod.Complex) {
+            else if (request.CalculationMethod == CalculationMethodEnumView.CalculationMethod.Complex) {
                 for (int i = 0; i < contribution.Term; i++)
                 {
                     var monthInfo = new ResponseCalculateContributionViewModelItem();
@@ -47,7 +47,7 @@ namespace ContributionSystem.BusinesLogic.Services
 
             return new ResponseCalculateContributionViewModel()
             {
-                Method = CalculationMethodEnumView.CalculationMethod.Complex,
+                CalculationMethod = request.CalculationMethod,
                 Items = allMonthsInfo
             };
         }

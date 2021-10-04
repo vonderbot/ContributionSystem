@@ -11,7 +11,7 @@ namespace ContributionSystem.ViewModels.Models.Contribution
 {
     public class ResponseCalculateContributionViewModel
     {
-        public CalculationMethodEnumView.CalculationMethod Method { get; set; }
+        public CalculationMethodEnumView.CalculationMethod CalculationMethod { get; set; }
 
         public ResponseCalculateContributionViewModelItem[] Items { get; set; }
     }
