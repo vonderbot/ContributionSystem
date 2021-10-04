@@ -11,8 +11,6 @@ namespace ContributionSystem.BusinesLogic.Interfaces
 {
     public interface IContributionService
     {
-        public ResponseCalculateContributionViewModel SimpleCalculate(RequestCalculateContributionViewModel request);
-
-        public ResponseCalculateContributionViewModel ComplexCalculate(RequestCalculateContributionViewModel request);
+        public ResponseCalculateContributionViewModel Calculate(RequestCalculateContributionViewModel request);
     }
 }

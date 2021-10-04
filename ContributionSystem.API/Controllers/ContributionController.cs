@@ -19,7 +19,7 @@ namespace ContributionSystem.API.Controllers
         [HttpPost]
         public IActionResult Calculate(RequestCalculateContributionViewModel request)
         {
-            ResponseCalculateContributionViewModel response = contributionService.SimpleCalculate(request);
+            ResponseCalculateContributionViewModel response = contributionService.Calculate(request);
 
             return Ok(response);
         }

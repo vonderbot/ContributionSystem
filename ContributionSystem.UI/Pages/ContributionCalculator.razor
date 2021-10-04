@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using ContributionSystem.ViewModels.Enums;
 
 <div class="row">
     <EditForm role="form" class="col-3" OnValidSubmit="@Calculate" Model="@Request">
@@ -10,8 +11,8 @@
                 <ValidationMessage For="@(() => Request.Percent)" />
             </div>
             <br />
-            <label for="Percent">Term:</label>
-            <div class="Term">
+            <label for="Term">Term:</label>
+            <div class="row">
                 <InputNumber class="form-control" placeholder="Term" id="Term" @bind-Value="Request.Term" />
                 <ValidationMessage For="@(() => Request.Term)" />
             </div>
@@ -23,9 +24,9 @@
             </div>
             <br />
             <div class="text-center">
-                <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethod(0)">Simpl percent</button>
+                <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethod(CalculationMethodEnumView.CalculationMethod.Simple)">Simpl percent</button>
                 <br /><br />
-                <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethod(1)">Complex percent</button>
+                <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethod(CalculationMethodEnumView.CalculationMethod.Complex)">Complex percent</button>
             </div>
         </div>
     </EditForm>

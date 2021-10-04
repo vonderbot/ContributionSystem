@@ -10,7 +10,7 @@ namespace ContributionSystem.UI.Pages
     public partial class ContributionCalculator : ComponentBase
     {
         [Inject]
-        IContributionService ContributionCalculatorService { get; set; }
+        IContributionService ContributionService { get; set; }
         private RequestCalculateContributionViewModel Request;
         private ResponseCalculateContributionViewModel Content;
         private string ErrorMessage;
@@ -24,7 +24,7 @@ namespace ContributionSystem.UI.Pages
         {
             try
             {
-                Content = await ContributionCalculatorService.Сalculate(Request);
+                Content = await ContributionService.Сalculate(Request);
             }
             catch
             {
@@ -32,9 +32,9 @@ namespace ContributionSystem.UI.Pages
             }
         }
 
-        public void ChangeMethod(int methodNumber)
+        public void ChangeMethod(CalculationMethodEnumView.CalculationMethod method)
         {
-            Request.Method = (CalculationMethodEnumView.CalculationMethod)Enum.GetValues(typeof(CalculationMethodEnumView.CalculationMethod)).GetValue(methodNumber);
+            Request.Method = method;
         }
     }
 }
