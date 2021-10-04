@@ -2,6 +2,8 @@
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
+using ContributionSystem.ViewModels.Enums;
+using System;
 
 namespace ContributionSystem.UI.Pages
 {
@@ -30,9 +32,9 @@ namespace ContributionSystem.UI.Pages
             }
         }
 
-        public void ChangeMethodNumber(int num)
+        public void ChangeMethod(int methodNumber)
         {
-            MethodNumber = (int)Enum.GetValues(typeof(RequestCalculateContributionViewModel.Methods)).GetValue(num);
+            Request.Method = (CalculationMethodEnumView.CalculationMethod)Enum.GetValues(typeof(CalculationMethodEnumView.CalculationMethod)).GetValue(methodNumber);
         }
     }
 }

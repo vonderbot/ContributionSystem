@@ -4,17 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ContributionSystem.ViewModels.Enums;
 
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
     public class RequestCalculateContributionViewModel
     {
-        public enum Methods
-        {
-            Simple,
-            Complex
-        }
-        public int MethodNumber { get; set; }
+        public CalculationMethodEnumView.CalculationMethod Method { get; set; }
 
         public decimal StartValue { get; set; }
 
