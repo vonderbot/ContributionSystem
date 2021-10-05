@@ -1,72 +1,15 @@
 ﻿@page "/"
-@using ContributionSystem.ViewModels.Enums;
+@using ContributionSystem.UI.Components
 
 <div class="row">
-    <EditForm role="form" class="col-3" OnValidSubmit="@Calculate" Model="@Request">
-        <FluentValidationValidator />
-        <div class="form-group">
-            <label for="Percent">Percent:</label>
-            <div class="row">
-                <InputNumber class="form-control" placeholder="Percent" id="Percent" @bind-Value="Request.Percent" />
-                <ValidationMessage For="@(() => Request.Percent)" />
-            </div>
-            <br />
-            <label for="Term">Term:</label>
-            <div class="row">
-                <InputNumber class="form-control" placeholder="Term" id="Term" @bind-Value="Request.Term" />
-                <ValidationMessage For="@(() => Request.Term)" />
-            </div>
-            <br />
-            <label for="Sum">Sum:</label>
-            <div class="row">
-                <InputNumber class="form-control" placeholder="Sum" id="Sum" @bind-Value="Request.StartValue" />
-                <ValidationMessage For="@(() => Request.StartValue)" />
-            </div>
-            <br />
-            <div class="text-center">
-                <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethod(CalculationMethodEnumView.CalculationMethod.Simple)">Simpl percent</button>
-                <br /><br />
-                <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethod(CalculationMethodEnumView.CalculationMethod.Complex)">Complex percent</button>
-            </div>
-        </div>
-    </EditForm>
+    <ContributionCalculatorEditFormComponent @bind-Response="response" @bind-ErrorMessage="errorMessage"/>
     <div class="col-9 text-center" style="max-height: 643.5px; overflow: auto;">
-        <table class="table table-bordered">
-            <thead>
-                <tr class="active bg-light">
-                    <th class="col-4" scope="row">
-                        Month
-                    </th>
-                    <th class="col-2">
-                        %
-                    </th>
-                    <th class="col-3">
-                        Sum
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Content != null)
-                {
-                    @foreach (var item in Content.Items)
-                    {
-                        <tr>
-                            <td scope="row">
-                                @item.MonthNumber
-                            </td>
-                            <td>
-                                @Math.Round(item.Income, 2)
-                            </td>
-                            <td>
-                                @Math.Round(item.Sum, 2)
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
+        <ContributionCalculatorTableComponent @bind-Response="response" />
     </div>
 </div>
+@if (@errorMessage != null)
+{
 <div class="row">
-    <h1>@ErrorMessage</h1>
+    <h1>@errorMessage</h1>
 </div>
+}

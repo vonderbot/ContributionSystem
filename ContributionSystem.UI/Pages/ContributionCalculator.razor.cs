@@ -9,32 +9,7 @@ namespace ContributionSystem.UI.Pages
 {
     public partial class ContributionCalculator : ComponentBase
     {
-        [Inject]
-        IContributionService ContributionService { get; set; }
-        private RequestCalculateContributionViewModel Request;
-        private ResponseCalculateContributionViewModel Content;
-        private string ErrorMessage;
-
-        public ContributionCalculator()
-        {
-            Request = new();
-        }
-
-        public async Task Calculate()
-        {
-            try
-            {
-                Content = await ContributionService.Сalculate(Request);
-            }
-            catch
-            {
-                ErrorMessage = "Error!";
-            }
-        }
-
-        public void ChangeMethod(CalculationMethodEnumView method)
-        {
-            Request.CalculationMethod = method;
-        }
+        private ResponseCalculateContributionViewModel response { get; set; }
+        private string errorMessage { get; set; }
     }
 }
