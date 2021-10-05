@@ -27,7 +27,7 @@ namespace ContributionSystem.UI.Services
             }
             else
             {
-                throw new Exception();
+                throw new Exception("Server response is incorrect");
             }
         }
     }

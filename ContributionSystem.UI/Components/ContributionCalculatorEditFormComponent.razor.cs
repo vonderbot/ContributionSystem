@@ -1,6 +1,7 @@
 ﻿using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Components
@@ -37,9 +38,9 @@ namespace ContributionSystem.UI.Components
                 Response = await ContributionCalculatorService.Сalculate(Request);
                 await ResponseChanged.InvokeAsync(Response);
             }
-            catch
+            catch(Exception ex)
             {
-                ErrorMessage = "Error!";
+                ErrorMessage = ex.Message;
                 await ErrorMessageChanged.InvokeAsync(ErrorMessage);
             }
         }
