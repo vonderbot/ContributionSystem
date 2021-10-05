@@ -13,22 +13,23 @@
         </tr>
     </thead>
     <tbody>
+
         @if (Response != null)
         {
-        @foreach (var item in Response.Items)
-        {
-        <tr>
-            <td scope="row">
-                @item.MonthNumber
-            </td>
-            <td>
-                @item.Income
-            </td>
-            <td>
-                @item.Sum
-            </td>
-        </tr>
-        }
+            @foreach (var item in Response.Items)
+            {
+            <tr>
+                <td scope="row">
+                    @item.MonthNumber
+                </td>
+                <td>
+                    @item.Income
+                </td>
+                <td>
+                    @item.Sum
+                </td>
+            </tr>
+            }
         }
     </tbody>
 </table>

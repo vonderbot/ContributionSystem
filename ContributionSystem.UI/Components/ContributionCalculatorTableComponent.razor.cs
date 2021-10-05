@@ -11,6 +11,7 @@ namespace ContributionSystem.UI.Components
     {
         [Parameter]
         public ResponseCalculateContributionViewModel Response { get; set; }
+
         [Parameter]
         public EventCallback<ResponseCalculateContributionViewModel> ResponseChanged { get; set; }
     }
