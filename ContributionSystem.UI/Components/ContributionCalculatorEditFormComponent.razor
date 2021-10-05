@@ -1,4 +1,5 @@
-﻿<EditForm role="form" class="col-3" OnValidSubmit="@Calculate" Model="@Request">
+﻿@using ContributionSystem.ViewModels.Enums;
+<EditForm role="form" class="col-3" OnValidSubmit="@Calculate" Model="@Request">
     <FluentValidationValidator />
     <div class="form-group">
         <label for="Percent">Percent:</label>
@@ -20,7 +21,9 @@
         </div>
         <br />
         <div class="text-center">
-            <button class="btn btn-secondary" type="submit">Calculate</button>
+            <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethod(CalculationMethodEnumView.Simple)">Simpl percent</button>
+            <br /><br />
+            <button class="btn btn-secondary" type="submit" @onclick="() => ChangeMethod(CalculationMethodEnumView.Complex)">Complex percent</button>
         </div>
     </div>
 </EditForm>

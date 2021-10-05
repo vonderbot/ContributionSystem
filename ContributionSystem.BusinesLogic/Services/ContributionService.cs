@@ -24,7 +24,7 @@ namespace ContributionSystem.BusinesLogic.Services
                     {
                         MonthNumber = i + 1,
                         Income = income,
-                        Sum = contribution.StartValue + income * (i + 1)
+                        Sum = Math.Round(contribution.StartValue + income * (i + 1), NumberOfDigitsAfterDecimalPoint)
                     };
                     RoundingMistakeCheck(monthInfo, income, ChoosePreviousElemet(allMonthsInfo, contribution, i));
                     allMonthsInfo[i] = monthInfo;
@@ -39,10 +39,14 @@ namespace ContributionSystem.BusinesLogic.Services
                     RoundingMistakeCheck(monthInfo, income, ChoosePreviousElemet(allMonthsInfo, contribution, i));
                     allMonthsInfo[i] = monthInfo;
                 }
+                for (int i = 0; i < contribution.Term; i++)
+                {
+                    allMonthsInfo[i].Sum = Math.Round(allMonthsInfo[i].Sum, NumberOfDigitsAfterDecimalPoint);
+                }
             }
             else
             {
-                throw new Exception();
+                throw new Exception("Incorect calculation method");
             }
 
             return new ResponseCalculateContributionViewModel()
@@ -69,6 +73,10 @@ namespace ContributionSystem.BusinesLogic.Services
             if (Math.Round(monthInfo.Sum, NumberOfDigitsAfterDecimalPoint) - Math.Round(previousElemet, NumberOfDigitsAfterDecimalPoint) != Math.Round(income, NumberOfDigitsAfterDecimalPoint))
             {
                 monthInfo.Income = Math.Round(monthInfo.Sum, NumberOfDigitsAfterDecimalPoint) - Math.Round(previousElemet, NumberOfDigitsAfterDecimalPoint);
+            }
+            else
+            {
+                monthInfo.Income = Math.Round(monthInfo.Income, NumberOfDigitsAfterDecimalPoint);
             }
         }
 

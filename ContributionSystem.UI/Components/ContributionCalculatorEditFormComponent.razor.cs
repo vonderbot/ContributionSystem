@@ -1,4 +1,5 @@
 ﻿using ContributionSystem.UI.Interfaces;
+using ContributionSystem.ViewModels.Enums;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -43,6 +44,11 @@ namespace ContributionSystem.UI.Components
                 ErrorMessage = ex.Message;
                 await ErrorMessageChanged.InvokeAsync(ErrorMessage);
             }
+        }
+
+        public void ChangeMethod(CalculationMethodEnumView method)
+        {
+            Request.CalculationMethod = method;
         }
     }
 }
