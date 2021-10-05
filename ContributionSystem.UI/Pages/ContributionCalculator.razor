@@ -1,69 +1,15 @@
 ﻿@page "/"
+@using ContributionSystem.UI.Components
 
 <div class="row">
-    <EditForm role="form" class="col-3" OnValidSubmit="@Calculate" Model="@request">
-        <FluentValidationValidator />
-        <div class="form-group">
-            <label for="Percent">Percent:</label>
-            <div class="row">
-                <InputNumber class="form-control" placeholder="Percent" id="Percent" @bind-Value="request.Percent" />
-                <ValidationMessage For="@(() => request.Percent)" />
-            </div>
-            <br />
-            <label for="Percent">Term:</label>
-            <div class="Term">
-                <InputNumber class="form-control" placeholder="Term" id="Term" @bind-Value="request.Term" />
-                <ValidationMessage For="@(() => request.Term)" />
-            </div>
-            <br />
-            <label for="Sum">Sum:</label>
-            <div class="row">
-                <InputNumber class="form-control" placeholder="Sum" id="Sum" @bind-Value="request.StartValue" />
-                <ValidationMessage For="@(() => request.StartValue)" />
-            </div>
-            <br />
-            <div class="text-center">
-                <button class="btn btn-secondary" type="submit">Calculate</button>
-            </div>
-        </div>
-    </EditForm>
+    <ContributionCalculatorEditFormComponent @bind-Response="response" @bind-ErrorMessage="errorMessage"/>
     <div class="col-9 text-center" style="max-height: 643.5px; overflow: auto;">
-        <table class="table table-bordered">
-            <thead>
-                <tr class="active bg-light">
-                    <th class="col-4" scope="row">
-                        Month
-                    </th>
-                    <th class="col-2">
-                        %
-                    </th>
-                    <th class="col-3">
-                        Sum
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (response != null)
-                {
-                    @foreach (var item in response.Items)
-                    {
-                        <tr>
-                            <td scope="row">
-                                @item.MonthNumber
-                            </td>
-                            <td>
-                                @item.Income
-                            </td>
-                            <td>
-                                @item.Sum
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
+        <ContributionCalculatorTableComponent @bind-Response="response" />
     </div>
 </div>
+@if (@errorMessage != null)
+{
 <div class="row">
     <h1>@errorMessage</h1>
 </div>
+}
