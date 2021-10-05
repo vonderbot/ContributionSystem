@@ -12,8 +12,7 @@ namespace ContributionSystem.UI.Components
         [Inject]
         IContributionService ContributionCalculatorService { get; set; }
 
-        [Parameter]
-        public RequestCalculateContributionViewModel Request { get; set; }
+        private RequestCalculateContributionViewModel Request { get; set; }
 
         [Parameter]
         public ResponseCalculateContributionViewModel Response { get; set; }
