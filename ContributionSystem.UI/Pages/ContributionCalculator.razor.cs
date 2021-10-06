@@ -9,7 +9,7 @@ namespace ContributionSystem.UI.Pages
 {
     public partial class ContributionCalculator : ComponentBase
     {
-        private ResponseCalculateContributionViewModel response { get; set; }
+        private ResponseCalculateContributionViewModel responseCalculateContributionViewModel { get; set; }
         private string errorMessage { get; set; }
     }
 }

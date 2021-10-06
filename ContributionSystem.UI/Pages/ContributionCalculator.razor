@@ -2,15 +2,15 @@
 @using ContributionSystem.UI.Components
 
 <div class="row">
-    <ContributionCalculatorEditFormComponent @bind-Response="response" @bind-ErrorMessage="errorMessage"/>
-    <div class="col-9 text-center" style="max-height: 643.5px; overflow: auto;">
-        <ContributionCalculatorTableComponent @bind-Response="response" />
+    <ContributionCalculatorForm @bind-ResponseCalculateContributionViewModel="responseCalculateContributionViewModel" @bind-ErrorMessage="errorMessage" />
+    <div ScrollableTable class="col-9 text-center ">
+        <ContributionCalculatorTable @bind-ResponseCalculateContributionViewModel="responseCalculateContributionViewModel" />
     </div>
 </div>
 
 @if (@errorMessage != null)
 {
-<div class="row">
-    <h1>@errorMessage</h1>
-</div>
+    <div class="row">
+        <h1>@errorMessage</h1>
+    </div>
 }

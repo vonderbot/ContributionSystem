@@ -1,0 +1,36 @@
+﻿@using ContributionSystem.ViewModels.Enums;
+<EditForm role="form" class="col-3" OnValidSubmit="@Calculate" Model="@RequestCalculateContributionViewModel">
+    <FluentValidationValidator />
+    <div class="form-group">
+        <label for="Percent">Percent:</label>
+        <div class="row">
+            <InputNumber class="form-control" placeholder="Percent" id="Percent" @bind-Value="RequestCalculateContributionViewModel.Percent" />
+            <ValidationMessage For="@(() => RequestCalculateContributionViewModel.Percent)" />
+        </div>
+        <br />
+        <label for="Term">Term:</label>
+        <div class="row">
+            <InputNumber class="form-control" placeholder="Term" id="Term" @bind-Value="RequestCalculateContributionViewModel.Term" />
+            <ValidationMessage For="@(() => RequestCalculateContributionViewModel.Term)" />
+        </div>
+        <br />
+        <label for="Sum">Sum:</label>
+        <div class="row">
+            <InputNumber class="form-control" placeholder="Sum" id="Sum" @bind-Value="RequestCalculateContributionViewModel.StartValue" />
+            <ValidationMessage For="@(() => RequestCalculateContributionViewModel.StartValue)" />
+        </div>
+        <br />
+        <div class="row">
+            <select class="form-control selectpicker" @bind="RequestCalculateContributionViewModel.CalculationMethod">
+                @foreach (var method in Enum.GetValues(typeof(CalculationMethodEnumView)))
+                {
+                    <option value="@method">@method</option>
+                }
+            </select>
+        </div>
+        <br />
+        <div class="text-center">
+            <button class="btn btn-secondary" type="submit">Calculate</button>
+        </div>
+    </div>
+</EditForm>

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Components
 {
-    public partial class ContributionCalculatorTableComponent
+    public partial class ContributionCalculatorTable
     {
         [Parameter]
-        public ResponseCalculateContributionViewModel Response { get; set; }
+        public ResponseCalculateContributionViewModel ResponseCalculateContributionViewModel { get; set; }
 
         [Parameter]
-        public EventCallback<ResponseCalculateContributionViewModel> ResponseChanged { get; set; }
+        public EventCallback<ResponseCalculateContributionViewModel> ResponseCalculateContributionViewModelChanged { get; set; }
     }
 }
