@@ -13,7 +13,7 @@ namespace ContributionSystem.UI
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddSingleton<IContributionService, ContributionService>();
+            builder.Services.AddScoped<IContributionService, ContributionService>();
 
             await builder.Build().RunAsync();
         }
