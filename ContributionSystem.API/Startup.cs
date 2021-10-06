@@ -13,7 +13,10 @@ using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using ContributionSystem.ViewModels.Models;
-using ContributionSystem.ViewModels.Models.Contribution.Validators;
+using ContributionSystem.ViewModels.Models.Contribution;
+using ContributionSystem.ViewModels.Validators;
+using ContributionSystem.UI.Services;
+using ContributionSystem.UI.Interfaces;
 
 namespace ContributionSystem.API
 {
@@ -29,11 +32,14 @@ namespace ContributionSystem.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddControllers().AddFluentValidation(fv =>
             {
                 fv.DisableDataAnnotationsValidation = true;
                 fv.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
+
             services.AddTransient<IValidator<RequestCalculateContributionViewModel>, RequestCalculateContributionViewModelValidator>();
         }
 
@@ -43,17 +49,26 @@ namespace ContributionSystem.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }
