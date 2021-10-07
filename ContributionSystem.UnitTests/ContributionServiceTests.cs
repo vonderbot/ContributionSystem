@@ -17,7 +17,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void CalculateSimpleRequestWithNormalData()
+        public void Calculate_RequestCalculateContributionViewModelWithSimpleCalculationMethod_ResponseCalculateContributionViewModelObject()
         {
             //arrange
             var request = new RequestCalculateContributionViewModel 
@@ -65,7 +65,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void CalculateComplexRequestWithNormalData()
+        public void Calculate_RequestCalculateContributionViewModelWithComplexCalculationMethod_ResponseCalculateContributionViewModelObject()
         {
             //arrange
             var request = new RequestCalculateContributionViewModel
@@ -113,7 +113,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void CalculateResponseTypeForRequestWithNormalData()
+        public void Calculate_RequestCalculateContributionViewModel_TypeResponseCalculateContributionViewModel()
         {
             //arrange
             var request = new RequestCalculateContributionViewModel
@@ -135,7 +135,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void CalculateRequestWithZeroOrNegativeStartValueException()
+        public void Calculate_RequestCalculateContributionViewModelWithZeroOrNegativeStartValue_Exception()
         {
             //arrange
             var request1 = new RequestCalculateContributionViewModel
@@ -171,7 +171,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void CalculateRequestWithZeroOrNegativeTermException()
+        public void Calculate_RequestCalculateContributionViewModelWithZeroOrNegativeTerm_Exception()
         {
             //arrange
             var request1 = new RequestCalculateContributionViewModel
@@ -207,7 +207,7 @@ namespace ContributionSystem.UnitTests
         }
         
         [Test]
-        public void CalculateRequestWithZeroOrNegativePercentException()
+        public void Calculate_RequestCalculateContributionViewModelWithZeroOrNegativePercent_Exception()
         {
             //arrange
             var request1 = new RequestCalculateContributionViewModel
@@ -243,7 +243,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void CalculatNullRequestException()
+        public void Calculatå_Null_Exception()
         {
             //arrange
             RequestCalculateContributionViewModel request = null;
