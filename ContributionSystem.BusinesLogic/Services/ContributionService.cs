@@ -14,6 +14,7 @@ namespace ContributionSystem.BusinesLogic.Services
 
         public ResponseCalculateContributionViewModel Calculate(RequestCalculateContributionViewModel request)
         {
+            CheckRequest(request);
             var contribution = new Contribution(request.StartValue, request.Term, request.Percent);
             var allMonthsInfo = new ResponseCalculateContributionViewModelItem[contribution.Term];
             switch (request.CalculationMethod)
@@ -33,6 +34,22 @@ namespace ContributionSystem.BusinesLogic.Services
                 CalculationMethod = request.CalculationMethod,
                 Items = allMonthsInfo
             };
+        }
+
+        private void CheckRequest(RequestCalculateContributionViewModel request)
+        {
+            if (request.StartValue <= 0)
+            {
+                throw new Exception("Incorect start value in request");
+            }
+            if (request.Term <= 0)
+            {
+                throw new Exception("Incorect term in request");
+            }
+            if (request.Percent <= 0)
+            {
+                throw new Exception("Incorect percent in request");
+            }
         }
 
         private void SimpleCalculate(Contribution contribution, ResponseCalculateContributionViewModelItem[] allMonthsInfo)
