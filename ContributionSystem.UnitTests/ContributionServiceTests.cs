@@ -17,7 +17,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void NormalSimpleMethodRequest()
+        public void CalculateSimpleRequestWithNormalData()
         {
             //arrange
             var request = new RequestCalculateContributionViewModel 
@@ -65,7 +65,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void NormalComplexMethodRequest()
+        public void CalculateComplexRequestWithNormalData()
         {
             //arrange
             var request = new RequestCalculateContributionViewModel
@@ -113,7 +113,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void ResponseType()
+        public void CalculateResponseTypeForRequestWithNormalData()
         {
             //arrange
             var request = new RequestCalculateContributionViewModel
@@ -135,7 +135,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void RequestZeroAndNegativeStartValue()
+        public void CalculateRequestWithZeroOrNegativeStartValueException()
         {
             //arrange
             var request1 = new RequestCalculateContributionViewModel
@@ -171,7 +171,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void RequestZeroAndNegativeTerm()
+        public void CalculateRequestWithZeroOrNegativeTermException()
         {
             //arrange
             var request1 = new RequestCalculateContributionViewModel
@@ -207,7 +207,7 @@ namespace ContributionSystem.UnitTests
         }
         
         [Test]
-        public void RequestZeroAndNegativePercent()
+        public void CalculateRequestWithZeroOrNegativePercentException()
         {
             //arrange
             var request1 = new RequestCalculateContributionViewModel
@@ -240,6 +240,19 @@ namespace ContributionSystem.UnitTests
                 .WithMessage("Incorect percent in request");
             act2.Should().Throw<Exception>()
                 .WithMessage("Incorect percent in request");
+        }
+
+        [Test]
+        public void CalculatNullRequestException()
+        {
+            //arrange
+            RequestCalculateContributionViewModel request = null;
+
+            //act
+            Action act = () => contributionService.Calculate(request);
+
+            //assert
+            act.Should().Throw<Exception>().WithMessage("Null request");
         }
     }
 }

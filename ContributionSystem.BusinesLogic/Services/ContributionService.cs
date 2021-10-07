@@ -38,6 +38,14 @@ namespace ContributionSystem.BusinesLogic.Services
 
         private void CheckRequest(RequestCalculateContributionViewModel request)
         {
+            if (request == null)
+            {
+                throw new Exception("Null request");
+            }
+            if (request.CalculationMethod == null)
+            {
+                throw new Exception("Null calculation method");
+            }
             if (request.StartValue <= 0)
             {
                 throw new Exception("Incorect start value in request");
