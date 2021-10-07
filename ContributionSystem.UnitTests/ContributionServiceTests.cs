@@ -4,12 +4,13 @@ using ContributionSystem.ViewModels.Enums;
 using ContributionSystem.ViewModels.Models.Contribution;
 using NUnit.Framework;
 using System;
+using ContributionSystem.BusinesLogic.Interfaces;
 
 namespace ContributionSystem.UnitTests
 {
     public class ContributionServiceTests
     {
-        private ContributionService contributionService;
+        private IContributionService contributionService;
 
         public ContributionServiceTests()
         {
@@ -17,7 +18,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void Calculate_RequestCalculateContributionViewModelWithSimpleCalculationMethod_ResponseCalculateContributionViewModelObject()
+        public void Calculate_ValidRequestWithSimpleCalculationMethod_ValidResponse()
         {
             //arrange
             var request = new RequestCalculateContributionViewModel 
@@ -65,7 +66,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void Calculate_RequestCalculateContributionViewModelWithComplexCalculationMethod_ResponseCalculateContributionViewModelObject()
+        public void Calculate_ValidRequestWithComplexCalculationMethod_ValidResponse()
         {
             //arrange
             var request = new RequestCalculateContributionViewModel
@@ -113,7 +114,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void Calculate_RequestCalculateContributionViewModel_TypeResponseCalculateContributionViewModel()
+        public void Calculate_ValidRequest_TypeResponseCalculateContributionViewModel()
         {
             //arrange
             var request = new RequestCalculateContributionViewModel
@@ -135,7 +136,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void Calculate_RequestCalculateContributionViewModelWithZeroOrNegativeStartValue_Exception()
+        public void Calculate_RequestWithZeroOrNegativeStartValue_ThrowException()
         {
             //arrange
             var request1 = new RequestCalculateContributionViewModel
@@ -171,7 +172,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void Calculate_RequestCalculateContributionViewModelWithZeroOrNegativeTerm_Exception()
+        public void Calculate_RequestWithZeroOrNegativeTerm_ThrowException()
         {
             //arrange
             var request1 = new RequestCalculateContributionViewModel
@@ -207,7 +208,7 @@ namespace ContributionSystem.UnitTests
         }
         
         [Test]
-        public void Calculate_RequestCalculateContributionViewModelWithZeroOrNegativePercent_Exception()
+        public void Calculate_RequestWithZeroOrNegativePercent_ThrowException()
         {
             //arrange
             var request1 = new RequestCalculateContributionViewModel
@@ -243,7 +244,7 @@ namespace ContributionSystem.UnitTests
         }
 
         [Test]
-        public void Calculatå_Null_Exception()
+        public void Calculatå_NullRequest_ThrowException()
         {
             //arrange
             RequestCalculateContributionViewModel request = null;
