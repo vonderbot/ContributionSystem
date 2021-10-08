@@ -24,11 +24,8 @@ namespace ContributionSystem.UnitTests
             var request = new RequestCalculateContributionViewModel 
             { 
                 CalculationMethod = CalculationMethodEnumView.Simple,
-
                 StartValue = 1,
-
                 Term = 3,
-
                 Percent = 100
             };
             var correctResponce = new ResponseCalculateContributionViewModel
@@ -72,11 +69,8 @@ namespace ContributionSystem.UnitTests
             var request = new RequestCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Complex,
-
                 StartValue = 1,
-
                 Term = 3,
-
                 Percent = 100
             };
             var correctResponce = new ResponseCalculateContributionViewModel
@@ -120,11 +114,8 @@ namespace ContributionSystem.UnitTests
             var request = new RequestCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-
                 StartValue = 1,
-
                 Term = 1,
-
                 Percent = 1
             };
 
@@ -142,21 +133,15 @@ namespace ContributionSystem.UnitTests
             var request1 = new RequestCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-
                 StartValue = 0,
-
                 Term = 3,
-
                 Percent = 1
             };
             var request2 = new RequestCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-
                 StartValue = 0,
-
                 Term = 3,
-
                 Percent = 1
             };
 
@@ -178,21 +163,15 @@ namespace ContributionSystem.UnitTests
             var request1 = new RequestCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-
                 StartValue = 1,
-
                 Term = 0,
-
                 Percent = 100
             };
             var request2 = new RequestCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-
                 StartValue = 1,
-
                 Term = -1,
-
                 Percent = 100
             };
 
@@ -214,21 +193,15 @@ namespace ContributionSystem.UnitTests
             var request1 = new RequestCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-
                 StartValue = 1,
-
                 Term = 1,
-
                 Percent = 0
             };
             var request2 = new RequestCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-
                 StartValue = 1,
-
                 Term = 1,
-
                 Percent = -1
             };
 
