@@ -17,7 +17,7 @@ namespace ContributionSystem.API.UnitTests
 
         public ContributionControllerTests()
         {
-            ñontributionController = new ContributionController();
+            contributionController = new ContributionController();
         }
 
         [Test]
@@ -27,16 +27,13 @@ namespace ContributionSystem.API.UnitTests
             var request = new RequestCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-
                 StartValue = 1,
-
                 Term = 3,
-
                 Percent = 100
             };
 
             //act
-            var response = ñontributionController.Calculate(request);
+            var response = contributionController.Calculate(request);
             var okObjectResult = response as OkObjectResult;
 
             //assert
@@ -51,7 +48,7 @@ namespace ContributionSystem.API.UnitTests
             RequestCalculateContributionViewModel request = null;
 
             //act
-            Action act = () => ñontributionController.Calculate(request);
+            Action act = () => contributionController.Calculate(request);
 
             //assert
             act.Should().Throw<Exception>()
