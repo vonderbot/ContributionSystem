@@ -13,7 +13,7 @@ namespace ContributionSystem.API.UnitTests
 {
     public class ContributionControllerTests
     {
-        private ContributionController ñontributionController;
+        private readonly ContributionController contributionController;
 
         public ContributionControllerTests()
         {
