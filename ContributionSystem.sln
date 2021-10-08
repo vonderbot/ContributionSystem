@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.UI", "Co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{B0ECCB6D-3621-4B2E-AF27-68840CD5EB1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.BusinesLogic.UnitTests", "ContributionSystem.UnitTests\ContributionSystem.BusinesLogic.UnitTests.csproj", "{4B6D00F8-D39E-464F-B5B1-711B002728C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.BusinesLogic.UnitTests", "ContributionSystem.BusinesLogic.UnitTests\ContributionSystem.BusinesLogic.UnitTests.csproj", "{4B6D00F8-D39E-464F-B5B1-711B002728C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContributionSystem.API.UnitTests", "ContributionSystem.API.UnitTests\ContributionSystem.API.UnitTests.csproj", "{6D6EAA8B-5441-4506-B814-4BD566AE4EEA}"
 EndProject

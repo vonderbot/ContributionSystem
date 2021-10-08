@@ -51,8 +51,7 @@ namespace ContributionSystem.API.UnitTests
             Action act = () => contributionController.Calculate(request);
 
             //assert
-            act.Should().Throw<Exception>()
-                .WithMessage("Null request");
+            act.Should().Throw<Exception>().WithMessage("Null request");
         }
     }
 }
