@@ -10,7 +10,7 @@ namespace ContributionSystem.UnitTests
 {
     public class ContributionServiceTests
     {
-        private IContributionService contributionService;
+        private readonly ContributionService contributionService;
 
         public ContributionServiceTests()
         {
