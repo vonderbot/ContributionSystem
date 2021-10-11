@@ -79,14 +79,11 @@ namespace ContributionSystem.UI.UnitTests
                     }
                }
             };
-
             var contributionServiceMock = Mock.Create<IContributionService>();
             Mock.Arrange(() => contributionServiceMock.Ñalculate(Arg.IsAny<RequestCalculateContributionViewModel>()))
                 .Returns(Task.FromResult<ResponseCalculateContributionViewModel>(model));
-
             var testContext = new TestContext();
             testContext.Services.AddSingleton<IContributionService>(contributionServiceMock);
-
             bool eventCalled = false;
 
             // Act
