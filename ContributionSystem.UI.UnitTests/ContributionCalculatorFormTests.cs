@@ -4,8 +4,8 @@ using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Enums;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System.Threading.Tasks;
-using Telerik.JustMock;
 using Xunit;
 
 namespace ContributionSystem.UI.UnitTests
@@ -13,6 +13,7 @@ namespace ContributionSystem.UI.UnitTests
     public class ContributionCalculatorFormTests
     {
         private TestContext testContext;
+        private Mock<IContributionService> contributionServiceMock;
 
         public ContributionCalculatorFormTests()
         {
@@ -37,13 +38,13 @@ namespace ContributionSystem.UI.UnitTests
                     }
                 }
             };
-            var contributionServiceMock = Mock.Create<IContributionService>();
-            Mock.Arrange(() => contributionServiceMock.Сalculate(Arg.IsAny<RequestCalculateContributionViewModel>()))
-                .Returns(Task.FromResult<ResponseCalculateContributionViewModel>(model));
+            contributionServiceMock = new Mock<IContributionService>();
+           contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>()))
+                .ReturnsAsync(model);
             var testContext = new TestContext();
-            testContext.Services.AddSingleton<IContributionService>(contributionServiceMock);
+            testContext.Services.AddSingleton<IContributionService>(contributionServiceMock.Object);
             bool eventCalled = false;
-
+0
             // Act
             var page = testContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
                 .Add(p => p.ResponseCalculateContributionViewModelChanged, () => { eventCalled = true; }));
