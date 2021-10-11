@@ -91,6 +91,33 @@ namespace ContributionSystem.UI.UnitTests
         }
 
         //[Fact]
+        //public void Mock2Test()
+        //{
+        //    // Arrange
+        //    var exception = new Exception("Null request");
+
+        //    var contributionServiceMock = Mock.Create<IContributionService>();
+        //    Mock.Arrange(() => contributionServiceMock.Ñalculate(Arg.IsNull<RequestCalculateContributionViewModel>()))
+        //        .Returns(Task.FromResult<Exception>(exception));
+
+        //    var testContext = new TestContext();
+        //    testContext.Services.AddSingleton<IContributionService>(contributionServiceMock);
+
+        //    // Act
+        //    var page = testContext.RenderComponent<ContributionCalculator>();
+        //    page.Find("#Percent").Change("100");
+        //    page.Find("#Term").Change("1");
+        //    page.Find("#Sum").Change("1");
+        //    page.Find("form").Submit();
+        //    var changes = page.GetChangesSinceFirstRender();
+        //    var actualContributionTable = page.FindComponent<ContributionCalculatorTable>();
+
+        //    // Assert
+        //    var expectedContributionTable = testContext.RenderComponent<ContributionCalculatorTable>((nameof(ContributionCalculatorTable.ResponseCalculateContributionViewModel), model));
+        //    actualContributionTable.MarkupMatches(expectedContributionTable.Markup);
+        //}
+
+        //[Fact]
         //public void Test3()
         //{
         //    // Arrange
