@@ -82,7 +82,6 @@ namespace ContributionSystem.UI.UnitTests
             page.Find("#Term").Change("1");
             page.Find("#Sum").Change("1");
             page.Find("form").Submit();
-            var changes = page.GetChangesSinceFirstRender();
             var actualContributionTable = page.FindComponent<ContributionCalculatorTable>();
 
             // Assert
@@ -94,11 +93,11 @@ namespace ContributionSystem.UI.UnitTests
         //public void Mock2Test()
         //{
         //    // Arrange
-        //    var exception = new Exception("Null request");
+        //    var exception = "Null request";
 
         //    var contributionServiceMock = Mock.Create<IContributionService>();
         //    Mock.Arrange(() => contributionServiceMock.Ñalculate(Arg.IsNull<RequestCalculateContributionViewModel>()))
-        //        .Returns(Task.FromResult<Exception>(exception));
+        //        .Throws<Exception>("Null reques");
 
         //    var testContext = new TestContext();
         //    testContext.Services.AddSingleton<IContributionService>(contributionServiceMock);
@@ -109,11 +108,12 @@ namespace ContributionSystem.UI.UnitTests
         //    page.Find("#Term").Change("1");
         //    page.Find("#Sum").Change("1");
         //    page.Find("form").Submit();
-        //    var changes = page.GetChangesSinceFirstRender();
-        //    var actualContributionTable = page.FindComponent<ContributionCalculatorTable>();
+        //    var form = page.FindComponent<ContributionCalculatorForm>();
+        //    form.submit().Calculate();
+        //    var actualContribution = page.FindComponent<ContributionCalculator>();
 
         //    // Assert
-        //    var expectedContributionTable = testContext.RenderComponent<ContributionCalculatorTable>((nameof(ContributionCalculatorTable.ResponseCalculateContributionViewModel), model));
+        //    var expectedContributionTable = testContext.RenderComponent<ContributionCalculatorForm>((nameof(ContributionCalculatorForm.ErrorMessageChanged), exception));
         //    actualContributionTable.MarkupMatches(expectedContributionTable.Markup);
         //}
 
