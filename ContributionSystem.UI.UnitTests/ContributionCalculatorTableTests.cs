@@ -24,14 +24,14 @@ namespace ContributionSystem.UI.UnitTests
                 CalculationMethod = CalculationMethodEnumView.Simple,
 
                 Items = new ResponseCalculateContributionViewModelItem[1]
-              {
+                {
                     new ResponseCalculateContributionViewModelItem
                     {
                         MonthNumber = 1,
                         Income = 0.08M,
                         Sum = 1.08M
                     }
-              }
+                }
             };
             var page = testContext.RenderComponent<ContributionCalculatorTable>((nameof(ContributionCalculatorTable.ResponseCalculateContributionViewModel), model));
 
