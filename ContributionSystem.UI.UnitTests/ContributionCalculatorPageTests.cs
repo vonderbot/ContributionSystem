@@ -16,42 +16,53 @@ namespace ContributionSystem.UI.UnitTests
 {
     public class ContributionCalculatorPageTests
     {
-        //private TestContext testContext;
+        private TestContext testContext;
 
-        //public ContributionCalculatorPageTests()
-        //{
-        //    //testContext = new TestContext();
-        //    //testContext.Services.AddScoped<IContributionService, ContributionService>();
-        //}
+        public ContributionCalculatorPageTests()
+        {
+            testContext = new TestContext();
+        }
 
         //[Fact]
-        //public void FormShouldRender ()
+        //public void ContributionCalculatorPageTest()
         //{
         //    // Arrange
+        //    var model = new ResponseCalculateContributionViewModel
+        //    {
+        //        CalculationMethod = CalculationMethodEnumView.Simple,
+
+        //        Items = new ResponseCalculateContributionViewModelItem[1]
+        //       {
+        //            new ResponseCalculateContributionViewModelItem
+        //            {
+        //                MonthNumber = 1,
+        //                Income = 0.08M,
+        //                Sum = 1.08M
+        //            }
+        //       }
+        //    };
+
+        //    var contributionServiceMock = Mock.Create<IContributionService>();
+        //    Mock.Arrange(() => contributionServiceMock.Ñalculate(Arg.IsAny<RequestCalculateContributionViewModel>()))
+        //        .Returns(Task.FromResult<ResponseCalculateContributionViewModel>(model));
+
+        //    testContext.Services.AddSingleton<IContributionService>(contributionServiceMock);
 
         //    // Act
         //    var page = testContext.RenderComponent<ContributionCalculator>();
-        //    var form = testContext.RenderComponent<ContributionCalculatorForm>();
+        //    page.Find("#Percent").Change("100");
+        //    page.Find("#Term").Change("1");
+        //    page.Find("#Sum").Change("1");
+        //    page.Find("form").Submit();
+        //    var actualContributionTable = page.FindComponent<ContributionCalculatorTable>();
 
         //    // Assert
-        //    page.Find("Form".ToString()).MarkupMatches(form);
-        //}
-
-        //[Fact]
-        //public void TableShouldRender()
-        //{
-        //    // Arrange
-
-        //    // Act
-        //    var page = testContext.RenderComponent<ContributionCalculator>();
-        //    var table = testContext.RenderComponent<ContributionCalculatorTable>();
-
-        //    // Assert
-        //    page.Find("table".ToString()).MarkupMatches(table);
+        //    var expectedContributionTable = testContext.RenderComponent<ContributionCalculatorTable>((nameof(ContributionCalculatorTable.ResponseCalculateContributionViewModel), model));
+        //    actualContributionTable.MarkupMatches(expectedContributionTable.Markup);
         //}
 
         [Fact]
-        public void MockTest()
+        public void ContributionCalculatorFormEventCallbackTest()
         {
             // Arrange
             var model = new ResponseCalculateContributionViewModel
@@ -76,99 +87,64 @@ namespace ContributionSystem.UI.UnitTests
             var testContext = new TestContext();
             testContext.Services.AddSingleton<IContributionService>(contributionServiceMock);
 
+            bool eventCalled = false;
+
             // Act
-            var page = testContext.RenderComponent<ContributionCalculator>();
+            var page = testContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
+                .Add(p => p.ResponseCalculateContributionViewModelChanged, () => { eventCalled = true; }));
             page.Find("#Percent").Change("100");
             page.Find("#Term").Change("1");
             page.Find("#Sum").Change("1");
             page.Find("form").Submit();
-            var actualContributionTable = page.FindComponent<ContributionCalculatorTable>();
 
             // Assert
-            var expectedContributionTable = testContext.RenderComponent<ContributionCalculatorTable>((nameof(ContributionCalculatorTable.ResponseCalculateContributionViewModel), model));
-            actualContributionTable.MarkupMatches(expectedContributionTable.Markup);
+            Assert.True(eventCalled);
         }
 
-        //[Fact]
-        //public void Mock2Test()
-        //{
-        //    // Arrange
-        //    var exception = "Null request";
+        [Fact]
+        public void ContributionCalculatorFormValidationTest()
+        {
+            // Arrange
+            var contributionServiceMock = Mock.Create<IContributionService>();
+            testContext.Services.AddSingleton<IContributionService>(contributionServiceMock);
+            var page = testContext.RenderComponent<ContributionCalculatorForm>();
 
-        //    var contributionServiceMock = Mock.Create<IContributionService>();
-        //    Mock.Arrange(() => contributionServiceMock.Ñalculate(Arg.IsNull<RequestCalculateContributionViewModel>()))
-        //        .Throws<Exception>("Null reques");
+            // Act
+            page.Find("#Percent").Change("0");
+            page.Find("#Term").Change("F");
+            page.Find("#Sum").Change("0.0000000003450000012");
+            page.Find("form").Submit();
+            var errors = page.FindAll("[aria-invalid]");
 
-        //    var testContext = new TestContext();
-        //    testContext.Services.AddSingleton<IContributionService>(contributionServiceMock);
+            // Assert
+            Assert.Equal(3, errors.Count);
+        }
 
-        //    // Act
-        //    var page = testContext.RenderComponent<ContributionCalculator>();
-        //    page.Find("#Percent").Change("100");
-        //    page.Find("#Term").Change("1");
-        //    page.Find("#Sum").Change("1");
-        //    page.Find("form").Submit();
-        //    var form = page.FindComponent<ContributionCalculatorForm>();
-        //    form.submit().Calculate();
-        //    var actualContribution = page.FindComponent<ContributionCalculator>();
+        [Fact]
+        public void ContributionCalculatorTableTest()
+        {
+            // Arrange
+            var model = new ResponseCalculateContributionViewModel
+            {
+                CalculationMethod = CalculationMethodEnumView.Simple,
 
-        //    // Assert
-        //    var expectedContributionTable = testContext.RenderComponent<ContributionCalculatorForm>((nameof(ContributionCalculatorForm.ErrorMessageChanged), exception));
-        //    actualContributionTable.MarkupMatches(expectedContributionTable.Markup);
-        //}
+                Items = new ResponseCalculateContributionViewModelItem[1]
+              {
+                    new ResponseCalculateContributionViewModelItem
+                    {
+                        MonthNumber = 1,
+                        Income = 0.08M,
+                        Sum = 1.08M
+                    }
+              }
+            };
+            var page = testContext.RenderComponent<ContributionCalculatorTable>((nameof(ContributionCalculatorTable.ResponseCalculateContributionViewModel), model));
 
-        //[Fact]
-        //public void Test3()
-        //{
-        //    // Arrange
-        //    var page = testContext.RenderComponent<ContributionCalculator>();
-        //    //Act
-        //    //page.fi
-        //    //var inputs = page.FindAll("input");
-        //    //page.Find("input").i(1);
-        //    //inputs[0].Change(100);
-        //    //inputs[1].Change(1);
-        //    //inputs[2].Change(1);
+            // Act
+            var expected = @"<tbody><tr><td scope = ""row"">1</td><td>0.08</td><td>1.08</td></tr></ tbody>";
 
-        //    page.Find("#Percent").Change(100M);
-        //    page.Find("#Term").Change(1);
-        //    page.Find("#Sum").Change(1M);
-
-        //    page.Find("form").Submit();
-
-        //    var inputs = page.FindAll("validation-message");
-        //    for (int i =1; i<= inputs.Count();i++)
-        //    {
-        //        Assert.Equal(inputs[i], inputs[i-1]);
-        //    }
-
-        //    //Assert.Equal(page.Find("#Percent".ToString()).ToString(), page.Find("#Percent".ToString()).InnerHtml);
-        //    //Assert.Equal(page.Find("#Term".ToString()).ToString(), page.Find("#Term".ToString()).InnerHtml);
-        //    //Assert.Equal(page.Find("#Sum".ToString()).ToString(), page.Find("#Sum".ToString()).InnerHtml);
-
-        //    ////Act
-        //    //page.Find("form").Submit();
-        //    //var tmpe = page.GetChangesSinceFirstRender();
-
-        //    //// Assert
-        //    //var correctResponse = new ResponseCalculateContributionViewModel
-        //    //{
-        //    //    CalculationMethod = CalculationMethodEnumView.Simple,
-
-        //    //    Items = new ResponseCalculateContributionViewModelItem[1]
-        //    //   {
-        //    //        new ResponseCalculateContributionViewModelItem
-        //    //        {
-        //    //            MonthNumber = 1,
-        //    //            Income = 0.08M,
-        //    //            Sum = 1.08M
-        //    //        }
-        //    //   }
-        //    //};
-        //    ////page.SetParametersAndRender(parameters => parameters.Add<ContributionCalculatorTable>(pr => pr.Add(p => p.ResponseCalculateContributionViewModel, correctResponse)));
-        //    //var tmp = testContext.RenderComponent<ContributionCalculatorTable>(parameters => parameters.Add(p => p.ResponseCalculateContributionViewModel, correctResponse));
-        //    //page.Find("table").MarkupMatches(tmp);
-        //    ////page.Find("h1");
-        //}
+            // Assert
+            page.Find("tbody").MarkupMatches(expected);
+        }
     }
 }
