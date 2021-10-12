@@ -133,7 +133,6 @@ namespace ContributionSystem.UI.UnitTests
             return new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-
                 Items = new ResponseCalculateContributionViewModelItem[1]
                 {
                     new ResponseCalculateContributionViewModelItem
