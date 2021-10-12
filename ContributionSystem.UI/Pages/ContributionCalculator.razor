@@ -2,15 +2,15 @@
 @using ContributionSystem.UI.Components
 
 <div class="row">
-    <ContributionCalculatorForm @bind-ResponseCalculateContributionViewModel="responseCalculateContributionViewModel" @bind-ErrorMessage="errorMessage" />
+    <ContributionCalculatorForm @bind-ResponseCalculateContributionViewModel="_responseCalculateContributionViewModel" @bind-ErrorMessage="_errorMessage" />
     <div ScrollableTable class="col-9 text-center ">
-        <ContributionCalculatorTable @bind-ResponseCalculateContributionViewModel="responseCalculateContributionViewModel" />
+        <ContributionCalculatorTable @bind-ResponseCalculateContributionViewModel="_responseCalculateContributionViewModel" />
     </div>
 </div>
 
-@if (@errorMessage != null)
+@if (_errorMessage != null)
 {
     <div class="row">
-        <h1>@errorMessage</h1>
+        <h1>@_errorMessage</h1>
     </div>
 }

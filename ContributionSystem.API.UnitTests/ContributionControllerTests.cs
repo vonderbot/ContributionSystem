@@ -5,15 +5,15 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http.Json;
 
 namespace ContributionSystem.API.UnitTests
 {
     public class ContributionControllerTests
     {
         private readonly ContributionController contributionController;
+        private const int _ñorrectStartValue = 1;
+        private const int _ñorrectTerm = 3;
+        private const int _ñorrectPercent = 100;
 
         public ContributionControllerTests()
         {
@@ -23,20 +23,8 @@ namespace ContributionSystem.API.UnitTests
         [Test]
         public void Calculate_ValidRequest_OkObjectResultWithResponseCalculateContributionViewModel()
         {
-            //arrange
-            var request = new RequestCalculateContributionViewModel
-            {
-                CalculationMethod = CalculationMethodEnumView.Simple,
-                StartValue = 1,
-                Term = 3,
-                Percent = 100
-            };
-
-            //act
-            var response = contributionController.Calculate(request);
+            var response = contributionController.Calculate(GetCalculationRequest(CalculationMethodEnumView.Simple, _ñorrectStartValue, _ñorrectTerm, _ñorrectPercent));
             var okObjectResult = response as OkObjectResult;
-
-            //assert
             okObjectResult.Should().NotBeNull();
             okObjectResult.Value.Should().BeOfType<ResponseCalculateContributionViewModel>();
         }
@@ -44,14 +32,22 @@ namespace ContributionSystem.API.UnitTests
         [Test]
         public void Calculate_NullRequest_ThrowException()
         {
-            //arrange
             RequestCalculateContributionViewModel request = null;
-
-            //act
             Action act = () => contributionController.Calculate(request);
-
-            //assert
             act.Should().Throw<Exception>().WithMessage("Null request");
+        }
+
+        private static RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)
+        {
+            var request = new RequestCalculateContributionViewModel
+            {
+                CalculationMethod = calculationMethod,
+                StartValue = startValue,
+                Term = term,
+                Percent = percent
+            };
+
+            return request;
         }
     }
 }

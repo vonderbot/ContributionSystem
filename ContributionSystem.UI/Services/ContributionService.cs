@@ -5,23 +5,26 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
 using System.Net;
-using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
 
 namespace ContributionSystem.UI.Services
 {
     public class ContributionService : IContributionService
     {
-        private readonly HttpClient http;
+        private readonly HttpClient _http;
 
         public ContributionService()
         {
-            http = new HttpClient();
+            _http = new HttpClient();
         }
+
+        //public ContributionService(HttpClient httpClient)
+        //{
+        //    http = httpClient;
+        //}
 
         public async Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request)
         {
-            var response = await http.PostAsJsonAsync("https://localhost:44303/api/contribution/calculate", request);
+            var response = await _http.PostAsJsonAsync("https://localhost:44303/api/contribution/calculate", request);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

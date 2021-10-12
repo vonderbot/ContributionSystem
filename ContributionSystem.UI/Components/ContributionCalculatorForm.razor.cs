@@ -1,5 +1,4 @@
 ﻿using ContributionSystem.UI.Interfaces;
-using ContributionSystem.ViewModels.Enums;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -12,10 +11,11 @@ namespace ContributionSystem.UI.Components
         [Inject]
         IContributionService ContributionService { get; set; }
 
-        private RequestCalculateContributionViewModel RequestCalculateContributionViewModel { get; set; }
+        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel { get; set; }
 
         [Parameter]
         public ResponseCalculateContributionViewModel ResponseCalculateContributionViewModel { get; set; }
+
 
         [Parameter]
         public EventCallback<ResponseCalculateContributionViewModel> ResponseCalculateContributionViewModelChanged { get; set; }
@@ -28,14 +28,14 @@ namespace ContributionSystem.UI.Components
 
         public ContributionCalculatorForm()
         {
-            RequestCalculateContributionViewModel = new();
+            _requestCalculateContributionViewModel = new();
         }
 
         private async Task Calculate()
         {
             try
             {
-                ResponseCalculateContributionViewModel = await ContributionService.Сalculate(RequestCalculateContributionViewModel);
+                ResponseCalculateContributionViewModel = await ContributionService.Сalculate(_requestCalculateContributionViewModel);
                 await ResponseCalculateContributionViewModelChanged.InvokeAsync(ResponseCalculateContributionViewModel);
             }
             catch(Exception ex)

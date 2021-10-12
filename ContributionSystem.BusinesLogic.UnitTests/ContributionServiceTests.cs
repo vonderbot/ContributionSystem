@@ -1,59 +1,47 @@
 using FluentAssertions;
-using ContributionSystem.BusinesLogic.Services;
 using ContributionSystem.ViewModels.Enums;
 using ContributionSystem.ViewModels.Models.Contribution;
 using NUnit.Framework;
 using System;
+using ContributionSystem.BusinessLogic.Services;
 
 namespace ContributionSystem.UnitTests
 {
     public class ContributionServiceTests
     {
-        private readonly ContributionService contributionService;
+        private readonly ContributionService _contributionService;
+        private const int _ñorrectStartValue = 1;
+        private const int _ñorrectTerm = 3;
+        private const int _ñorrectPercent = 100;
 
         public ContributionServiceTests()
         {
-            contributionService = new ContributionService();
+            _contributionService = new ContributionService();
         }
 
         [Test]
         public void Calculate_ValidRequestWithSimpleCalculationMethod_ValidResponse()
         {
-            //arrange
-            var request = GetCalculationRequest(CalculationMethodEnumView.Simple, 1, 3, 100);
+            var request = GetCalculationRequest(CalculationMethodEnumView.Simple, _ñorrectStartValue, _ñorrectTerm, _ñorrectPercent);
             var correctResponse = GetSimpleCalculkationResponse();
-
-            //act
-            var response = contributionService.Calculate(request);
-
-            //assert
+            var response = _contributionService.Calculate(request);
             response.Should().BeEquivalentTo(correctResponse);
         }
 
         [Test]
         public void Calculate_ValidRequestWithComplexCalculationMethod_ValidResponse()
         {
-            //arrange
-            var request = GetCalculationRequest(CalculationMethodEnumView.Complex, 1, 3, 100);
+            var request = GetCalculationRequest(CalculationMethodEnumView.Complex, _ñorrectStartValue, _ñorrectTerm, _ñorrectPercent);
             var correctResponse = GetComplexCalculkationResponse();
-
-            //act
-            ResponseCalculateContributionViewModel response = contributionService.Calculate(request);
-            
-            //assert
+            var response = _contributionService.Calculate(request);
             response.Should().BeEquivalentTo(correctResponse);
         }
 
         [Test]
         public void Calculate_ValidRequest_TypeResponseCalculateContributionViewModel()
         {
-            //arrange
-            var request = GetCalculationRequest(CalculationMethodEnumView.Simple, 1, 1, 1);
-
-            //act
-            var response = contributionService.Calculate(request);
-
-            //assert
+            var request = GetCalculationRequest(CalculationMethodEnumView.Simple, _ñorrectStartValue, _ñorrectTerm, _ñorrectPercent);
+            var response = _contributionService.Calculate(request);
             response.Should().BeOfType<ResponseCalculateContributionViewModel>();
         }
 
@@ -62,13 +50,8 @@ namespace ContributionSystem.UnitTests
         [TestCase(-1, 3, 1)]
         public void Calculate_RequestWithZeroOrNegativeStartValue_ThrowException(decimal startValue, int term, decimal percent)
         {
-            //arrange
             var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
-
-            //act
-            Action act = () => contributionService.Calculate(request);
-
-            //assert
+            Action act = () => _contributionService.Calculate(request);
             act.Should().Throw<Exception>()
                .WithMessage("Incorect start value in request");
         }
@@ -78,13 +61,8 @@ namespace ContributionSystem.UnitTests
         [TestCase(1, -1, 1)]
         public void Calculate_RequestWithZeroOrNegativeTerm_ThrowException(decimal startValue, int term, decimal percent)
         {
-            //arrange
              var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
-
-            //act
-            Action act = () => contributionService.Calculate(request);
-
-            //assert
+            Action act = () => _contributionService.Calculate(request);
             act.Should().Throw<Exception>()
                .WithMessage("Incorect term in request");
         }
@@ -94,13 +72,8 @@ namespace ContributionSystem.UnitTests
         [TestCase(1, 1, -1)]
         public void Calculate_RequestWithZeroOrNegativePercent_ThrowException(decimal startValue, int term, decimal percent)
         {
-            //arrange
             var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
-
-            //act
-            Action act = () => contributionService.Calculate(request);
-
-            //assert
+            Action act = () => _contributionService.Calculate(request);
             act.Should().Throw<Exception>()
                 .WithMessage("Incorect percent in request");
         }
@@ -108,17 +81,12 @@ namespace ContributionSystem.UnitTests
         [Test]
         public void Calculate_NullRequest_ThrowException()
         {
-            //arrange
             RequestCalculateContributionViewModel request = null;
-
-            //act
-            Action act = () => contributionService.Calculate(request);
-
-            //assert
+            Action act = () => _contributionService.Calculate(request);
             act.Should().Throw<Exception>().WithMessage("Null request");
         }
 
-        private RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)
+        private static RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)
         {
             var request = new RequestCalculateContributionViewModel
             {
@@ -131,13 +99,13 @@ namespace ContributionSystem.UnitTests
             return request;
         }
 
-        private ResponseCalculateContributionViewModel GetSimpleCalculkationResponse()
+        private static ResponseCalculateContributionViewModel GetSimpleCalculkationResponse()
         {
             var correctResponse = new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
 
-                Items = new ResponseCalculateContributionViewModelItem[3]
+                Items = new ResponseCalculateContributionViewModelItem[_ñorrectTerm]
                 {
                     new ResponseCalculateContributionViewModelItem
                     {
@@ -163,13 +131,13 @@ namespace ContributionSystem.UnitTests
             return correctResponse;
         }
 
-        private ResponseCalculateContributionViewModel GetComplexCalculkationResponse()
+        private static ResponseCalculateContributionViewModel GetComplexCalculkationResponse()
         {
             var correctResponse = new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Complex,
 
-                Items = new ResponseCalculateContributionViewModelItem[3]
+                Items = new ResponseCalculateContributionViewModelItem[_ñorrectTerm]
                 {
                     new ResponseCalculateContributionViewModelItem
                     {

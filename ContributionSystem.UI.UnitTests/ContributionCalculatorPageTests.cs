@@ -7,62 +7,43 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace ContributionSystem.UI.UnitTests
 {
     public class ContributionCalculatorPageTests
     {
-        private TestContext testContext;
-        private Mock<IContributionService> contributionServiceMock;
+        private readonly TestContext _testContext;
+        private readonly Mock<IContributionService> _contributionServiceMock;
+        private const string _сorrectSum = "1";
+        private const string _сorrectTerm = "1";
+        private const string _сorrectPercent = "100";
 
         public ContributionCalculatorPageTests()
         {
-            testContext = new TestContext();
-            contributionServiceMock = new Mock<IContributionService>();
-            testContext.Services.AddSingleton<IContributionService>(contributionServiceMock.Object);
+            _testContext = new TestContext();
+            _contributionServiceMock = new Mock<IContributionService>();
+            _testContext.Services.AddSingleton<IContributionService>(_contributionServiceMock.Object);
         }
 
         [Fact]
         public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
-            // Arrange
-            var page = testContext.RenderComponent<ContributionCalculator>();
-
-            // Act
-
-            // Assert
+            var page = _testContext.RenderComponent<ContributionCalculator>();
             page.FindComponent<ContributionCalculatorForm>().Should().NotBeNull();
             page.FindComponent<ContributionCalculatorTable>().Should().NotBeNull();
-            try
-            {
-                page.Find("div h1").Should().NotBeNull();
-                Assert.True(false);
-            }
-            catch
-            {
-                Assert.True(true);
-            }
+            page.FindAll("div h1").Should().BeEmpty();
         }
 
         [Fact]
         public void WhenSubmitButtonClicked_ValidParameters_ServerExceptionRendered()
         {
-            // Arrange
-            contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Mock exception"));
-            var page = testContext.RenderComponent<ContributionCalculator>();
-
-            // Act
-            page.Find("#Percent").Change("100");
-            page.Find("#Term").Change("1");
-            page.Find("#Sum").Change("1");
+            _contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Mock exception"));
+            var page = _testContext.RenderComponent<ContributionCalculator>();
+            page.Find("#Percent").Change(_сorrectPercent);
+            page.Find("#Term").Change(_сorrectTerm);
+            page.Find("#Sum").Change(_сorrectSum);
             page.Find("form").Submit();
-
-            // Assert
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("Mock exception");
         }
     }
