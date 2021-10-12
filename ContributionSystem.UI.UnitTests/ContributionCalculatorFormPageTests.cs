@@ -6,6 +6,7 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -94,6 +95,25 @@ namespace ContributionSystem.UI.UnitTests
             // Act
             var page = testContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
                 .Add(p => p.ResponseCalculateContributionViewModelChanged, () => { eventCalled = true; }));
+            page.Find("#Percent").Change("100");
+            page.Find("#Term").Change("1");
+            page.Find("#Sum").Change("1");
+            page.Find("form").Submit();
+
+            // Assert
+            Assert.True(eventCalled);
+        }
+
+        [Fact]
+        public void WhenSubmitButtonClicked_ValidParameters_ServerErrorMessageEventCallbackInvoked()
+        {
+            // Arrange
+            contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Mock exception"));
+            bool eventCalled = false;
+
+            // Act
+            var page = testContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
+                .Add(p => p.ErrorMessageChanged, () => { eventCalled = true; }));
             page.Find("#Percent").Change("100");
             page.Find("#Term").Change("1");
             page.Find("#Sum").Change("1");
