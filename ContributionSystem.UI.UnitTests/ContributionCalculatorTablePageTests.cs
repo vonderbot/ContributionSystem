@@ -6,11 +6,11 @@ using Xunit;
 
 namespace ContributionSystem.UI.UnitTests
 {
-    public class ContributionCalculatorTableTests
+    public class ContributionCalculatorTablePageTests
     {
         private TestContext testContext;
 
-        public ContributionCalculatorTableTests()
+        public ContributionCalculatorTablePageTests()
         {
             testContext = new TestContext();
         }

@@ -31,7 +31,7 @@ namespace ContributionSystem.UI.Components
             RequestCalculateContributionViewModel = new();
         }
 
-        public async Task Calculate()
+        private async Task Calculate()
         {
             try
             {
