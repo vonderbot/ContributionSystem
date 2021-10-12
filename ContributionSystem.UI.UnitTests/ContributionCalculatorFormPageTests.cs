@@ -44,28 +44,11 @@ namespace ContributionSystem.UI.UnitTests
         public void WhenSubmitButtonClicked_ValidParameters_CalculateInvoked()
         {
             // Arrange
-            var model = new ResponseCalculateContributionViewModel
-            {
-                CalculationMethod = CalculationMethodEnumView.Simple,
-
-                Items = new ResponseCalculateContributionViewModelItem[1]
-                {
-                    new ResponseCalculateContributionViewModelItem
-                    {
-                        MonthNumber = 1,
-                        Income = 0.08M,
-                        Sum = 1.08M
-                    }
-                }
-            };
-            contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(model);
+            contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(GetCalculationResponce());
 
             // Act
             var page = testContext.RenderComponent<ContributionCalculatorForm>();
-            page.Find("#Percent").Change("100");
-            page.Find("#Term").Change("1");
-            page.Find("#Sum").Change("1");
-            page.Find("form").Submit();
+            InputsValuesAndSubmitForm(page, "100", "1", "1");
 
             // Assert
             contributionServiceMock.Verify(m => m.Сalculate(It.IsAny<RequestCalculateContributionViewModel>()), Times.Once());
@@ -75,30 +58,13 @@ namespace ContributionSystem.UI.UnitTests
         public void WhenSubmitButtonClicked_ValidParameters_RequestViewModelEventCallbackInvoked()
         {
             // Arrange
-            var model = new ResponseCalculateContributionViewModel
-            {
-                CalculationMethod = CalculationMethodEnumView.Simple,
-
-                Items = new ResponseCalculateContributionViewModelItem[1]
-                {
-                    new ResponseCalculateContributionViewModelItem
-                    {
-                        MonthNumber = 1,
-                        Income = 0.08M,
-                        Sum = 1.08M
-                    }
-                }
-            };
-            contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(model);
+            contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(GetCalculationResponce());
             bool eventCalled = false;
 
             // Act
             var page = testContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
                 .Add(p => p.ResponseCalculateContributionViewModelChanged, () => { eventCalled = true; }));
-            page.Find("#Percent").Change("100");
-            page.Find("#Term").Change("1");
-            page.Find("#Sum").Change("1");
-            page.Find("form").Submit();
+            InputsValuesAndSubmitForm(page, "100", "1", "1");
 
             // Assert
             Assert.True(eventCalled);
@@ -114,10 +80,7 @@ namespace ContributionSystem.UI.UnitTests
             // Act
             var page = testContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
                 .Add(p => p.ErrorMessageChanged, () => { eventCalled = true; }));
-            page.Find("#Percent").Change("100");
-            page.Find("#Term").Change("1");
-            page.Find("#Sum").Change("1");
-            page.Find("form").Submit();
+            InputsValuesAndSubmitForm(page, "100", "1", "1");
 
             // Assert
             Assert.True(eventCalled);
@@ -130,15 +93,11 @@ namespace ContributionSystem.UI.UnitTests
             var page = testContext.RenderComponent<ContributionCalculatorForm>();
 
             // Act
-            page.Find("#Percent").Change("0");
-            page.Find("#Term").Change("1");
-            page.Find("#Sum").Change("1");
-            page.Find("form").Submit();
-            page.Find("[aria-invalid]").Should().NotBeNull();
+            InputsValuesAndSubmitForm(page, "0", "1", "1");
             var validationMessage = page.Find(".validation-message").TextContent;
 
             // Assert
-            page.Find("[aria-invalid]").Should().NotBeNull();
+            page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Percent can`t be less then 0.01");
         }
 
@@ -149,15 +108,11 @@ namespace ContributionSystem.UI.UnitTests
             var page = testContext.RenderComponent<ContributionCalculatorForm>();
 
             // Act
-            page.Find("#Percent").Change("0.000000000000000000000000001");
-            page.Find("#Term").Change("1");
-            page.Find("#Sum").Change("1");
-            page.Find("form").Submit();
-            page.Find("[aria-invalid]").Should().NotBeNull();
+            InputsValuesAndSubmitForm(page, "0.000000000000000000000000001", "1", "1");
             var validationMessage = page.Find(".validation-message").TextContent;
 
             // Assert
-            page.Find("[aria-invalid]").Should().NotBeNull();
+            page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Percent can only have 6 numbers, 2 of them after the decimal point");
         }
 
@@ -168,15 +123,11 @@ namespace ContributionSystem.UI.UnitTests
             var page = testContext.RenderComponent<ContributionCalculatorForm>();
 
             // Act
-            page.Find("#Percent").Change("1");
-            page.Find("#Term").Change("0");
-            page.Find("#Sum").Change("1");
-            page.Find("form").Submit();
-            page.Find("[aria-invalid]").Should().NotBeNull();
+            InputsValuesAndSubmitForm(page, "1", "0", "1");
             var validationMessage = page.Find(".validation-message").TextContent;
 
             // Assert
-            page.Find("[aria-invalid]").Should().NotBeNull();
+            page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Term can`t be less then 1");
         }
 
@@ -187,15 +138,11 @@ namespace ContributionSystem.UI.UnitTests
             var page = testContext.RenderComponent<ContributionCalculatorForm>();
 
             // Act
-            page.Find("#Percent").Change("1");
-            page.Find("#Term").Change("1");
-            page.Find("#Sum").Change("0");
-            page.Find("form").Submit();
-            page.Find("[aria-invalid]").Should().NotBeNull();
+            InputsValuesAndSubmitForm(page, "1", "1", "0");
             var validationMessage = page.Find(".validation-message").TextContent;
 
             // Assert
-            page.Find("[aria-invalid]").Should().NotBeNull();
+            page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Sum can`t be less then 0.01");
         }
 
@@ -206,16 +153,38 @@ namespace ContributionSystem.UI.UnitTests
             var page = testContext.RenderComponent<ContributionCalculatorForm>();
 
             // Act
-            page.Find("#Percent").Change("1");
-            page.Find("#Term").Change("1");
-            page.Find("#Sum").Change("0.000000000000000000000000001");
-            page.Find("form").Submit();
-            page.Find("[aria-invalid]").Should().NotBeNull();
+            InputsValuesAndSubmitForm(page, "1", "1", "0.000000000000000000000000001");
             var validationMessage = page.Find(".validation-message").TextContent;
 
             // Assert
-            page.Find("[aria-invalid]").Should().NotBeNull();
+            page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Sum can only have 12 numbers, 2 of them after the decimal point");
+        }
+
+        private void InputsValuesAndSubmitForm(IRenderedComponent<ContributionCalculatorForm> page, string Percent, string Term, string Sum)
+        {
+            page.Find("#Percent").Change(Percent);
+            page.Find("#Term").Change(Term);
+            page.Find("#Sum").Change(Sum);
+            page.Find("form").Submit();
+        }
+
+        private ResponseCalculateContributionViewModel GetCalculationResponce()
+        {
+            return new ResponseCalculateContributionViewModel
+            {
+                CalculationMethod = CalculationMethodEnumView.Simple,
+
+                Items = new ResponseCalculateContributionViewModelItem[1]
+                {
+                    new ResponseCalculateContributionViewModelItem
+                    {
+                        MonthNumber = 1,
+                        Income = 0.08M,
+                        Sum = 1.08M
+                    }
+                }
+            };
         }
     }
 }

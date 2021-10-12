@@ -27,30 +27,66 @@ namespace ContributionSystem.UI.UnitTests
         public void WhenPageRendered_NullResponce_ExpectedMarkupRendered()
         {
             // Arrange
-            ResponseCalculateContributionViewModel model = null;
+            var page = testContext.RenderComponent<ContributionCalculatorTable>(parameters => parameters
+                .Add(p => p.ResponseCalculateContributionViewModel, null));
 
             // Act
-            var page = testContext.RenderComponent<ContributionCalculatorTable>(parameters => parameters
-                .Add(p => p.ResponseCalculateContributionViewModel, model));
 
             // Assert
             page.Find("thead").Should().NotBeNull();
-            try
-            {
-                page.Find("tbody").Should().NotBeNull();
-                Assert.True(false);
-            }
-            catch
-            {
-                Assert.True(true);
-            }
+            Assert.True(ElementDoesNotExist(page, "tbody"));
         }
 
         [Fact]
         public void WhenPageRendered_ValidResponce_ExpectedMarkupRendered()
         {
             // Arrange
-            var model = new ResponseCalculateContributionViewModel
+            var page = testContext.RenderComponent<ContributionCalculatorTable>(parameters => parameters
+                .Add(p => p.ResponseCalculateContributionViewModel, GetCalculationResponce()));
+
+            // Act
+
+            // Assert
+            page.Find("thead").Should().NotBeNull();
+            page.Find("tbody").Should().NotBeNull();
+            var rows = page.FindAll("tbody tr");
+            rows.Count.Should().Be(GetCalculationResponce().Items.Length);
+            var cells = page.FindAll("tbody tr td");
+            var tmp = 0;
+            for(int i = 0; i < cells.Count; i++)
+            {
+                switch (i % 3)
+                {
+                    case 0:
+                        cells[i].TextContent.Should().BeEquivalentTo(GetCalculationResponce().Items[tmp].MonthNumber.ToString());
+                        break;
+                    case 1:
+                        cells[i].TextContent.Should().BeEquivalentTo(GetCalculationResponce().Items[tmp].Income.ToString());
+                        break;
+                    case 2:
+                        cells[i].TextContent.Should().BeEquivalentTo(GetCalculationResponce().Items[tmp].Sum.ToString());
+                        tmp++;
+                        break;
+                }
+            }
+        }
+
+        [Fact]
+        public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
+        {
+            // Arrange
+            var page = testContext.RenderComponent<ContributionCalculatorTable>();
+
+            // Act
+
+            // Assert
+            page.Find("thead").Should().NotBeNull();
+            Assert.True(ElementDoesNotExist(page, "tbody"));
+        }
+
+        private ResponseCalculateContributionViewModel GetCalculationResponce()
+        {
+            return new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
 
@@ -70,54 +106,18 @@ namespace ContributionSystem.UI.UnitTests
                         }
                     }
             };
-
-            // Act
-            var page = testContext.RenderComponent<ContributionCalculatorTable>(parameters => parameters
-                .Add(p => p.ResponseCalculateContributionViewModel, model));
-
-            // Assert
-            page.Find("thead").Should().NotBeNull();
-            page.Find("tbody").Should().NotBeNull();
-            var rows = page.FindAll("tbody tr");
-            rows.Count.Should().Be(model.Items.Length);
-            var cells = page.FindAll("tbody tr td");
-            var tmp = 0;
-            for(int i = 0; i < cells.Count; i++)
-            {
-                switch (i % 3)
-                {
-                    case 0:
-                        cells[i].TextContent.Should().BeEquivalentTo(model.Items[tmp].MonthNumber.ToString());
-                        break;
-                    case 1:
-                        cells[i].TextContent.Should().BeEquivalentTo(model.Items[tmp].Income.ToString());
-                        break;
-                    case 2:
-                        cells[i].TextContent.Should().BeEquivalentTo(model.Items[tmp].Sum.ToString());
-                        tmp++;
-                        break;
-                }
-            }
         }
 
-        [Fact]
-        public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
+        private bool ElementDoesNotExist(IRenderedComponent<ContributionCalculatorTable> page, string element) 
         {
-            // Arrange
-
-            // Act
-            var page = testContext.RenderComponent<ContributionCalculatorTable>();
-
-            // Assert
-            page.Find("thead").Should().NotBeNull();
             try
             {
-                page.Find("tbody").Should().NotBeNull();
-                Assert.True(false);
+                page.Find(element).Should().NotBeNull();
+                return false;
             }
             catch
             {
-                Assert.True(true);
+                return true;
             }
         }
     }
