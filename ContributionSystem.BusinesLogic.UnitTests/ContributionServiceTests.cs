@@ -4,6 +4,7 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using NUnit.Framework;
 using System;
 using ContributionSystem.BusinessLogic.Services;
+using System.Collections.Generic;
 
 namespace ContributionSystem.UnitTests
 {
@@ -104,8 +105,7 @@ namespace ContributionSystem.UnitTests
             var correctResponse = new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-
-                Items = new ResponseCalculateContributionViewModelItem[_ñorrectTerm]
+                Items = new List<ResponseCalculateContributionViewModelItem>
                 {
                     new ResponseCalculateContributionViewModelItem
                     {
@@ -136,8 +136,7 @@ namespace ContributionSystem.UnitTests
             var correctResponse = new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Complex,
-
-                Items = new ResponseCalculateContributionViewModelItem[_ñorrectTerm]
+                Items = new List<ResponseCalculateContributionViewModelItem>
                 {
                     new ResponseCalculateContributionViewModelItem
                     {

@@ -6,6 +6,7 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using System.Collections.Generic;
 using Xunit;
 
 namespace ContributionSystem.UI.UnitTests
@@ -39,7 +40,7 @@ namespace ContributionSystem.UI.UnitTests
             page.Find("thead").Should().NotBeNull();
             page.Find("tbody").Should().NotBeNull();
             var rows = page.FindAll("tbody tr");
-            rows.Count.Should().Be(GetCalculationResponse().Items.Length);
+            rows.Count.Should().Be(GetCalculationResponse().Items.Count);
             var cells = page.FindAll("tbody tr td");
             var rowsCounter = 0;
 
@@ -74,21 +75,21 @@ namespace ContributionSystem.UI.UnitTests
             return new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-                Items = new ResponseCalculateContributionViewModelItem[2]
+                Items = new List<ResponseCalculateContributionViewModelItem>
+                {
+                    new ResponseCalculateContributionViewModelItem
                     {
-                        new ResponseCalculateContributionViewModelItem
-                        {
-                            MonthNumber = 1,
-                            Income = 0.08M,
-                            Sum = 1.08M
-                        },
-                        new ResponseCalculateContributionViewModelItem
-                        {
-                            MonthNumber = 2,
-                            Income = 0.08M,
-                            Sum = 1.16M
-                        }
+                        MonthNumber = 1,
+                        Income = 0.08M,
+                        Sum = 1.08M
+                    },
+                    new ResponseCalculateContributionViewModelItem
+                    {
+                        MonthNumber = 2,
+                        Income = 0.08M,
+                        Sum = 1.16M
                     }
+                }
             };
         }
     }

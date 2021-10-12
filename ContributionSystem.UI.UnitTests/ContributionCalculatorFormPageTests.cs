@@ -7,6 +7,7 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace ContributionSystem.UI.UnitTests
@@ -133,8 +134,7 @@ namespace ContributionSystem.UI.UnitTests
             return new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-                Items = new ResponseCalculateContributionViewModelItem[1]
-                {
+                Items = new List<ResponseCalculateContributionViewModelItem>{
                     new ResponseCalculateContributionViewModelItem
                     {
                         MonthNumber = 1,
