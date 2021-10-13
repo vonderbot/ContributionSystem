@@ -11,16 +11,16 @@ using Xunit;
 
 namespace ContributionSystem.UI.UnitTests
 {
-    public class ContributionCalculatorTablePageTests
+    public class ContributionCalculatorTablePageTests : PageTests
     {
-        private readonly TestContext _testContext;
-        private readonly Mock<IContributionService> _contributionServiceMock;
+        public ContributionCalculatorTablePageTests() : base() { }
 
-        public ContributionCalculatorTablePageTests()
+        [Fact]
+        public override void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
-            _testContext = new TestContext();
-            _contributionServiceMock = new Mock<IContributionService>();
-            _testContext.Services.AddSingleton<IContributionService>(_contributionServiceMock.Object);
+            var page = _testContext.RenderComponent<ContributionCalculatorTable>();
+            page.Find("thead").Should().NotBeNull();
+            page.FindAll("tbody").Should().BeEmpty();
         }
 
         [Fact]
@@ -60,14 +60,6 @@ namespace ContributionSystem.UI.UnitTests
                         break;
                 }
             }
-        }
-
-        [Fact]
-        public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
-        {
-            var page = _testContext.RenderComponent<ContributionCalculatorTable>();
-            page.Find("thead").Should().NotBeNull();
-            page.FindAll("tbody").Should().BeEmpty();
         }
 
         private static ResponseCalculateContributionViewModel GetCalculationResponse()
