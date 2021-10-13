@@ -11,16 +11,16 @@ using Xunit;
 
 namespace ContributionSystem.UI.UnitTests
 {
-    public class ContributionCalculatorPageTests : PageTests
+    public class ContributionCalculatorPageTests : PageTestsBaseComponent
     {
-        private const string _сorrectSum = "1";
-        private const string _сorrectTerm = "1";
-        private const string _сorrectPercent = "100";
+        private const string CorrectSum = "1";
+        private const string CorrectTerm = "1";
+        private const string CorrectPercent = "100";
 
         public ContributionCalculatorPageTests() : base() { }
 
         [Fact]
-        public override void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
+        public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
             var page = _testContext.RenderComponent<ContributionCalculator>();
             page.FindComponent<ContributionCalculatorForm>().Should().NotBeNull();
@@ -33,9 +33,9 @@ namespace ContributionSystem.UI.UnitTests
         {
             _contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Mock exception"));
             var page = _testContext.RenderComponent<ContributionCalculator>();
-            page.Find("#Percent").Change(_сorrectPercent);
-            page.Find("#Term").Change(_сorrectTerm);
-            page.Find("#Sum").Change(_сorrectSum);
+            page.Find("#Percent").Change(CorrectPercent);
+            page.Find("#Term").Change(CorrectTerm);
+            page.Find("#Sum").Change(CorrectSum);
             page.Find("form").Submit();
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("Mock exception");
         }

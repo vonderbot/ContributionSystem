@@ -2,6 +2,8 @@ using ContributionSystem.UI.Interfaces;
 using ContributionSystem.UI.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.UI
@@ -14,6 +16,11 @@ namespace ContributionSystem.UI
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped<IContributionService, ContributionService>();
+            builder.Services.AddScoped(sp =>
+            new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:44303")
+            });
 
             await builder.Build().RunAsync();
         }

@@ -12,15 +12,10 @@ namespace ContributionSystem.UI.Services
     {
         private readonly HttpClient _http;
 
-        public ContributionService()
+        public ContributionService(HttpClient httpClient)
         {
-            _http = new HttpClient();
+            _http = httpClient;
         }
-
-        //public ContributionService(HttpClient httpClient)
-        //{
-        //    http = httpClient;
-        //}
 
         public async Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request)
         {

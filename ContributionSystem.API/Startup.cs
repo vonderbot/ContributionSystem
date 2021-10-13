@@ -6,6 +6,8 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.ViewModels.Validators;
+using ContributionSystem.BusinessLogic.Interfaces;
+using ContributionSystem.BusinessLogic.Services;
 
 namespace ContributionSystem.API
 {
@@ -21,11 +23,12 @@ namespace ContributionSystem.API
             });
 
             services.AddTransient<IValidator<RequestCalculateContributionViewModel>, RequestCalculateContributionViewModelValidator>();
-
+            services.AddScoped<IContributionService, ContributionService>();
             //services.AddScoped<ICon, ContributionService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. Use this me
+        // thod to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

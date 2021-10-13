@@ -11,12 +11,12 @@ using Xunit;
 
 namespace ContributionSystem.UI.UnitTests
 {
-    public class ContributionCalculatorTablePageTests : PageTests
+    public class ContributionCalculatorTablePageTests : PageTestsBaseComponent
     {
         public ContributionCalculatorTablePageTests() : base() { }
 
         [Fact]
-        public override void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
+        public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
             var page = _testContext.RenderComponent<ContributionCalculatorTable>();
             page.Find("thead").Should().NotBeNull();
@@ -60,29 +60,6 @@ namespace ContributionSystem.UI.UnitTests
                         break;
                 }
             }
-        }
-
-        private static ResponseCalculateContributionViewModel GetCalculationResponse()
-        {
-            return new ResponseCalculateContributionViewModel
-            {
-                CalculationMethod = CalculationMethodEnumView.Simple,
-                Items = new List<ResponseCalculateContributionViewModelItem>
-                {
-                    new ResponseCalculateContributionViewModelItem
-                    {
-                        MonthNumber = 1,
-                        Income = 0.08M,
-                        Sum = 1.08M
-                    },
-                    new ResponseCalculateContributionViewModelItem
-                    {
-                        MonthNumber = 2,
-                        Income = 0.08M,
-                        Sum = 1.16M
-                    }
-                }
-            };
         }
     }
 }

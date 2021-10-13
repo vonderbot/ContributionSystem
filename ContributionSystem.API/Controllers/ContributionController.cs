@@ -11,9 +11,9 @@ namespace ContributionSystem.API.Controllers
     {
         private readonly IContributionService _contributionService;
 
-        public ContributionController()
+        public ContributionController(IContributionService сontributionService)
         {
-            _contributionService = new ContributionService();
+            _contributionService = сontributionService;
         }
 
         [HttpPost]

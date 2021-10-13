@@ -12,18 +12,18 @@ using Xunit;
 
 namespace ContributionSystem.UI.UnitTests
 {
-    public class ContributionCalculatorFormPageTests : PageTests
+    public class ContributionCalculatorFormPageTests : PageTestsBaseComponent
     {
-        private const string _сorrectSum = "1";
-        private const string _сorrectTerm = "1";
-        private const string _сorrectPercent = "100";
-        private const string _incorrectElementUnderMinValue = "0";
-        private const string _incorrectElementToMuchDecimalPlaces = "0.000000000000000000000000001";
+        private const string CorrectSum = "1";
+        private const string CorrectTerm = "1";
+        private const string CorrectPercent = "100";
+        private const string IncorrectElementUnderMinValue = "0";
+        private const string IncorrectElementToMuchDecimalPlaces = "0.000000000000000000000000001";
 
         public ContributionCalculatorFormPageTests() :base(){}
 
         [Fact]
-        public override void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
+        public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
             var page = _testContext.RenderComponent<ContributionCalculatorForm>();
             page.Find("#Percent").Should().NotBeNull();
@@ -38,7 +38,7 @@ namespace ContributionSystem.UI.UnitTests
         {
             _contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(GetCalculationResponse());
             var page = _testContext.RenderComponent<ContributionCalculatorForm>();
-            InputsValuesAndSubmitForm(page, _сorrectPercent, _сorrectTerm, _сorrectSum);
+            InputsValuesAndSubmitForm(page, CorrectPercent, CorrectTerm, CorrectSum);
             _contributionServiceMock.Verify(m => m.Сalculate(It.IsAny<RequestCalculateContributionViewModel>()), Times.Once());
         }
 
@@ -49,7 +49,7 @@ namespace ContributionSystem.UI.UnitTests
             var eventCalled = false;
             var page = _testContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
                 .Add(p => p.ResponseCalculateContributionViewModelChanged, () => { eventCalled = true; }));
-            InputsValuesAndSubmitForm(page, _сorrectPercent, _сorrectTerm, _сorrectSum);
+            InputsValuesAndSubmitForm(page, CorrectPercent, CorrectTerm, CorrectSum);
             Assert.True(eventCalled);
         }
 
@@ -60,7 +60,7 @@ namespace ContributionSystem.UI.UnitTests
             var eventCalled = false;
             var page = _testContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
                 .Add(p => p.ErrorMessageChanged, () => { eventCalled = true; }));
-            InputsValuesAndSubmitForm(page, _сorrectPercent, _сorrectTerm, _сorrectSum);
+            InputsValuesAndSubmitForm(page, CorrectPercent, CorrectTerm, CorrectSum);
             Assert.True(eventCalled);
         }
 
@@ -68,7 +68,7 @@ namespace ContributionSystem.UI.UnitTests
         public void WhenSubmitButtonClicked_InvalidPercent_ValidationMinElementMessageAppear()
         {
             var page = _testContext.RenderComponent<ContributionCalculatorForm>();
-            InputsValuesAndSubmitForm(page, _incorrectElementUnderMinValue, _сorrectTerm, _сorrectSum);
+            InputsValuesAndSubmitForm(page, IncorrectElementUnderMinValue, CorrectTerm, CorrectSum);
             var validationMessage = page.Find(".validation-message").TextContent;
             page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Percent can`t be less then 0.01");
@@ -78,7 +78,7 @@ namespace ContributionSystem.UI.UnitTests
         public void WhenSubmitButtonClicked_InvalidPercent_ValidationDecimalPlacesMessageAppear()
         {
             var page = _testContext.RenderComponent<ContributionCalculatorForm>();
-            InputsValuesAndSubmitForm(page, _incorrectElementToMuchDecimalPlaces, _сorrectTerm, _сorrectSum);
+            InputsValuesAndSubmitForm(page, IncorrectElementToMuchDecimalPlaces, CorrectTerm, CorrectSum);
             var validationMessage = page.Find(".validation-message").TextContent;
             page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Percent can only have 6 numbers, 2 of them after the decimal point");
@@ -88,7 +88,7 @@ namespace ContributionSystem.UI.UnitTests
         public void WhenSubmitButtonClicked_InvalidTerm_ValidationMinElementMessageAppear()
         {
             var page = _testContext.RenderComponent<ContributionCalculatorForm>();
-            InputsValuesAndSubmitForm(page, _сorrectPercent, _incorrectElementUnderMinValue, _сorrectSum);
+            InputsValuesAndSubmitForm(page, CorrectPercent, IncorrectElementUnderMinValue, CorrectSum);
             var validationMessage = page.Find(".validation-message").TextContent;
             page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Term can`t be less then 1");
@@ -98,7 +98,7 @@ namespace ContributionSystem.UI.UnitTests
         public void WhenSubmitButtonClicked_InvalidSum_ValidationMinElementMessageAppear()
         {
             var page = _testContext.RenderComponent<ContributionCalculatorForm>();
-            InputsValuesAndSubmitForm(page, _сorrectPercent, _сorrectTerm, _incorrectElementUnderMinValue);
+            InputsValuesAndSubmitForm(page, CorrectPercent, CorrectTerm, IncorrectElementUnderMinValue);
             var validationMessage = page.Find(".validation-message").TextContent;
             page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Sum can`t be less then 0.01");
@@ -108,7 +108,7 @@ namespace ContributionSystem.UI.UnitTests
         public void WhenSubmitButtonClicked_InvalidSum_ValidationDecimalPlacesMessageAppear()
         {
             var page = _testContext.RenderComponent<ContributionCalculatorForm>();
-            InputsValuesAndSubmitForm(page, _сorrectPercent, _сorrectTerm, _incorrectElementToMuchDecimalPlaces);
+            InputsValuesAndSubmitForm(page, CorrectPercent, CorrectTerm, IncorrectElementToMuchDecimalPlaces);
             var validationMessage = page.Find(".validation-message").TextContent;
             page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Sum can only have 12 numbers, 2 of them after the decimal point");
@@ -120,22 +120,6 @@ namespace ContributionSystem.UI.UnitTests
             page.Find("#Term").Change(term);
             page.Find("#Sum").Change(sum);
             page.Find("form").Submit();
-        }
-
-        private static ResponseCalculateContributionViewModel GetCalculationResponse()
-        {
-            return new ResponseCalculateContributionViewModel
-            {
-                CalculationMethod = CalculationMethodEnumView.Simple,
-                Items = new List<ResponseCalculateContributionViewModelItem>{
-                    new ResponseCalculateContributionViewModelItem
-                    {
-                        MonthNumber = 1,
-                        Income = 0.08M,
-                        Sum = 1.08M
-                    }
-                }
-            };
         }
     }
 }

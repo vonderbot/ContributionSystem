@@ -11,9 +11,9 @@ namespace ContributionSystem.UnitTests
     public class ContributionServiceTests
     {
         private readonly ContributionService _contributionService;
-        private const int _ñorrectStartValue = 1;
-        private const int _ñorrectTerm = 3;
-        private const int _ñorrectPercent = 100;
+        private const int CorrectStartValue = 1;
+        private const int CorrectTerm = 3;
+        private const int CorrectPercent = 100;
 
         public ContributionServiceTests()
         {
@@ -23,7 +23,7 @@ namespace ContributionSystem.UnitTests
         [Test]
         public void Calculate_ValidRequestWithSimpleCalculationMethod_ValidResponse()
         {
-            var request = GetCalculationRequest(CalculationMethodEnumView.Simple, _ñorrectStartValue, _ñorrectTerm, _ñorrectPercent);
+            var request = GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent);
             var correctResponse = GetSimpleCalculkationResponse();
             var response = _contributionService.Calculate(request);
             response.Should().BeEquivalentTo(correctResponse);
@@ -32,7 +32,7 @@ namespace ContributionSystem.UnitTests
         [Test]
         public void Calculate_ValidRequestWithComplexCalculationMethod_ValidResponse()
         {
-            var request = GetCalculationRequest(CalculationMethodEnumView.Complex, _ñorrectStartValue, _ñorrectTerm, _ñorrectPercent);
+            var request = GetCalculationRequest(CalculationMethodEnumView.Complex, CorrectStartValue, CorrectTerm, CorrectPercent);
             var correctResponse = GetComplexCalculkationResponse();
             var response = _contributionService.Calculate(request);
             response.Should().BeEquivalentTo(correctResponse);
@@ -41,7 +41,7 @@ namespace ContributionSystem.UnitTests
         [Test]
         public void Calculate_ValidRequest_TypeResponseCalculateContributionViewModel()
         {
-            var request = GetCalculationRequest(CalculationMethodEnumView.Simple, _ñorrectStartValue, _ñorrectTerm, _ñorrectPercent);
+            var request = GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent);
             var response = _contributionService.Calculate(request);
             response.Should().BeOfType<ResponseCalculateContributionViewModel>();
         }
