@@ -4,6 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ContributionSystem.API.Setup;
 using FluentValidation.AspNetCore;
+using System;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace ContributionSystem.API
 {
@@ -17,12 +22,7 @@ namespace ContributionSystem.API
                 fv.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
             services.SetInject();
-            services.AddCors(o => o.AddPolicy("AllowLocalhost44308", builder =>
-            {
-                builder.WithOrigins("https://localhost:44308")
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
+            services.CreateCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -31,7 +31,6 @@ namespace ContributionSystem.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.SetCors();
 
             app.UseHttpsRedirection();
