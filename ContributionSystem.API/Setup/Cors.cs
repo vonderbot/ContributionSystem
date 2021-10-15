@@ -2,9 +2,9 @@
 
 namespace ContributionSystem.API.Setup
 {
-    public static class AddCors
+    public static class Cors
     {
-        public static void Add(IApplicationBuilder app)
+        public static void SetCors(this IApplicationBuilder app)
         {
             app.UseCors(cors => cors
                 .AllowAnyMethod()

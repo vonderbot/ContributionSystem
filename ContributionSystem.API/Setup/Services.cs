@@ -8,9 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ContributionSystem.API.Setup
 {
-    public static class AddServices
+    public static class Services
     {
-        public static void Add(IServiceCollection services)
+        public static void SetInject(this IServiceCollection services)
         {
             services.AddControllers().AddFluentValidation(fv =>
             {

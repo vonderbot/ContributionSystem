@@ -10,7 +10,7 @@ namespace ContributionSystem.API
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            AddServices.Add(services);
+            services.SetInject();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -20,7 +20,7 @@ namespace ContributionSystem.API
                 app.UseDeveloperExceptionPage();
             }
 
-            AddCors.Add(app);
+            app.SetCors();
 
             app.UseHttpsRedirection();
 
