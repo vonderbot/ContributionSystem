@@ -1,5 +1,4 @@
 using ContributionSystem.API.Controllers;
-using ContributionSystem.BusinessLogic.Interfaces;
 using ContributionSystem.BusinessLogic.Services;
 using ContributionSystem.ViewModels.Enums;
 using ContributionSystem.ViewModels.Models.Contribution;
@@ -7,8 +6,9 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using System;
+using System.Net;
 
-namespace ContributionSystem.API.UnitTests
+namespace ContributionSystem.API.UnitTests.Contollers
 {
     public class ContributionControllerTests
     {
@@ -34,9 +34,11 @@ namespace ContributionSystem.API.UnitTests
         [Test]
         public void Calculate_NullRequest_ThrowException()
         {
-            RequestCalculateContributionViewModel request = null;
-            Action act = () => contributionController.Calculate(request);
-            act.Should().Throw<Exception>().WithMessage("Null request");
+            var response = contributionController.Calculate(null);
+            var BadRequestObjectResult = response as BadRequestObjectResult;
+            BadRequestObjectResult.Should().NotBeNull();
+            BadRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
+
         }
 
         private static RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)

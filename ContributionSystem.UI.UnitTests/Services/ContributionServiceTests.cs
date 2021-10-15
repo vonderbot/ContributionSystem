@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Moq;
@@ -15,7 +13,7 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.ViewModels.Enums;
 using FluentAssertions;
 
-namespace ContributionSystem.UI.UnitTests
+namespace ContributionSystem.UI.UnitTests.Services
 {
     public class ContributionServiceTests
     {
@@ -24,11 +22,6 @@ namespace ContributionSystem.UI.UnitTests
         private const decimal CorrectPercent = 100;
         private const string ValidRequest = @"{ ""CalculationMethod"": 0, ""Items"": [{""MonthNumber"": 1, ""Income"": 0.08, ""Sum"": 1.08}]}";
         private IContributionService _contributionService;
-
-        public ContributionServiceTests()
-        {
-            _contributionService = new ContributionService(new HttpClient());
-        }
 
         [Fact]
         public async void Calculate_ValidRequest_ValidResponse()

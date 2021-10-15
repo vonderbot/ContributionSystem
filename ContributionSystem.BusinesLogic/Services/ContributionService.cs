@@ -27,7 +27,7 @@ namespace ContributionSystem.BusinessLogic.Services
                     ComplexCalculate(contribution, allMonthsInfo);
                     break;
                 default:
-                    throw new Exception("Incorect calculation method");
+                    throw new Exception("Incorrect calculation method");
             }
 
             return new ResponseCalculateContributionViewModel()
@@ -45,15 +45,15 @@ namespace ContributionSystem.BusinessLogic.Services
             }
             if (request.StartValue <= 0)
             {
-                throw new Exception("Incorect start value in request");
+                throw new Exception("Incorrect start value in request");
             }
             if (request.Term <= 0)
             {
-                throw new Exception("Incorect term in request");
+                throw new Exception("Incorrect term in request");
             }
             if (request.Percent <= 0)
             {
-                throw new Exception("Incorect percent in request");
+                throw new Exception("Incorrect percent in request");
             }
         }
 

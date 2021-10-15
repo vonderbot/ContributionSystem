@@ -19,9 +19,15 @@ namespace ContributionSystem.API.Controllers
         [HttpPost]
         public IActionResult Calculate(RequestCalculateContributionViewModel request)
         {
-            ResponseCalculateContributionViewModel response = _contributionService.Calculate(request);
-
-            return Ok(response);
+            try
+            {
+                var response = _contributionService.Calculate(request);
+                return Ok(response);
+            }
+            catch
+            {
+                return BadRequest("BadRequest");
+            }
         }
     }
 }
