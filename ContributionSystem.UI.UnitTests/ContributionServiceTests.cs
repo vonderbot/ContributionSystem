@@ -19,6 +19,10 @@ namespace ContributionSystem.UI.UnitTests
 {
     public class ContributionServiceTests
     {
+        private const decimal CorrectSum = 1;
+        private const int CorrectTerm = 1;
+        private const decimal CorrectPercent = 100;
+        private const string ValidRequest = @"{ ""CalculationMethod"": 0, ""Items"": [{""MonthNumber"": 1, ""Income"": 0.08, ""Sum"": 1.08}]}";
         private IContributionService _contributionService;
 
         public ContributionServiceTests()
@@ -29,41 +33,37 @@ namespace ContributionSystem.UI.UnitTests
         [Fact]
         public async void Calculate_ValidRequest_ValidResponse()
         {
-            var handlerMock = new Mock<HttpMessageHandler>();
-            var response = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(@"{ ""CalculationMethod"": 0, ""Items"": [{""MonthNumber"": 1, ""Income"": 0.08, ""Sum"": 1.08}]}"),
-            };
-            handlerMock
-               .Protected()
-               .Setup<Task<HttpResponseMessage>>(
-                  "SendAsync",
-                  ItExpr.IsAny<HttpRequestMessage>(),
-                  ItExpr.IsAny<CancellationToken>())
-               .ReturnsAsync(response);
-            var httpClient = new HttpClient(handlerMock.Object);
+            var httpClient = MoqHttpClientSetup(HttpStatusCode.OK, ValidRequest);
             _contributionService = new ContributionService(httpClient);
-            var request = new RequestCalculateContributionViewModel()
-            {
-                CalculationMethod = 0,
-                StartValue = 1,
-                Term = 1,
-                Percent = 100
-            };
-            var moqResponse = await _contributionService.Сalculate(null);
+            var moqResponse = await _contributionService.Сalculate(GetCalculationRequest(CorrectSum, CorrectTerm, CorrectPercent));
             moqResponse.Should().BeEquivalentTo(GetCalculationResponse());
         }
 
         [Fact]
         public async void Calculate_NullRequest_ThrowException()
         {
+            var httpClient = MoqHttpClientSetup(HttpStatusCode.BadRequest, null);
+            _contributionService = new ContributionService(httpClient);
+            Func<Task> act = async () => await _contributionService.Сalculate(null);
+            await act.Should().ThrowAsync<Exception>().WithMessage("Server response is incorrect");
+        }
+
+        private static HttpClient MoqHttpClientSetup(HttpStatusCode statusCode, string content)
+        {
             var handlerMock = new Mock<HttpMessageHandler>();
             var response = new HttpResponseMessage
             {
-                StatusCode = HttpStatusCode.BadRequest,
-                Content = new StringContent(@"{ ""CalculationMethod"": 0, ""Items"": [{""MonthNumber"": 1, ""Income"": 0.08, ""Sum"": 1.08}]}"),
+                StatusCode = statusCode,
             };
+
+            if (content == null)
+            {
+                response.Content = null;
+            }
+            else
+            {
+                response.Content = new StringContent(content);
+            }
             handlerMock
                .Protected()
                .Setup<Task<HttpResponseMessage>>(
@@ -71,19 +71,10 @@ namespace ContributionSystem.UI.UnitTests
                   ItExpr.IsAny<HttpRequestMessage>(),
                   ItExpr.IsAny<CancellationToken>())
                .ReturnsAsync(response);
-            var httpClient = new HttpClient(handlerMock.Object);
-            _contributionService = new ContributionService(httpClient);
-            try
-            {
-                await _contributionService.Сalculate(null);
-            }
-            catch(Exception exception)
-            {
-                exception.Message.Should().BeEquivalentTo("Server response is incorrect");
-            }
+            return new HttpClient(handlerMock.Object);
         }
 
-        protected static ResponseCalculateContributionViewModel GetCalculationResponse()
+        private static ResponseCalculateContributionViewModel GetCalculationResponse()
         {
             return new ResponseCalculateContributionViewModel
             {
@@ -96,6 +87,17 @@ namespace ContributionSystem.UI.UnitTests
                         Sum = 1.08M
                     }
                 }
+            };
+        }
+
+        private static RequestCalculateContributionViewModel GetCalculationRequest(decimal startValue, int term, decimal percent)
+        {
+            return new RequestCalculateContributionViewModel()
+            {
+                CalculationMethod = 0,
+                StartValue = startValue,
+                Term = term,
+                Percent = percent
             };
         }
     }
