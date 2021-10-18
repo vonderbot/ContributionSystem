@@ -21,6 +21,7 @@ namespace ContributionSystem.API.Controllers
             try
             {
                 var response = _contributionService.Calculate(request);
+
                 return Ok(response);
             }
             catch

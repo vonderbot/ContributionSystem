@@ -1,9 +1,7 @@
 ﻿using ContributionSystem.UI.Interfaces;
-using ContributionSystem.UI.Services;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Components

@@ -5,8 +5,6 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
-using System;
-using System.Net;
 
 namespace ContributionSystem.API.UnitTests.Contollers
 {
