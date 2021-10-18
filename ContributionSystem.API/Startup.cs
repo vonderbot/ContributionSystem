@@ -4,16 +4,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ContributionSystem.API.Setup;
 using FluentValidation.AspNetCore;
-using System;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
 
 namespace ContributionSystem.API
 {
     public class Startup
     {
+        private readonly IConfiguration configuration;
+
+        public Startup(IConfiguration config)
+        {
+            configuration = config;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddFluentValidation(fv =>
@@ -22,7 +25,7 @@ namespace ContributionSystem.API
                 fv.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
             services.SetInject();
-            services.CreateCors();
+            services.ConfigureCorsForOrigins(configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
