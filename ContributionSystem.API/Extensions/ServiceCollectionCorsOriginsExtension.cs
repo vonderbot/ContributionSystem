@@ -12,17 +12,14 @@ namespace ContributionSystem.API.Setup
             app.UseCors("AllowedOrigins");
         }
 
-        public static void CreateCors(this IServiceCollection services)
+        public static void ConfigureCorsForOrigins(this IServiceCollection services, IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json");
-            var AppConfiguration = builder.Build();
-            var hosts = AppConfiguration.GetSection("AllowedOrigins").Get<List<string>>();
+            var hosts = configuration.GetSection("AllowedOrigins").Get<List<string>>().ToArray();
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowedOrigins", p =>
                 {
-                    p.WithOrigins(hosts.ToArray())
+                    p.WithOrigins(hosts)
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                 });
