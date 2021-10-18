@@ -9,9 +9,9 @@ namespace ContributionSystem.UI.Validators
         {
             RuleFor(t => t.StartValue)
                 .GreaterThan(0)
-                .WithMessage("StartValue can`t be less then 0.01")
+                .WithMessage("Sum can`t be less then 0.01")
                 .ScalePrecision(2, 12)
-                .WithMessage("StartValue can only have 12 numbers, 2 of them after the decimal point");
+                .WithMessage("Sum can only have 12 numbers, 2 of them after the decimal point");
 
             RuleFor(t => t.Term)
                 .GreaterThan(0)

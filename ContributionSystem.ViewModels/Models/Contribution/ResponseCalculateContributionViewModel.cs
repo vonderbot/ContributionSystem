@@ -1,11 +1,5 @@
 ﻿using ContributionSystem.ViewModels.Enums;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
@@ -13,7 +7,7 @@ namespace ContributionSystem.ViewModels.Models.Contribution
     {
         public CalculationMethodEnumView CalculationMethod { get; set; }
 
-        public ResponseCalculateContributionViewModelItem[] Items { get; set; }
+        public  List<ResponseCalculateContributionViewModelItem> Items { get; set; }
     }
 
     public class ResponseCalculateContributionViewModelItem

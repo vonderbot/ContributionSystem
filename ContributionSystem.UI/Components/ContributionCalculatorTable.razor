@@ -12,24 +12,23 @@
             </th>
         </tr>
     </thead>
-    <tbody>
-
         @if (ResponseCalculateContributionViewModel != null)
         {
-            @foreach (var item in ResponseCalculateContributionViewModel.Items)
-            {
-                <tr>
-                    <td scope="row">
-                        @item.MonthNumber
-                    </td>
-                    <td>
-                        @item.Income
-                    </td>
-                    <td>
-                        @item.Sum
-                    </td>
-                </tr>
-            }
+            <tbody>
+                @foreach (var item in ResponseCalculateContributionViewModel.Items)
+                {
+                    <tr>
+                        <td scope="row">
+                            @item.MonthNumber
+                        </td>
+                        <td>
+                            @item.Income
+                        </td>
+                        <td>
+                            @item.Sum
+                        </td>
+                    </tr>
+                }
+            </tbody>
         }
-    </tbody>
-</table>
+    </table>

@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ContributionSystem.BusinesLogic\ContributionSystem.BusinesLogic.csproj" />
+    <ProjectReference Include="..\ContributionSystem.BusinesLogic\ContributionSystem.BusinessLogic.csproj" />
     <ProjectReference Include="..\ContributionSystem.UI\ContributionSystem.UI.csproj" />
     <ProjectReference Include="..\ContributionSystem.ViewModels\ContributionSystem.ViewModels.csproj" />
   </ItemGroup>

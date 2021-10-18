@@ -1,7 +1,6 @@
-﻿using ContributionSystem.BusinesLogic.Services;
-using ContributionSystem.BusinesLogic.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ContributionSystem.ViewModels.Models.Contribution;
+using ContributionSystem.BusinessLogic.Interfaces;
 
 namespace ContributionSystem.API.Controllers
 {
@@ -9,19 +8,26 @@ namespace ContributionSystem.API.Controllers
     [Route("/api/[controller]/[action]")]
     public class ContributionController : ControllerBase
     {
-        private readonly IContributionService contributionService;
+        private readonly IContributionService _contributionService;
 
-        public ContributionController()
+        public ContributionController(IContributionService сontributionService)
         {
-            contributionService = new ContributionService();
+            _contributionService = сontributionService;
         }
 
         [HttpPost]
         public IActionResult Calculate(RequestCalculateContributionViewModel request)
         {
-            ResponseCalculateContributionViewModel response = contributionService.Calculate(request);
+            try
+            {
+                var response = _contributionService.Calculate(request);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch
+            {
+                return BadRequest("BadRequest");
+            }
         }
     }
 }

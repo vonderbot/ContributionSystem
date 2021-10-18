@@ -10,16 +10,16 @@ namespace ContributionSystem.UI.Services
 {
     public class ContributionService : IContributionService
     {
-        private readonly HttpClient http;
+        private readonly HttpClient _http;
 
-        public ContributionService()
+        public ContributionService(HttpClient httpClient)
         {
-            http = new HttpClient();
+            _http = httpClient;
         }
 
         public async Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request)
         {
-            var response = await http.PostAsJsonAsync("https://localhost:44308/api/contribution/calculate", request);
+            var response = await _http.PostAsJsonAsync("https://localhost:44303/api/contribution/calculate", request);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

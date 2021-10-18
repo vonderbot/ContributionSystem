@@ -1,13 +1,6 @@
-﻿using ContributionSystem.Entities.Entities;
-using System.Collections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ContributionSystem.ViewModels.Models.Contribution;
+﻿using ContributionSystem.ViewModels.Models.Contribution;
 
-namespace ContributionSystem.BusinesLogic.Interfaces
+namespace ContributionSystem.BusinessLogic.Interfaces
 {
     public interface IContributionService
     {

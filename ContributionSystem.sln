@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.API", "ContributionSystem.API\ContributionSystem.API.csproj", "{789B6D3A-7DD3-465D-90F7-FF0EDE40E70E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.BusinesLogic", "ContributionSystem.BusinesLogic\ContributionSystem.BusinesLogic.csproj", "{73E9A579-9B5A-4527-8C5D-A552ADDE39CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.BusinessLogic", "ContributionSystem.BusinesLogic\ContributionSystem.BusinessLogic.csproj", "{73E9A579-9B5A-4527-8C5D-A552ADDE39CA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.DataAccess", "ContributionSystem.DataAccess\ContributionSystem.DataAccess.csproj", "{2774E05F-C049-40FE-B0F6-E100A371AF8F}"
 EndProject
@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.BusinesL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.API.UnitTests", "ContributionSystem.API.UnitTests\ContributionSystem.API.UnitTests.csproj", "{6D6EAA8B-5441-4506-B814-4BD566AE4EEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContributionSystem.UI.UnitTests", "ContributionSystem.UI.UnitTests\ContributionSystem.UI.UnitTests.csproj", "{D6E140B1-343A-4C77-9038-E4219B408ACE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContributionSystem.UI.UnitTests", "ContributionSystem.UI.UnitTests\ContributionSystem.UI.UnitTests.csproj", "{D6E140B1-343A-4C77-9038-E4219B408ACE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
