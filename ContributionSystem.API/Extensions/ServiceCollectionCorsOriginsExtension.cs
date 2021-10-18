@@ -11,10 +11,10 @@ namespace ContributionSystem.API.Setup
         public static void ConfigureCorsForOrigins(this IServiceCollection services, IConfiguration configuration)
         {
             var hosts = configuration.GetSection("CorsOrigin:Links").Get<List<string>>().ToArray();
-            var AllowOrigins = configuration.GetSection("CorsOrigin:AllowOrigins").Value;
+            var allowOrigins = configuration.GetSection("CorsOrigin:AllowOrigins").Value;
             services.AddCors(options =>
             {
-                options.AddPolicy(AllowOrigins, p =>
+                options.AddPolicy(allowOrigins, p =>
                 {
                     p.WithOrigins(hosts)
                     .AllowAnyHeader()
