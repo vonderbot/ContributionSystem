@@ -7,17 +7,14 @@ namespace ContributionSystem.API.Setup
 {
     public static class ServiceCollectionCorsOriginsExtension
     {
-        public static void SetCors(this IApplicationBuilder app)
-        {
-            app.UseCors("AllowedOrigins");
-        }
 
         public static void ConfigureCorsForOrigins(this IServiceCollection services, IConfiguration configuration)
         {
-            var hosts = configuration.GetSection("AllowedOrigins").Get<List<string>>().ToArray();
+            var hosts = configuration.GetSection("CorsOrigin:Links").Get<List<string>>().ToArray();
+            var p = configuration.GetSection("CorsOrigin:AllowOrigins").Value;
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowedOrigins", p =>
+                options.AddPolicy(configuration.GetSection("CorsOrigin:AllowOrigins").Value, p =>
                 {
                     p.WithOrigins(hosts)
                     .AllowAnyHeader()

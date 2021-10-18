@@ -34,7 +34,7 @@ namespace ContributionSystem.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.SetCors();
+            app.UseCors(configuration.GetSection("CorsOrigin:AllowOrigins").Value);
 
             app.UseHttpsRedirection();
 

@@ -41,7 +41,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
                         Income = 0.08M,
                         Sum = 1.08M
                     }
-                }
+                    }
                 };
             }
         }
