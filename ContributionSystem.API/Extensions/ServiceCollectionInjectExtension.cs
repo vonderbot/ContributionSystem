@@ -3,7 +3,6 @@ using ContributionSystem.BusinessLogic.Services;
 using ContributionSystem.UI.Validators;
 using ContributionSystem.ViewModels.Models.Contribution;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ContributionSystem.API.Setup
