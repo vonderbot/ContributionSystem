@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace ContributionSystem.UI.Components
 {
-    public partial class ContributionCalculatorTable
+    public partial class ContributionCalculatorTable : ComponentBase
     {
         [Parameter]
         public ResponseCalculateContributionViewModel ResponseCalculateContributionViewModel { get; set; }

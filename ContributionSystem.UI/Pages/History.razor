@@ -1,0 +1,25 @@
+﻿@page "/History"
+<div class="d-flex flex-row justify-content-between">
+    @for (var i = 0; i < 4; i++)
+    {
+    <div class="p-2 border col-2">
+        @for (var j = 0; j < 4; j++)
+        {
+            <br />
+            <div class="row">
+                <div class="col-6">
+                    Percent:
+                </div>
+                <div class="col-6">
+                    40%
+                </div>
+            </div>
+        }
+        <br />
+        <div class="row justify-content-center">
+            <button class="btn btn-secondary" type="submit">Calculate</button>
+        </div>
+        <br />
+    </div>
+    }
+</div>
