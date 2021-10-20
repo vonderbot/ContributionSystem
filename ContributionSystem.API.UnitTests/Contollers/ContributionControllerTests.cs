@@ -1,5 +1,7 @@
 using ContributionSystem.API.Controllers;
 using ContributionSystem.BusinessLogic.Services;
+using ContributionSystem.DataAccess.Contexts;
+using ContributionSystem.DataAccess.Repositories;
 using ContributionSystem.ViewModels.Enums;
 using ContributionSystem.ViewModels.Models.Contribution;
 using FluentAssertions;
@@ -17,7 +19,8 @@ namespace ContributionSystem.API.UnitTests.Contollers
 
         public ContributionControllerTests()
         {
-            contributionController = new ContributionController(new ContributionService());
+            contributionController = new ContributionController(new ContributionService(), 
+                new ContributionRepositoryService(new MsSQLContributionRepository(new ContributionDbContext())));
         }
 
         [Test]

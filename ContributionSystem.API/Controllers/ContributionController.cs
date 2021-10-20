@@ -9,10 +9,12 @@ namespace ContributionSystem.API.Controllers
     public class ContributionController : ControllerBase
     {
         private readonly IContributionService _contributionService;
+        private readonly IContributionRepositoryService _contributionRepositoryService;
 
-        public ContributionController(IContributionService сontributionService)
+        public ContributionController(IContributionService сontributionService, IContributionRepositoryService contributionRepositoryService)
         {
             _contributionService = сontributionService;
+            _contributionRepositoryService = contributionRepositoryService;
         }
 
         [HttpPost]
@@ -21,7 +23,7 @@ namespace ContributionSystem.API.Controllers
             try
             {
                 var response = _contributionService.Calculate(request);
-
+                _contributionRepositoryService.AddContribution(request);
                 return Ok(response);
             }
             catch

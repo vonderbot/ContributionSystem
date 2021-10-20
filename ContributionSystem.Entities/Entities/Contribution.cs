@@ -1,4 +1,6 @@
-﻿namespace ContributionSystem.Entities.Entities
+﻿using System;
+
+namespace ContributionSystem.Entities.Entities
 {
     public class Contribution
     {
@@ -9,5 +11,7 @@
         public int Term { get; set; }
 
         public decimal Percent { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }
