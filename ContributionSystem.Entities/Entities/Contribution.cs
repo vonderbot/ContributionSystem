@@ -2,17 +2,12 @@
 {
     public class Contribution
     {
+        public int Id { get; set; }
+
         public decimal StartValue { get; set; }
 
         public int Term { get; set; }
 
         public decimal Percent { get; set; }
-
-        public Contribution(decimal newValue, int newTerm, decimal newPercent)
-        {
-            StartValue = newValue;
-            Term = newTerm;
-            Percent = newPercent;
-        }
     }
 }

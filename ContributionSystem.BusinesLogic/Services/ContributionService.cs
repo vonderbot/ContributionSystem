@@ -4,6 +4,7 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.ViewModels.Enums;
 using ContributionSystem.BusinessLogic.Interfaces;
 using System.Collections.Generic;
+using ContributionSystem.DataAccess;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
@@ -13,10 +14,17 @@ namespace ContributionSystem.BusinessLogic.Services
         private const int NumberOfMonthsInAYear = 12;
         private const int NumberOfDigitsAfterDecimalPoint = 2;
 
+        //public ContributionDbContext contributionDbContext;
+
         public ResponseCalculateContributionViewModel Calculate(RequestCalculateContributionViewModel request)
         {
             CheckRequest(request);
-            var contribution = new Contribution(request.StartValue, request.Term, request.Percent);
+            var contribution = new Contribution() 
+            {
+                StartValue = request.StartValue,
+                Term = request.Term,
+                Percent = request.Percent
+            };
             var allMonthsInfo = new List<ResponseCalculateContributionViewModelItem>();
             switch (request.CalculationMethod)
             {
