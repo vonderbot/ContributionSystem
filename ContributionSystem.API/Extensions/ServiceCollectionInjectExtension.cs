@@ -7,11 +7,11 @@ using ContributionSystem.UI.Validators;
 using ContributionSystem.ViewModels.Models.Contribution;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ContributionSystem.API.Setup
 {
-
     public static class ServiceCollectionInjectExtension
     {
         public static void SetInject(this IServiceCollection services)
@@ -21,6 +21,13 @@ namespace ContributionSystem.API.Setup
             services.AddScoped<IContributionRepositoryService, ContributionRepositoryService>();
             services.AddScoped<IMonthInfoRepository, MonthInfoRepository>();
             services.AddScoped<IContributionRepository, ContributionRepository>();
+        }
+
+        public static void SetDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            string connection = configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<ContributionDbContext>(options =>
+                options.UseSqlServer(connection));
         }
     }
 }

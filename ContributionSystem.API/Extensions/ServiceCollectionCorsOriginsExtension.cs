@@ -6,7 +6,6 @@ namespace ContributionSystem.API.Setup
 {
     public static class ServiceCollectionCorsOriginsExtension
     {
-
         public static void ConfigureCorsForOrigins(this IServiceCollection services, IConfiguration configuration)
         {
             var hosts = configuration.GetSection("CorsOrigin:Links").Get<List<string>>().ToArray();

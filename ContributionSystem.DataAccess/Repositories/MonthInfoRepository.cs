@@ -7,19 +7,14 @@ namespace ContributionSystem.DataAccess.Repositories
 {
     public class MonthInfoRepository : BaseRepository, IMonthInfoRepository
     {
-        public MonthInfoRepository(ContributionDbContext newContributionDbContext)
-           : base(newContributionDbContext)
+        public MonthInfoRepository(ContributionDbContext contributionDbContext)
+           : base(contributionDbContext)
         {
         }
 
-        //public IEnumerable<Contribution> GetContributionList()
-        //{
-        //    return _contributionDbContext.Contribution.ToList();
-        //}
-
-        public void Create(IEnumerable<MonthInfo> details)
+        public void Create(IEnumerable<MonthInfo> MonthsInfo)
         {
-            foreach (var element in details)
+            foreach (var element in MonthsInfo)
             {
                 _contributionDbContext.MonthInfo.Add(element);
             }

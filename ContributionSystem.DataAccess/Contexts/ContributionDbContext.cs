@@ -1,6 +1,5 @@
 ﻿using ContributionSystem.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace ContributionSystem.DataAccess.Contexts
 {

@@ -11,6 +11,7 @@ namespace ContributionSystem.BusinessLogic.Services
     public class ContributionRepositoryService : IContributionRepositoryService
     {
         private readonly IContributionRepository _contributionRepository;
+
         private readonly IMonthInfoRepository _monthInfoRepository;
 
         public ContributionRepositoryService(IContributionRepository contributionRepository, IMonthInfoRepository monthInfoRepository)
@@ -19,7 +20,7 @@ namespace ContributionSystem.BusinessLogic.Services
             _monthInfoRepository = monthInfoRepository;
         }
 
-        public void AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> ResponseItems)
+        public void AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems)
         {
             if (!Enum.IsDefined(typeof(CalculationMethodEnum), (int)request.CalculationMethod))
             {
@@ -27,7 +28,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
             var contribution = CreateContributionFromRequest(request);
             var details = new List<MonthInfo>();
-            foreach (var element in ResponseItems)
+            foreach (var element in responseItems)
             {
                 details.Add(CreateMonthInfoFromResponseItem(element, contribution));
             }
@@ -35,7 +36,7 @@ namespace ContributionSystem.BusinessLogic.Services
             _monthInfoRepository.Create(details);
         }
 
-        private MonthInfo CreateMonthInfoFromResponseItem(ResponseCalculateContributionViewModelItem ResponseItems, Contribution contribution)
+        private static MonthInfo CreateMonthInfoFromResponseItem(ResponseCalculateContributionViewModelItem ResponseItems, Contribution contribution)
         {
             return new MonthInfo()
             {
@@ -46,7 +47,7 @@ namespace ContributionSystem.BusinessLogic.Services
             };
         }
 
-        private Contribution CreateContributionFromRequest(RequestCalculateContributionViewModel request) 
+        private static Contribution CreateContributionFromRequest(RequestCalculateContributionViewModel request) 
         {
             return new Contribution()
             {
@@ -57,10 +58,5 @@ namespace ContributionSystem.BusinessLogic.Services
                 CalculationMethod = (CalculationMethodEnum)(int)request.CalculationMethod
             };
         }
-
-        //public IEnumerable<Contribution> GetContributionList()
-        //{
-        //    return _contributionRepository.GetContributionList();
-        //}
     }
 }
