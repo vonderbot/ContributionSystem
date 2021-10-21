@@ -30,7 +30,6 @@ namespace ContributionSystem.API
             string connection = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ContributionDbContext>(options =>
                 options.UseSqlServer(connection));
-            //services.AddDbContextPool<ContributionDbContext>(x => x.UseSqlServer(connection));
             services.ConfigureCorsForOrigins(configuration);
         }
 

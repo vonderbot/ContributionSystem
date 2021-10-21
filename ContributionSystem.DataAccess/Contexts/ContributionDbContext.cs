@@ -1,5 +1,6 @@
 ﻿using ContributionSystem.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace ContributionSystem.DataAccess.Contexts
 {
@@ -13,6 +14,17 @@ namespace ContributionSystem.DataAccess.Contexts
             : base(options)
         {
             Database.EnsureCreated();
+        }
+    }
+
+    public class ContributionDbContextFactory : IDesignTimeDbContextFactory<ContributionDbContext>
+    {
+        public ContributionDbContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ContributionDbContext>();
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=ContributionDb; Trusted_Connection=True;");
+
+            return new ContributionDbContext(optionsBuilder.Options);
         }
     }
 }

@@ -19,7 +19,6 @@ namespace ContributionSystem.API.Setup
             services.AddScoped<IContributionService, ContributionService>();
             services.AddScoped<IContributionRepositoryService, ContributionRepositoryService>();
             services.AddScoped<IContributionRepository, ContributionRepository>();
-            //services.AddTransient(ps => new ContributionDbContext(new DbContextOptions<ContributionDbContext>()));
         }
     }
 }
