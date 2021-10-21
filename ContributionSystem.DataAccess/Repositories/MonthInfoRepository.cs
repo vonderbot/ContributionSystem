@@ -2,14 +2,13 @@
 using ContributionSystem.DataAccess.Interfaces;
 using ContributionSystem.Entities.Entities;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ContributionSystem.DataAccess.Repositories
 {
-    public class ContributionRepository : BaseRepository, IContributionRepository
+    public class MonthInfoRepository : BaseRepository, IMonthInfoRepository
     {
-        public ContributionRepository(ContributionDbContext newContributionDbContext)
-            :base(newContributionDbContext)
+        public MonthInfoRepository(ContributionDbContext newContributionDbContext)
+           : base(newContributionDbContext)
         {
         }
 
@@ -18,9 +17,12 @@ namespace ContributionSystem.DataAccess.Repositories
         //    return _contributionDbContext.Contribution.ToList();
         //}
 
-        public void Create(Contribution newContribution)
+        public void Create(IEnumerable<MonthInfo> details)
         {
-            _contributionDbContext.Contribution.Add(newContribution);
+            foreach (var element in details)
+            {
+                _contributionDbContext.MonthInfo.Add(element);
+            }
             SaveChanges();
         }
     }

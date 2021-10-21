@@ -11,10 +11,12 @@ namespace ContributionSystem.BusinessLogic.Services
     public class ContributionRepositoryService : IContributionRepositoryService
     {
         private readonly IContributionRepository _contributionRepository;
+        private readonly IMonthInfoRepository _monthInfoRepository;
 
-        public ContributionRepositoryService(IContributionRepository newContributionRepository)
+        public ContributionRepositoryService(IContributionRepository contributionRepository, IMonthInfoRepository monthInfoRepository)
         {
-            _contributionRepository = newContributionRepository;
+            _contributionRepository = contributionRepository;
+            _monthInfoRepository = monthInfoRepository;
         }
 
         public void AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> ResponseItems)
@@ -29,7 +31,8 @@ namespace ContributionSystem.BusinessLogic.Services
             {
                 details.Add(CreateMonthInfoFromResponseItem(element, contribution));
             }
-            _contributionRepository.Create(contribution, details);
+            _contributionRepository.Create(contribution);
+            _monthInfoRepository.Create(details);
         }
 
         private MonthInfo CreateMonthInfoFromResponseItem(ResponseCalculateContributionViewModelItem ResponseItems, Contribution contribution)

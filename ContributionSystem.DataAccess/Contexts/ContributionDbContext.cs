@@ -16,15 +16,4 @@ namespace ContributionSystem.DataAccess.Contexts
             Database.EnsureCreated();
         }
     }
-
-    public class ContributionDbContextFactory : IDesignTimeDbContextFactory<ContributionDbContext>
-    {
-        public ContributionDbContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<ContributionDbContext>();
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=ContributionDb; Trusted_Connection=True;");
-
-            return new ContributionDbContext(optionsBuilder.Options);
-        }
-    }
 }

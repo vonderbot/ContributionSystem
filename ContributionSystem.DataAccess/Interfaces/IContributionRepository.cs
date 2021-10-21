@@ -7,6 +7,6 @@ namespace ContributionSystem.DataAccess.Interfaces
     {
         //IEnumerable<Contribution> GetContributionList();
 
-        void Create(Contribution contribution, IEnumerable<MonthInfo> details);
+        void Create(Contribution contribution);
     }
 }

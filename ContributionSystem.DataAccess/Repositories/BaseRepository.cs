@@ -2,16 +2,16 @@
 
 namespace ContributionSystem.DataAccess.Repositories
 {
-    public class BaseRepository
+    abstract public class BaseRepository
     {
-        private readonly ContributionDbContext _contributionDbContext;
+        public readonly ContributionDbContext _contributionDbContext;
 
         public BaseRepository(ContributionDbContext newContributionDbContext)
         {
             _contributionDbContext = newContributionDbContext;
         }
 
-        private void SaveChanges()
+        public void SaveChanges()
         {
             _contributionDbContext.SaveChanges();
         }

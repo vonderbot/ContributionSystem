@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContributionSystem.DataAccess.Migrations
 {
     [DbContext(typeof(ContributionDbContext))]
-    [Migration("20211021095818_Initial")]
+    [Migration("20211021125737_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,10 +35,10 @@ namespace ContributionSystem.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Percent")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(6,2)");
 
                     b.Property<decimal>("StartValue")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<int>("Term")
                         .HasColumnType("int");
@@ -59,13 +59,13 @@ namespace ContributionSystem.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Income")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<int>("MonthNumber")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Sum")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(12,2)");
 
                     b.HasKey("Id");
 

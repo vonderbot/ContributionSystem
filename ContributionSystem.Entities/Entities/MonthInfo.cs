@@ -1,4 +1,6 @@
-﻿namespace ContributionSystem.Entities.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ContributionSystem.Entities.Entities
 {
     public class MonthInfo
     {
@@ -6,8 +8,10 @@
 
         public int MonthNumber { get; set; }
 
+        [Column(TypeName = "decimal(12,2)")]
         public decimal Income { get; set; }
 
+        [Column(TypeName = "decimal(12,2)")]
         public decimal Sum { get; set; }
 
         public int ContributionId { get; set; }

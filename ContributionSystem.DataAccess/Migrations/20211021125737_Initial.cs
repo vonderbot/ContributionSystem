@@ -13,9 +13,9 @@ namespace ContributionSystem.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StartValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    StartValue = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     Term = table.Column<int>(type: "int", nullable: false),
-                    Percent = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Percent = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CalculationMethod = table.Column<int>(type: "int", nullable: false)
                 },
@@ -31,8 +31,8 @@ namespace ContributionSystem.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MonthNumber = table.Column<int>(type: "int", nullable: false),
-                    Income = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Income = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    Sum = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     ContributionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

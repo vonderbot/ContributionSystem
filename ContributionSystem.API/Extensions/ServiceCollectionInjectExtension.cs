@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ContributionSystem.API.Setup
 {
+
     public static class ServiceCollectionInjectExtension
     {
         public static void SetInject(this IServiceCollection services)
@@ -18,6 +19,7 @@ namespace ContributionSystem.API.Setup
             services.AddTransient<IValidator<RequestCalculateContributionViewModel>, RequestCalculateContributionViewModelValidator>();
             services.AddScoped<IContributionService, ContributionService>();
             services.AddScoped<IContributionRepositoryService, ContributionRepositoryService>();
+            services.AddScoped<IMonthInfoRepository, MonthInfoRepository>();
             services.AddScoped<IContributionRepository, ContributionRepository>();
         }
     }
