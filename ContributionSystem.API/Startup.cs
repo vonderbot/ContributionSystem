@@ -5,6 +5,8 @@ using Microsoft.Extensions.Hosting;
 using ContributionSystem.API.Setup;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
+using ContributionSystem.DataAccess.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContributionSystem.API
 {
@@ -25,6 +27,10 @@ namespace ContributionSystem.API
                 fv.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
             services.SetInject();
+            string connection = configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<ContributionDbContext>(options =>
+                options.UseSqlServer(connection));
+            //services.AddDbContextPool<ContributionDbContext>(x => x.UseSqlServer(connection));
             services.ConfigureCorsForOrigins(configuration);
         }
 

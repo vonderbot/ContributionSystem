@@ -6,6 +6,7 @@ using ContributionSystem.DataAccess.Repositories;
 using ContributionSystem.UI.Validators;
 using ContributionSystem.ViewModels.Models.Contribution;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ContributionSystem.API.Setup
@@ -17,8 +18,8 @@ namespace ContributionSystem.API.Setup
             services.AddTransient<IValidator<RequestCalculateContributionViewModel>, RequestCalculateContributionViewModelValidator>();
             services.AddScoped<IContributionService, ContributionService>();
             services.AddScoped<IContributionRepositoryService, ContributionRepositoryService>();
-            services.AddScoped<IContributionRepository, MsSQLContributionRepository>();
-            services.AddScoped(ps => new ContributionDbContext());
+            services.AddScoped<IContributionRepository, ContributionRepository>();
+            //services.AddTransient(ps => new ContributionDbContext(new DbContextOptions<ContributionDbContext>()));
         }
     }
 }

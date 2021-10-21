@@ -6,6 +6,7 @@ using ContributionSystem.ViewModels.Enums;
 using ContributionSystem.ViewModels.Models.Contribution;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
 namespace ContributionSystem.API.UnitTests.Contollers
@@ -20,7 +21,7 @@ namespace ContributionSystem.API.UnitTests.Contollers
         public ContributionControllerTests()
         {
             contributionController = new ContributionController(new ContributionService(), 
-                new ContributionRepositoryService(new MsSQLContributionRepository(new ContributionDbContext())));
+                new ContributionRepositoryService(new ContributionRepository(new ContributionDbContext(new DbContextOptions<ContributionDbContext>()))));
         }
 
         [Test]

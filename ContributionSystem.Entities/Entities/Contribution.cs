@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ContributionSystem.Entities.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace ContributionSystem.Entities.Entities
 {
@@ -13,5 +15,14 @@ namespace ContributionSystem.Entities.Entities
         public decimal Percent { get; set; }
 
         public DateTime Date { get; set; }
+
+        public CalculationMethodEnum CalculationMethod { get; set; }
+
+        public ICollection<MonthInfo> Details { get; set; }
+
+        public Contribution()
+        {
+            Details = new List<MonthInfo>();
+        }
     }
 }

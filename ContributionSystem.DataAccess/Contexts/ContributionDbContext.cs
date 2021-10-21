@@ -7,9 +7,12 @@ namespace ContributionSystem.DataAccess.Contexts
     {
         public DbSet<Contribution> Contribution { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DbSet<MonthInfo> MonthInfo { get; set; }
+
+        public ContributionDbContext(DbContextOptions<ContributionDbContext> options)
+            : base(options)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=ContributionDB; Trusted_Connection=True;");
+            Database.EnsureCreated();
         }
     }
 }

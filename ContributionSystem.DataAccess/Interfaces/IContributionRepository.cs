@@ -1,9 +1,12 @@
 ﻿using ContributionSystem.Entities.Entities;
+using System.Collections.Generic;
 
 namespace ContributionSystem.DataAccess.Interfaces
 {
     public interface IContributionRepository
     {
-        void Create(Contribution contribution);
+        //IEnumerable<Contribution> GetContributionList();
+
+        void Create(Contribution contribution, IEnumerable<MonthInfo> details);
     }
 }
