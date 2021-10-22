@@ -19,6 +19,21 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpPost]
+        public IActionResult GetRequestsHistory(RequestGetRequestHistoryContrbutionViewModel request)
+        {
+            try
+            {
+                var response = _contributionRepositoryService.GetRequestsHistory(request);
+
+                return Ok(response);
+            }
+            catch
+            {
+                return BadRequest("BadRequest");
+            }
+        }
+
+        [HttpPost]
         public IActionResult Calculate(RequestCalculateContributionViewModel request)
         {
             try

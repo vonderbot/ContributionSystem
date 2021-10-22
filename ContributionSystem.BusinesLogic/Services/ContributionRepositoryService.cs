@@ -5,6 +5,7 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using System;
 using System.Collections.Generic;
 using ContributionSystem.Entities.Enums;
+using ContributionSystem.ViewModels.Enums;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
@@ -18,6 +19,18 @@ namespace ContributionSystem.BusinessLogic.Services
         {
             _contributionRepository = contributionRepository;
             _monthInfoRepository = monthInfoRepository;
+        }
+
+        public List<RequestCalculateContributionViewModel> GetRequestsHistory(RequestGetRequestHistoryContrbutionViewModel request)
+        {
+            var contributions = _contributionRepository.GetContributions(request.NumberOfContrbutionForLoad, request.NumberOfContrbutionForSkip);
+            var Requests = new List<RequestCalculateContributionViewModel>();
+            foreach (var element in contributions)
+            {
+                Requests.Add(CreateRequestFromContribution(element));
+            }
+
+            return Requests;
         }
 
         public void AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems)
@@ -54,8 +67,20 @@ namespace ContributionSystem.BusinessLogic.Services
                 StartValue = request.StartValue,
                 Term = request.Term,
                 Percent = request.Percent,
-                Date = DateTime.Now.Date,
+                Date = request.Date,
                 CalculationMethod = (CalculationMethodEnum)(int)request.CalculationMethod
+            };
+        }
+
+        private static RequestCalculateContributionViewModel CreateRequestFromContribution(Contribution contribution)
+        {
+            return new RequestCalculateContributionViewModel()
+            {
+                StartValue = contribution.StartValue,
+                Term = contribution.Term,
+                Percent = contribution.Percent,
+                Date = contribution.Date,
+                CalculationMethod = (CalculationMethodEnumView)(int)contribution.CalculationMethod
             };
         }
     }

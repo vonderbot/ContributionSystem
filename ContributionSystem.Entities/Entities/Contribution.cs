@@ -17,7 +17,7 @@ namespace ContributionSystem.Entities.Entities
         [Column(TypeName = "decimal(6,2)")]
         public decimal Percent { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         public CalculationMethodEnum CalculationMethod { get; set; }
 

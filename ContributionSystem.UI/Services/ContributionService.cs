@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
 using System.Net;
+using System.Collections.Generic;
 
 namespace ContributionSystem.UI.Services
 {
@@ -15,6 +16,25 @@ namespace ContributionSystem.UI.Services
         public ContributionService(HttpClient httpClient)
         {
             _http = httpClient;
+        }
+
+        public async Task<List<RequestCalculateContributionViewModel>> GetRequestsHistory(int numberOfContrbutionForLoad, int numberOfContrbutionForSkip)
+        {
+            var request = new RequestGetRequestHistoryContrbutionViewModel()
+            {
+                NumberOfContrbutionForLoad = numberOfContrbutionForLoad,
+                NumberOfContrbutionForSkip = numberOfContrbutionForSkip
+            };
+            var response = await _http.PostAsJsonAsync("https://localhost:44303/api/contribution/GetRequestsHistory", request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return await response.Content.ReadFromJsonAsync<List<RequestCalculateContributionViewModel>>();
+            }
+            else
+            {
+                throw new Exception("Server response is incorrect");
+            }
         }
 
         public async Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request)
