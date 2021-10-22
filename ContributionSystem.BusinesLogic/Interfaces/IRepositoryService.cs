@@ -1,10 +1,9 @@
-﻿using ContributionSystem.Entities.Entities;
-using ContributionSystem.ViewModels.Models.Contribution;
+﻿using ContributionSystem.ViewModels.Models.Contribution;
 using System.Collections.Generic;
 
 namespace ContributionSystem.BusinessLogic.Interfaces
 {
-    public interface IContributionRepositoryService
+    public interface IRepositoryService
     {
         public List<RequestCalculateContributionViewModel> GetRequestsHistory(RequestGetRequestHistoryContrbutionViewModel request);
 

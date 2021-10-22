@@ -15,7 +15,7 @@ namespace ContributionSystem.API.Setup
         {
             services.AddTransient<IValidator<RequestCalculateContributionViewModel>, RequestCalculateContributionViewModelValidator>();
             services.AddScoped<IContributionService, ContributionService>();
-            services.AddScoped<IContributionRepositoryService, ContributionRepositoryService>();
+            services.AddScoped<IRepositoryService, RepositoryService>();
             services.AddScoped<IMonthInfoRepository, MonthInfoRepository>();
             services.AddScoped<IContributionRepository, ContributionRepository>();
         }

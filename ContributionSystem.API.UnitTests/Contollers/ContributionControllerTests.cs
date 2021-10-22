@@ -21,7 +21,7 @@ namespace ContributionSystem.API.UnitTests.Contollers
         public ContributionControllerTests()
         {
             contributionController = new ContributionController(new ContributionService(), 
-                new ContributionRepositoryService(new ContributionRepository(new ContributionDbContext(new DbContextOptions<ContributionDbContext>())), 
+                new RepositoryService(new ContributionRepository(new ContributionDbContext(new DbContextOptions<ContributionDbContext>())), 
                     new MonthInfoRepository(new ContributionDbContext(new DbContextOptions<ContributionDbContext>()))));
         }
 

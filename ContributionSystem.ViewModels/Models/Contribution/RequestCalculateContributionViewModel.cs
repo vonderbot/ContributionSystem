@@ -1,5 +1,4 @@
 ﻿using ContributionSystem.ViewModels.Enums;
-using System;
 
 namespace ContributionSystem.ViewModels.Models.Contribution
 {

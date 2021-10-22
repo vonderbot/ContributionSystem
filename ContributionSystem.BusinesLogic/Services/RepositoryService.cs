@@ -9,13 +9,13 @@ using ContributionSystem.ViewModels.Enums;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
-    public class ContributionRepositoryService : IContributionRepositoryService
+    public class RepositoryService : IRepositoryService
     {
         private readonly IContributionRepository _contributionRepository;
 
         private readonly IMonthInfoRepository _monthInfoRepository;
 
-        public ContributionRepositoryService(IContributionRepository contributionRepository, IMonthInfoRepository monthInfoRepository)
+        public RepositoryService(IContributionRepository contributionRepository, IMonthInfoRepository monthInfoRepository)
         {
             _contributionRepository = contributionRepository;
             _monthInfoRepository = monthInfoRepository;
@@ -25,6 +25,7 @@ namespace ContributionSystem.BusinessLogic.Services
         {
             var contributions = _contributionRepository.GetContributions(request.NumberOfContrbutionForLoad, request.NumberOfContrbutionForSkip);
             var Requests = new List<RequestCalculateContributionViewModel>();
+
             foreach (var element in contributions)
             {
                 Requests.Add(CreateRequestFromContribution(element));
@@ -41,6 +42,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
             var contribution = CreateContributionFromRequest(request);
             var details = new List<MonthInfo>();
+
             foreach (var element in responseItems)
             {
                 details.Add(CreateMonthInfoFromResponseItem(element, contribution));
@@ -49,13 +51,13 @@ namespace ContributionSystem.BusinessLogic.Services
             _monthInfoRepository.Create(details);
         }
 
-        private static MonthInfo CreateMonthInfoFromResponseItem(ResponseCalculateContributionViewModelItem ResponseItems, Contribution contribution)
+        private static MonthInfo CreateMonthInfoFromResponseItem(ResponseCalculateContributionViewModelItem responseItems, Contribution contribution)
         {
             return new MonthInfo()
             {
-                MonthNumber = ResponseItems.MonthNumber,
-                Income = ResponseItems.Income,
-                Sum = ResponseItems.Sum,
+                MonthNumber = responseItems.MonthNumber,
+                Income = responseItems.Income,
+                Sum = responseItems.Sum,
                 Contribution = contribution
             };
         }

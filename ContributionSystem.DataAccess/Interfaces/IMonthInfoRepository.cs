@@ -5,6 +5,6 @@ namespace ContributionSystem.DataAccess.Interfaces
 {
     public interface IMonthInfoRepository
     {
-        void Create(IEnumerable<MonthInfo> details);
+        void Create(IEnumerable<MonthInfo> monthsInfo);
     }
 }

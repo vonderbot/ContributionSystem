@@ -6,7 +6,8 @@ namespace ContributionSystem.UI.Interfaces
 {
     public interface IContributionService
     {
-        public Task<List<RequestCalculateContributionViewModel>> GetRequestsHistory(int NumberOfContrbutionForLoad, int NumberOfContrbutionForSkip);
+        public Task<List<RequestCalculateContributionViewModel>> GetRequestsHistory(int numberOfContrbutionForLoad, int numberOfContrbutionForSkip);
+
         public Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request);
     }
 }

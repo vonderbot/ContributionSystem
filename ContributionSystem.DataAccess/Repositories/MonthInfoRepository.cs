@@ -12,9 +12,9 @@ namespace ContributionSystem.DataAccess.Repositories
         {
         }
 
-        public void Create(IEnumerable<MonthInfo> MonthsInfo)
+        public void Create(IEnumerable<MonthInfo> monthsInfo)
         {
-            foreach (var element in MonthsInfo)
+            foreach (var element in monthsInfo)
             {
                 _contributionDbContext.MonthInfo.Add(element);
             }

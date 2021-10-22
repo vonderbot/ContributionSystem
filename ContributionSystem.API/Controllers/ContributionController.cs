@@ -10,9 +10,9 @@ namespace ContributionSystem.API.Controllers
     {
         private readonly IContributionService _contributionService;
 
-        private readonly IContributionRepositoryService _contributionRepositoryService;
+        private readonly IRepositoryService _contributionRepositoryService;
 
-        public ContributionController(IContributionService сontributionService, IContributionRepositoryService contributionRepositoryService)
+        public ContributionController(IContributionService сontributionService, IRepositoryService contributionRepositoryService)
         {
             _contributionService = сontributionService;
             _contributionRepositoryService = contributionRepositoryService;
