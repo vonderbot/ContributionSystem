@@ -2,10 +2,8 @@
 
 namespace ContributionSystem.Entities.Entities
 {
-    public class MonthInfo
+    public class MonthInfo : BaseEntity
     {
-        public int Id { get; set; }
-
         public int MonthNumber { get; set; }
 
         [Column(TypeName = "decimal(12,2)")]
@@ -14,6 +12,7 @@ namespace ContributionSystem.Entities.Entities
         [Column(TypeName = "decimal(12,2)")]
         public decimal Sum { get; set; }
 
+        [ForeignKey("CompId")]
         public int ContributionId { get; set; }
 
         public Contribution Contribution { get; set; }

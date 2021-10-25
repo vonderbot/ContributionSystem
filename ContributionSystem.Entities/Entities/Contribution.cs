@@ -1,14 +1,11 @@
 ﻿using ContributionSystem.Entities.Enums;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ContributionSystem.Entities.Entities
 {
-    public class Contribution
+    public class Contribution : BaseEntity
     {
-        public int Id { get; set; }
-
         [Column(TypeName = "decimal(12,2)")]
         public decimal StartValue { get; set; }
 

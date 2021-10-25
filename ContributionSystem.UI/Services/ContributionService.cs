@@ -26,26 +26,22 @@ namespace ContributionSystem.UI.Services
                 NumberOfContrbutionForSkip = numberOfContrbutionForSkip
             };
             var response = await _http.PostAsJsonAsync("https://localhost:44303/api/contribution/GetRequestsHistory", request);
+            CheckResponseStatusCode(response);
 
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                return await response.Content.ReadFromJsonAsync<List<RequestCalculateContributionViewModel>>();
-            }
-            else
-            {
-                throw new Exception("Server response is incorrect");
-            }
+            return await response.Content.ReadFromJsonAsync<List<RequestCalculateContributionViewModel>>();
         }
 
         public async Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request)
         {
             var response = await _http.PostAsJsonAsync("https://localhost:44303/api/contribution/calculate", request);
+            CheckResponseStatusCode(response);
 
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                return await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
-            }
-            else
+            return await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
+        }
+
+        private void CheckResponseStatusCode(HttpResponseMessage response)
+        {
+            if (response.StatusCode != HttpStatusCode.OK)
             {
                 throw new Exception("Server response is incorrect");
             }

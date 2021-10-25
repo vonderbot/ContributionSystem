@@ -21,7 +21,7 @@ namespace ContributionSystem.BusinessLogic.Services
             _monthInfoRepository = monthInfoRepository;
         }
 
-        public List<RequestCalculateContributionViewModel> GetRequestsHistory(RequestGetRequestHistoryContrbutionViewModel request)
+        public IEnumerable<RequestCalculateContributionViewModel> GetRequestsHistory(RequestGetRequestHistoryContrbutionViewModel request)
         {
             var contributions = _contributionRepository.GetContributions(request.NumberOfContrbutionForLoad, request.NumberOfContrbutionForSkip);
             var Requests = new List<RequestCalculateContributionViewModel>();

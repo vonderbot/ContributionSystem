@@ -64,6 +64,7 @@ namespace ContributionSystem.UI.UnitTests.Services
                   ItExpr.IsAny<HttpRequestMessage>(),
                   ItExpr.IsAny<CancellationToken>())
                .ReturnsAsync(response);
+
             return new HttpClient(handlerMock.Object);
         }
 
