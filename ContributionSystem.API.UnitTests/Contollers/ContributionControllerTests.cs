@@ -20,9 +20,7 @@ namespace ContributionSystem.API.UnitTests.Contollers
 
         public ContributionControllerTests()
         {
-            contributionController = new ContributionController(new ContributionService(), 
-                new RepositoryService(new ContributionRepository(new ContributionDbContext(new DbContextOptions<ContributionDbContext>())), 
-                    new MonthInfoRepository(new ContributionDbContext(new DbContextOptions<ContributionDbContext>()))));
+            //contributionController = new ContributionController(new ContributionService());
         }
 
         [Test]

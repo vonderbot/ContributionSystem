@@ -17,7 +17,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
 
         public ContributionServiceTests()
         {
-            _contributionService = new ContributionService();
+            //_contributionService = new ContributionService();
         }
 
         [Test]
