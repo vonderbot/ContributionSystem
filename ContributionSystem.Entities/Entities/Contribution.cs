@@ -18,7 +18,7 @@ namespace ContributionSystem.Entities.Entities
 
         public CalculationMethodEnum CalculationMethod { get; set; }
 
-        public ICollection<MonthInfo> Details { get; set; }
+        public IEnumerable<MonthInfo> Details { get; set; }
 
         public Contribution()
         {

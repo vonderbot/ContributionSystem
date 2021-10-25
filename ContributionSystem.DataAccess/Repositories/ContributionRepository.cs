@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace ContributionSystem.DataAccess.Repositories
 {
-    public class ContributionRepository : BaseRepository, IContributionRepository
+    public class ContributionRepository : BaseRepository<Contribution>, IContributionRepository
     {
         public ContributionRepository(ContributionDbContext contributionDbContext)
-            :base(contributionDbContext)
+            : base(contributionDbContext)
         {
         }
 
@@ -22,12 +22,6 @@ namespace ContributionSystem.DataAccess.Repositories
                 .ToList();
 
             return contributions;
-        }
-
-        public void Create(Contribution contribution)
-        {
-            _contributionDbContext.Contribution.Add(contribution);
-            SaveChanges();
         }
     }
 }

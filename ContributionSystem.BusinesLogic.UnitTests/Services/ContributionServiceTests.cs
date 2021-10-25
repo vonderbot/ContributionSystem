@@ -99,7 +99,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             return request;
         }
 
-        private static ResponseCalculateContributionViewModel GetSimpleCalculationResponse()
+        private ResponseCalculateContributionViewModel GetSimpleCalculationResponse()
         {
             var correctResponse = new ResponseCalculateContributionViewModel
             {
@@ -130,7 +130,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             return correctResponse;
         }
 
-        private static ResponseCalculateContributionViewModel GetComplexCalculationResponse()
+        private ResponseCalculateContributionViewModel GetComplexCalculationResponse()
         {
             var correctResponse = new ResponseCalculateContributionViewModel
             {

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace ContributionSystem.DataAccess.Interfaces
 {
-    public interface IMonthInfoRepository
+    public interface IMonthInfoRepository : IBaseRepository<MonthInfo>
     {
-        void Create(IEnumerable<MonthInfo> monthsInfo);
     }
 }

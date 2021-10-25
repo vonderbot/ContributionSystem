@@ -108,7 +108,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
             validationMessage.Should().BeEquivalentTo("Sum can only have 12 numbers, 2 of them after the decimal point");
         }
 
-        private static void InputsValuesAndSubmitForm(IRenderedComponent<ContributionCalculatorForm> page, string percent, string term, string sum)
+        private void InputsValuesAndSubmitForm(IRenderedComponent<ContributionCalculatorForm> page, string percent, string term, string sum)
         {
             page.Find("#Percent").Change(percent);
             page.Find("#Term").Change(term);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.BusinessLogic.Interfaces;
+using System;
 
 namespace ContributionSystem.API.Controllers
 {
@@ -24,9 +25,9 @@ namespace ContributionSystem.API.Controllers
 
                 return Ok(response);
             }
-            catch
+            catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -40,9 +41,9 @@ namespace ContributionSystem.API.Controllers
 
                 return Ok(response);
             }
-            catch
+            catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }

@@ -68,7 +68,7 @@ namespace ContributionSystem.UI.UnitTests.Services
             return new HttpClient(handlerMock.Object);
         }
 
-        private static ResponseCalculateContributionViewModel GetCalculationResponse()
+        private ResponseCalculateContributionViewModel GetCalculationResponse()
         {
             return new ResponseCalculateContributionViewModel
             {
@@ -84,7 +84,7 @@ namespace ContributionSystem.UI.UnitTests.Services
             };
         }
 
-        private static RequestCalculateContributionViewModel GetCalculationRequest(decimal startValue, int term, decimal percent)
+        private RequestCalculateContributionViewModel GetCalculationRequest(decimal startValue, int term, decimal percent)
         {
             return new RequestCalculateContributionViewModel()
             {

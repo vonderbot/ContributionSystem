@@ -6,6 +6,7 @@ using ContributionSystem.BusinessLogic.Interfaces;
 using System.Collections.Generic;
 using ContributionSystem.DataAccess.Interfaces;
 using ContributionSystem.Entities.Enums;
+using System.Linq;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
@@ -15,12 +16,10 @@ namespace ContributionSystem.BusinessLogic.Services
         private const int NumberOfMonthsInAYear = 12;
         private const int NumberOfDigitsAfterDecimalPoint = 2;
         private readonly IContributionRepository _contributionRepository;
-        private readonly IMonthInfoRepository _monthInfoRepository;
 
-        public ContributionService(IContributionRepository contributionRepository, IMonthInfoRepository monthInfoRepository)
+        public ContributionService(IContributionRepository contributionRepository)
         {
             _contributionRepository = contributionRepository;
-            _monthInfoRepository = monthInfoRepository;
         }
 
         public ResponseCalculateContributionViewModel Calculate(RequestCalculateContributionViewModel request)
@@ -57,62 +56,39 @@ namespace ContributionSystem.BusinessLogic.Services
         public IEnumerable<RequestCalculateContributionViewModel> GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request)
         {
             var contributions = _contributionRepository.GetContributions(request.NumberOfContrbutionsForLoad, request.NumberOfContrbutionsForSkip);
-            var requests = new List<RequestCalculateContributionViewModel>();
 
-            foreach (var element in contributions)
+            var requests = contributions.Select(u => new RequestCalculateContributionViewModel
             {
-                requests.Add(CreateRequestFromContribution(element));
-            }
+                StartValue = u.StartValue,
+                Term = u.Term,
+                Percent = u.Percent,
+                Date = u.Date,
+                CalculationMethod = (CalculationMethodEnumView)(int)u.CalculationMethod
+            });
 
             return requests;
         }
 
         public void AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems)
         {
-            var contribution = CreateContributionFromRequest(request);
-            var monthsInfo = new List<MonthInfo>();
-
-            foreach (var element in responseItems)
+            var monthsInfo = responseItems.Select(u => new MonthInfo
             {
-                monthsInfo.Add(CreateMonthInfoFromResponseItem(element, contribution));
-            }
-            _contributionRepository.Create(contribution);
-            _monthInfoRepository.Create(monthsInfo);
-        }
-
-        private MonthInfo CreateMonthInfoFromResponseItem(ResponseCalculateContributionViewModelItem responseItems, Contribution contribution)
-        {
-            return new MonthInfo()
-            {
-                MonthNumber = responseItems.MonthNumber,
-                Income = responseItems.Income,
-                Sum = responseItems.Sum,
-                Contribution = contribution
-            };
-        }
-
-        private Contribution CreateContributionFromRequest(RequestCalculateContributionViewModel request)
-        {
-            return new Contribution()
+                MonthNumber = u.MonthNumber,
+                Income = u.Income,
+                Sum = u.Sum
+            }).ToList();
+            var contribution = new Contribution()
             {
                 StartValue = request.StartValue,
                 Term = request.Term,
                 Percent = request.Percent,
                 Date = request.Date,
-                CalculationMethod = (CalculationMethodEnum)(int)request.CalculationMethod
+                CalculationMethod = (CalculationMethodEnum)(int)request.CalculationMethod,
+                Details = monthsInfo
             };
-        }
 
-        private RequestCalculateContributionViewModel CreateRequestFromContribution(Contribution contribution)
-        {
-            return new RequestCalculateContributionViewModel()
-            {
-                StartValue = contribution.StartValue,
-                Term = contribution.Term,
-                Percent = contribution.Percent,
-                Date = contribution.Date,
-                CalculationMethod = (CalculationMethodEnumView)(int)contribution.CalculationMethod
-            };
+            _contributionRepository.Create(contribution);
+            _contributionRepository.Save();
         }
 
         private void CheckRequest(RequestCalculateContributionViewModel request)
