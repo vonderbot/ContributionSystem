@@ -8,16 +8,16 @@ namespace ContributionSystem.DataAccess.Interfaces
 {
     public interface IBaseRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
+        Task<IEnumerable<T>> GetAll();
 
-        T GetById(object id);
+        Task<T> GetById(object id);
 
-        void Create(T obj);
+        Task Create(T obj);
 
         void Update(T obj);
 
-        void Delete(object id);
+        Task Delete(object id);
 
-        void Save();
+        Task Save();
     }
 }

@@ -3,6 +3,7 @@ using ContributionSystem.DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ContributionSystem.DataAccess.Repositories
 {
@@ -17,19 +18,19 @@ namespace ContributionSystem.DataAccess.Repositories
             table = _contributionDbContext.Set<T>();
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return table.ToList();
+            return await table.ToListAsync();
         }
 
-        public T GetById(object id)
+        public async Task<T> GetById(object id)
         {
-            return table.Find(id);
+            return await table.FindAsync(id);
         }
 
-        public void Create(T obj)
+        public async Task Create(T obj)
         {
-            table.Add(obj);
+            await table.AddAsync(obj);
         }
 
         public void Update(T obj)
@@ -38,15 +39,15 @@ namespace ContributionSystem.DataAccess.Repositories
             _contributionDbContext.Entry(obj).State = EntityState.Modified;
         }
 
-        public void Delete(object id)
+        public async Task Delete(object id)
         {
-            T existing = table.Find(id);
+            T existing = await table.FindAsync(id);
             table.Remove(existing);
         }
 
-        public void Save()
+        public async Task Save()
         {
-            _contributionDbContext.SaveChanges();
+            await _contributionDbContext.SaveChangesAsync();
         }
     }
 }

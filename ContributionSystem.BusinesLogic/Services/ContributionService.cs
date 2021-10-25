@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using ContributionSystem.DataAccess.Interfaces;
 using ContributionSystem.Entities.Enums;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
@@ -53,9 +54,9 @@ namespace ContributionSystem.BusinessLogic.Services
             };
         }
 
-        public IEnumerable<RequestCalculateContributionViewModel> GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request)
+        public async Task<IEnumerable<RequestCalculateContributionViewModel>> GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request)
         {
-            var contributions = _contributionRepository.GetContributions(request.NumberOfContrbutionsForLoad, request.NumberOfContrbutionsForSkip);
+            var contributions = await _contributionRepository.GetContributions(request.NumberOfContrbutionsForLoad, request.NumberOfContrbutionsForSkip);
 
             var requests = contributions.Select(u => new RequestCalculateContributionViewModel
             {
@@ -69,7 +70,7 @@ namespace ContributionSystem.BusinessLogic.Services
             return requests;
         }
 
-        public void AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems)
+        public async Task AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems)
         {
             var monthsInfo = responseItems.Select(u => new MonthInfo
             {
@@ -87,8 +88,8 @@ namespace ContributionSystem.BusinessLogic.Services
                 Details = monthsInfo
             };
 
-            _contributionRepository.Create(contribution);
-            _contributionRepository.Save();
+            await _contributionRepository.Create(contribution);
+            await _contributionRepository.Save();
         }
 
         private void CheckRequest(RequestCalculateContributionViewModel request)

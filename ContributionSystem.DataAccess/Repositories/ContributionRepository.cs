@@ -1,8 +1,10 @@
 ﻿using ContributionSystem.DataAccess.Contexts;
 using ContributionSystem.DataAccess.Interfaces;
 using ContributionSystem.Entities.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ContributionSystem.DataAccess.Repositories
 {
@@ -13,13 +15,13 @@ namespace ContributionSystem.DataAccess.Repositories
         {
         }
 
-        public List<Contribution> GetContributions(int numberOfContrbutionForLoad, int numberOfContrbutionForSkip)
+        public async Task<List<Contribution>> GetContributions(int numberOfContrbutionForLoad, int numberOfContrbutionForSkip)
         {
-            var contributions = _contributionDbContext.Contribution
+            var contributions =  await _contributionDbContext.Contribution
                 .OrderByDescending(x => x.Id)
                 .Skip(numberOfContrbutionForSkip)
                 .Take(numberOfContrbutionForLoad)
-                .ToList();
+                .ToListAsync();
 
             return contributions;
         }

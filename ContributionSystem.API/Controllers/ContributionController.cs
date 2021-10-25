@@ -2,6 +2,7 @@
 using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.BusinessLogic.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace ContributionSystem.API.Controllers
 {
@@ -17,11 +18,11 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request)
+        public async Task<IActionResult> GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request)
         {
             try
             {
-                var response = _contributionService.GetRequestsHistory(request);
+                var response = await _contributionService.GetRequestsHistory(request);
 
                 return Ok(response);
             }
@@ -32,12 +33,12 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Calculate(RequestCalculateContributionViewModel request)
+        public async Task<IActionResult> Calculate(RequestCalculateContributionViewModel request)
         {
             try
             {
                 var response = _contributionService.Calculate(request);
-                _contributionService.AddContribution(request, response.Items);
+                await _contributionService.AddContribution(request, response.Items);
 
                 return Ok(response);
             }

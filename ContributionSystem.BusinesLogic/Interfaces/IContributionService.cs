@@ -1,5 +1,6 @@
 ﻿using ContributionSystem.ViewModels.Models.Contribution;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ContributionSystem.BusinessLogic.Interfaces
 {
@@ -7,8 +8,8 @@ namespace ContributionSystem.BusinessLogic.Interfaces
     {
         public ResponseCalculateContributionViewModel Calculate(RequestCalculateContributionViewModel request);
 
-        public IEnumerable<RequestCalculateContributionViewModel> GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request);
+        public Task<IEnumerable<RequestCalculateContributionViewModel>> GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request);
 
-        public void AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems);
+        public Task AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems);
     }
 }
