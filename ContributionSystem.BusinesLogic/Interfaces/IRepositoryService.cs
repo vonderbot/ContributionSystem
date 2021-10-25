@@ -5,7 +5,7 @@ namespace ContributionSystem.BusinessLogic.Interfaces
 {
     public interface IRepositoryService
     {
-        public IEnumerable<RequestCalculateContributionViewModel> GetRequestsHistory(RequestGetRequestHistoryContrbutionViewModel request);
+        public IEnumerable<RequestCalculateContributionViewModel> GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request);
 
         public void AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems);
     }

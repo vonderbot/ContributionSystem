@@ -20,10 +20,10 @@ namespace ContributionSystem.UI.Services
 
         public async Task<List<RequestCalculateContributionViewModel>> GetRequestsHistory(int numberOfContrbutionForLoad, int numberOfContrbutionForSkip)
         {
-            var request = new RequestGetRequestHistoryContrbutionViewModel()
+            var request = new RequestGetRequestsHistoryContrbutionViewModel()
             {
-                NumberOfContrbutionForLoad = numberOfContrbutionForLoad,
-                NumberOfContrbutionForSkip = numberOfContrbutionForSkip
+                NumberOfContrbutionsForLoad = numberOfContrbutionForLoad,
+                NumberOfContrbutionsForSkip = numberOfContrbutionForSkip
             };
             var response = await _http.PostAsJsonAsync("https://localhost:44303/api/contribution/GetRequestsHistory", request);
             CheckResponseStatusCode(response);

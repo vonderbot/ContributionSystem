@@ -19,7 +19,7 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetRequestsHistory(RequestGetRequestHistoryContrbutionViewModel request)
+        public IActionResult GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace ContributionSystem.API.Controllers
             }
             catch
             {
-                return BadRequest("BadRequest");
+                return BadRequest();
             }
         }
 
@@ -45,7 +45,7 @@ namespace ContributionSystem.API.Controllers
             }
             catch
             {
-                return BadRequest("BadRequest");
+                return BadRequest();
             }
         }
     }

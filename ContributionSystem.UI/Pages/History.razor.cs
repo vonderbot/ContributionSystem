@@ -19,44 +19,7 @@ namespace ContributionSystem.UI.Pages
         private IEnumerable<RequestCalculateContributionViewModel> _requestsHistory;
         private IEnumerable<MemberInfo> _fieldlist;
         private string _message;
-        private bool _outOfData;
         private int _numberOfLoads;
-
-        private async Task LoadData() 
-        {
-            try
-            {
-                _message = "loading...";
-                var response = await ContributionService.GetRequestsHistory(NumberOfContrbutionForOneLoad, _numberOfLoads * NumberOfContrbutionForOneLoad);
-
-                if (response == null || response.Count < NumberOfContrbutionForOneLoad)
-                {
-                    _outOfData = true;
-                    if (_numberOfLoads == 0 && response == null)
-                    {
-                        _message = "History is empty";
-                    }
-                    else
-                    {
-                        _message = "End of history";
-                    }
-                }
-                else
-                {
-                    _message = null;
-                }
-                _requestsHistory = _requestsHistory.Concat(response);
-                _fieldlist = typeof(RequestCalculateContributionViewModel).GetMembers()
-                    .Where(mi => mi.MemberType == MemberTypes.Field ||
-                    mi.MemberType == MemberTypes.Property);
-                _numberOfLoads++;
-            }
-            catch (Exception ex)
-            {
-                _outOfData = true;
-                _message = ex.Message;
-            }
-        }
 
         public async Task LoadMore()
         {
@@ -65,10 +28,40 @@ namespace ContributionSystem.UI.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            _fieldlist = typeof(RequestCalculateContributionViewModel).GetMembers()
+                    .Where(mi => mi.MemberType == MemberTypes.Field ||
+                    mi.MemberType == MemberTypes.Property);
             _requestsHistory = new List<RequestCalculateContributionViewModel>();
             _numberOfLoads = 0;
-            _outOfData = false;
             await LoadData();
+        }
+
+        private async Task LoadData()
+        {
+            try
+            {
+                _message = "loading...";
+                var response = await ContributionService.GetRequestsHistory(NumberOfContrbutionForOneLoad, _numberOfLoads * NumberOfContrbutionForOneLoad);
+
+                if (_numberOfLoads == 0 && response == null)
+                {
+                    _message = "History is empty";
+                }
+                else if (response == null || response.Count < NumberOfContrbutionForOneLoad)
+                {
+                    _message = "End of history";
+                }
+                else
+                {
+                    _message = null;
+                }
+                _requestsHistory = _requestsHistory.Concat(response);
+                _numberOfLoads++;
+            }
+            catch (Exception ex)
+            {
+                _message = ex.Message;
+            }
         }
     }
 }

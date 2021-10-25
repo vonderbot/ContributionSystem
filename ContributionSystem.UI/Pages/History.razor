@@ -1,11 +1,14 @@
 ﻿@page "/History"
+
 @if (_requestsHistory != null)
 {
     <div class="row">
+
         @foreach (var element in _requestsHistory)
         {
             <div class="container col-lg-3 col-md-6 col-sm-12 m-0 p-0 ">
                 <div class="content border p-3 mr-5 mb-5">
+
                     @foreach (var info in _fieldlist)
                     {
                         <div class="row p-1">
@@ -25,6 +28,7 @@
         }
     </div>
 }
+
 @if (_message != null)
 {
     <div class="row justify-content-center">
@@ -32,7 +36,7 @@
     </div>
     <br />
 }
-else if (_outOfData != true)
+else
 {
     <div class="row justify-content-center">
         <button class="btn btn-secondary" @onclick="() => LoadMore()">Load more</button>

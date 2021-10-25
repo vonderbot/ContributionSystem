@@ -12,7 +12,6 @@ namespace ContributionSystem.BusinessLogic.Services
     public class RepositoryService : IRepositoryService
     {
         private readonly IContributionRepository _contributionRepository;
-
         private readonly IMonthInfoRepository _monthInfoRepository;
 
         public RepositoryService(IContributionRepository contributionRepository, IMonthInfoRepository monthInfoRepository)
@@ -21,9 +20,9 @@ namespace ContributionSystem.BusinessLogic.Services
             _monthInfoRepository = monthInfoRepository;
         }
 
-        public IEnumerable<RequestCalculateContributionViewModel> GetRequestsHistory(RequestGetRequestHistoryContrbutionViewModel request)
+        public IEnumerable<RequestCalculateContributionViewModel> GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request)
         {
-            var contributions = _contributionRepository.GetContributions(request.NumberOfContrbutionForLoad, request.NumberOfContrbutionForSkip);
+            var contributions = _contributionRepository.GetContributions(request.NumberOfContrbutionsForLoad, request.NumberOfContrbutionsForSkip);
             var Requests = new List<RequestCalculateContributionViewModel>();
 
             foreach (var element in contributions)
@@ -41,14 +40,14 @@ namespace ContributionSystem.BusinessLogic.Services
                 throw new Exception("Incorrect calculation method");
             }
             var contribution = CreateContributionFromRequest(request);
-            var details = new List<MonthInfo>();
+            var monthsInfo = new List<MonthInfo>();
 
             foreach (var element in responseItems)
             {
-                details.Add(CreateMonthInfoFromResponseItem(element, contribution));
+                monthsInfo.Add(CreateMonthInfoFromResponseItem(element, contribution));
             }
             _contributionRepository.Create(contribution);
-            _monthInfoRepository.Create(details);
+            _monthInfoRepository.Create(monthsInfo);
         }
 
         private static MonthInfo CreateMonthInfoFromResponseItem(ResponseCalculateContributionViewModelItem responseItems, Contribution contribution)
