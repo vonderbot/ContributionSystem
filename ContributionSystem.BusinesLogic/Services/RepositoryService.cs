@@ -50,7 +50,7 @@ namespace ContributionSystem.BusinessLogic.Services
             _monthInfoRepository.Create(monthsInfo);
         }
 
-        private static MonthInfo CreateMonthInfoFromResponseItem(ResponseCalculateContributionViewModelItem responseItems, Contribution contribution)
+        private MonthInfo CreateMonthInfoFromResponseItem(ResponseCalculateContributionViewModelItem responseItems, Contribution contribution)
         {
             return new MonthInfo()
             {
@@ -61,7 +61,7 @@ namespace ContributionSystem.BusinessLogic.Services
             };
         }
 
-        private static Contribution CreateContributionFromRequest(RequestCalculateContributionViewModel request) 
+        private Contribution CreateContributionFromRequest(RequestCalculateContributionViewModel request) 
         {
             return new Contribution()
             {
@@ -73,7 +73,7 @@ namespace ContributionSystem.BusinessLogic.Services
             };
         }
 
-        private static RequestCalculateContributionViewModel CreateRequestFromContribution(Contribution contribution)
+        private RequestCalculateContributionViewModel CreateRequestFromContribution(Contribution contribution)
         {
             return new RequestCalculateContributionViewModel()
             {

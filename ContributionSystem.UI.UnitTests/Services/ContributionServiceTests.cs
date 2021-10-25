@@ -41,7 +41,7 @@ namespace ContributionSystem.UI.UnitTests.Services
             await act.Should().ThrowAsync<Exception>().WithMessage("Server response is incorrect");
         }
 
-        private static HttpClient MoqHttpClientSetup(HttpStatusCode statusCode, string content)
+        private HttpClient MoqHttpClientSetup(HttpStatusCode statusCode, string content)
         {
             var handlerMock = new Mock<HttpMessageHandler>();
             var response = new HttpResponseMessage

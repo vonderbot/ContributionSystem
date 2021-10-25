@@ -44,7 +44,7 @@ namespace ContributionSystem.API.UnitTests.Contollers
 
         }
 
-        private static RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)
+        private RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)
         {
             var request = new RequestCalculateContributionViewModel
             {

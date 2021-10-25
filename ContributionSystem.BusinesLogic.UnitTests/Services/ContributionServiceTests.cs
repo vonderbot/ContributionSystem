@@ -86,7 +86,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             act.Should().Throw<Exception>().WithMessage("Null request");
         }
 
-        private static RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)
+        private RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)
         {
             var request = new RequestCalculateContributionViewModel
             {

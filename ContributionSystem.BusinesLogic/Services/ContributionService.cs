@@ -44,7 +44,7 @@ namespace ContributionSystem.BusinessLogic.Services
             };
         }
 
-        private static void CheckRequest(RequestCalculateContributionViewModel request)
+        private void CheckRequest(RequestCalculateContributionViewModel request)
         {
             if (request == null)
             {
@@ -64,7 +64,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private static void SimpleCalculate(Contribution contribution, List<ResponseCalculateContributionViewModelItem> allMonthsInfo)
+        private void SimpleCalculate(Contribution contribution, List<ResponseCalculateContributionViewModelItem> allMonthsInfo)
         {
             var income = contribution.StartValue / Hundred * (contribution.Percent / NumberOfMonthsInAYear);
 
@@ -81,7 +81,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private static void ComplexCalculate(Contribution contribution, List<ResponseCalculateContributionViewModelItem> allMonthsInfo)
+        private void ComplexCalculate(Contribution contribution, List<ResponseCalculateContributionViewModelItem> allMonthsInfo)
         {
             for (var i = 0; i < contribution.Term; i++)
             {
@@ -97,7 +97,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private static decimal ChoosePreviousElement(List<ResponseCalculateContributionViewModelItem> allMonthsInfo, Contribution contribution, int index)
+        private decimal ChoosePreviousElement(List<ResponseCalculateContributionViewModelItem> allMonthsInfo, Contribution contribution, int index)
         {
             if (index != 0)
             {
@@ -109,7 +109,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private static void RoundingMistakeCheck(ResponseCalculateContributionViewModelItem monthInfo, decimal income, decimal previousElement)
+        private void RoundingMistakeCheck(ResponseCalculateContributionViewModelItem monthInfo, decimal income, decimal previousElement)
         {
             if (Math.Round(monthInfo.Sum, NumberOfDigitsAfterDecimalPoint) - Math.Round(previousElement, NumberOfDigitsAfterDecimalPoint) != Math.Round(income, NumberOfDigitsAfterDecimalPoint))
             {
@@ -121,7 +121,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private static decimal ComplexIncomeAndSumCalculating(Contribution contribution, ResponseCalculateContributionViewModelItem monthInfo, decimal previousElement)
+        private decimal ComplexIncomeAndSumCalculating(Contribution contribution, ResponseCalculateContributionViewModelItem monthInfo, decimal previousElement)
         {
             var income = previousElement / Hundred * (contribution.Percent / NumberOfMonthsInAYear);
             monthInfo.Income = income;
