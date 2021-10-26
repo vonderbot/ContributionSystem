@@ -26,8 +26,8 @@ namespace ContributionSystem.UI.Services
         {
             var request = new RequestGetRequestsHistoryContributionViewModel()
             {
-                NumberOfContrbutionsForLoad = take,
-                NumberOfContrbutionsForSkip = skip
+                Take = take,
+                Skip = skip
             };
             var properties = from p in request.GetType().GetProperties()
                              where p.GetValue(request, null) != null

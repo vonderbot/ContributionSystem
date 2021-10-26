@@ -2,8 +2,8 @@
 {
     public class RequestGetRequestsHistoryContributionViewModel
     {
-        public int NumberOfContrbutionsForLoad { get; set; }
+        public int Take { get; set; }
 
-        public int NumberOfContrbutionsForSkip { get; set; }
+        public int Skip { get; set; }
     }
 }

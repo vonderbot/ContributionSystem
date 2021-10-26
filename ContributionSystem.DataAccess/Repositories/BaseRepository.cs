@@ -27,14 +27,14 @@ namespace ContributionSystem.DataAccess.Repositories
             return await table.FindAsync(id);
         }
 
-        public async Task Create(T obj)
+        public async Task Create(T entity)
         {
-            await table.AddAsync(obj);
+            await table.AddAsync(entity);
         }
 
-        public void Update(T obj)
+        public void Update(T entity)
         {
-            table.Attach(obj);
+            table.Attach(entity);
         }
 
         public async Task Delete(object id)

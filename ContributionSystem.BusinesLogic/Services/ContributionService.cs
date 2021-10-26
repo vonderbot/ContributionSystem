@@ -59,7 +59,7 @@ namespace ContributionSystem.BusinessLogic.Services
 
         public async Task<IEnumerable<ResponseGetRequestsHistoryContributionViewModel>> GetRequestsHistory(RequestGetRequestsHistoryContributionViewModel request)
         {
-            var contributions = await _contributionRepository.GetContributions(request.NumberOfContrbutionsForLoad, request.NumberOfContrbutionsForSkip);
+            var contributions = await _contributionRepository.GetContributions(request.Take, request.Skip);
 
             var response = contributions.Select(u => new ResponseGetRequestsHistoryContributionViewModel
             {
