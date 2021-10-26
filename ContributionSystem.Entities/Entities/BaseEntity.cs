@@ -2,7 +2,7 @@
 
 namespace ContributionSystem.Entities.Entities
 {
-    abstract public class BaseEntity
+    public abstract class BaseEntity
     {
         [Key]
         public int Id { get; set; }

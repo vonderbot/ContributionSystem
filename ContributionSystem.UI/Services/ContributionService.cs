@@ -6,34 +6,42 @@ using System.Threading.Tasks;
 using System.Net.Http.Json;
 using System.Net;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 namespace ContributionSystem.UI.Services
 {
     public class ContributionService : IContributionService
     {
+        private readonly string _controllerName;
         private readonly HttpClient _http;
 
         public ContributionService(HttpClient httpClient)
         {
             _http = httpClient;
+            _controllerName = "contribution/";
         }
 
-        public async Task<List<RequestCalculateContributionViewModel>> GetRequestsHistory(int numberOfContrbutionForLoad, int numberOfContrbutionForSkip)
+        public async Task<List<ResponseGetRequestsHistoryContributionViewModel>> GetRequestsHistory(int take, int skip)
         {
-            var request = new RequestGetRequestsHistoryContrbutionViewModel()
+            var request = new RequestGetRequestsHistoryContributionViewModel()
             {
-                NumberOfContrbutionsForLoad = numberOfContrbutionForLoad,
-                NumberOfContrbutionsForSkip = numberOfContrbutionForSkip
+                NumberOfContrbutionsForLoad = take,
+                NumberOfContrbutionsForSkip = skip
             };
-            var response = await _http.PostAsJsonAsync("https://localhost:44303/api/contribution/GetRequestsHistory", request);
+            var properties = from p in request.GetType().GetProperties()
+                             where p.GetValue(request, null) != null
+                             select p.Name + "=" + HttpUtility.UrlEncode(p.GetValue(request, null).ToString());
+            string queryString = "?" + String.Join("&", properties.ToArray());
+            var response = await _http.GetAsync(_controllerName + "GetRequestsHistory/" + queryString);
             CheckResponseStatusCode(response);
 
-            return await response.Content.ReadFromJsonAsync<List<RequestCalculateContributionViewModel>>();
+            return await response.Content.ReadFromJsonAsync<List<ResponseGetRequestsHistoryContributionViewModel>>();
         }
 
         public async Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request)
         {
-            var response = await _http.PostAsJsonAsync("https://localhost:44303/api/contribution/calculate", request);
+            var response = await _http.PostAsJsonAsync(_controllerName + "calculate/", request);
             CheckResponseStatusCode(response);
 
             return await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();

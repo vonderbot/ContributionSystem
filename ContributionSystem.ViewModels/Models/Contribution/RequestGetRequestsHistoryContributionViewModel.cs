@@ -1,6 +1,6 @@
 ﻿namespace ContributionSystem.ViewModels.Models.Contribution
 {
-    public class RequestGetRequestsHistoryContrbutionViewModel
+    public class RequestGetRequestsHistoryContributionViewModel
     {
         public int NumberOfContrbutionsForLoad { get; set; }
 

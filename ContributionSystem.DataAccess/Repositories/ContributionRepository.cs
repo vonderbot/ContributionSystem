@@ -15,12 +15,12 @@ namespace ContributionSystem.DataAccess.Repositories
         {
         }
 
-        public async Task<List<Contribution>> GetContributions(int numberOfContrbutionForLoad, int numberOfContrbutionForSkip)
+        public async Task<List<Contribution>> GetContributions(int take, int skip)
         {
             var contributions =  await _contributionDbContext.Contribution
                 .OrderByDescending(x => x.Id)
-                .Skip(numberOfContrbutionForSkip)
-                .Take(numberOfContrbutionForLoad)
+                .Skip(skip)
+                .Take(take)
                 .ToListAsync();
 
             return contributions;

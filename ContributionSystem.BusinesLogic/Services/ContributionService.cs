@@ -16,6 +16,7 @@ namespace ContributionSystem.BusinessLogic.Services
         private const int Hundred = 100;
         private const int NumberOfMonthsInAYear = 12;
         private const int NumberOfDigitsAfterDecimalPoint = 2;
+
         private readonly IContributionRepository _contributionRepository;
 
         public ContributionService(IContributionRepository contributionRepository)
@@ -54,20 +55,19 @@ namespace ContributionSystem.BusinessLogic.Services
             };
         }
 
-        public async Task<IEnumerable<RequestCalculateContributionViewModel>> GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request)
+        public async Task<IEnumerable<ResponseGetRequestsHistoryContributionViewModel>> GetRequestsHistory(RequestGetRequestsHistoryContributionViewModel request)
         {
             var contributions = await _contributionRepository.GetContributions(request.NumberOfContrbutionsForLoad, request.NumberOfContrbutionsForSkip);
 
-            var requests = contributions.Select(u => new RequestCalculateContributionViewModel
+            var response = contributions.Select(u => new ResponseGetRequestsHistoryContributionViewModel
             {
-                StartValue = u.StartValue,
-                Term = u.Term,
                 Percent = u.Percent,
+                Term = u.Term,
+                Sum = u.StartValue,
                 Date = u.Date,
-                CalculationMethod = (CalculationMethodEnumView)(int)u.CalculationMethod
             });
 
-            return requests;
+            return response;
         }
 
         public async Task AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems)
@@ -83,7 +83,7 @@ namespace ContributionSystem.BusinessLogic.Services
                 StartValue = request.StartValue,
                 Term = request.Term,
                 Percent = request.Percent,
-                Date = request.Date,
+                Date = DateTime.Now.Date.ToShortDateString(),
                 CalculationMethod = (CalculationMethodEnum)(int)request.CalculationMethod,
                 Details = monthsInfo
             };

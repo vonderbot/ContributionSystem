@@ -35,7 +35,6 @@ namespace ContributionSystem.UI.Components
         {
             try
             {
-                _requestCalculateContributionViewModel.Date = DateTime.Now.Date.ToShortDateString();
                 ResponseCalculateContributionViewModel = await ContributionService.Сalculate(_requestCalculateContributionViewModel);
                 await ResponseCalculateContributionViewModelChanged.InvokeAsync(ResponseCalculateContributionViewModel);
             }

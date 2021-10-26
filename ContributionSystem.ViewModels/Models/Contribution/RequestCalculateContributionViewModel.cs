@@ -11,7 +11,5 @@ namespace ContributionSystem.ViewModels.Models.Contribution
         public int Term { get; set; }
 
         public decimal Percent { get; set; }
-
-        public  string Date { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.DataAccess.Repositories
 {
-    abstract public class BaseRepository<T> : IBaseRepository<T> where T : class
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected readonly ContributionDbContext _contributionDbContext;
         protected DbSet<T> table;

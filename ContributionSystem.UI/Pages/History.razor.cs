@@ -16,7 +16,7 @@ namespace ContributionSystem.UI.Pages
 
         private const int NumberOfContrbutionForOneLoad = 8;
 
-        private IEnumerable<RequestCalculateContributionViewModel> _requestsHistory;
+        private IEnumerable<ResponseGetRequestsHistoryContributionViewModel> _requestsHistory;
         private IEnumerable<MemberInfo> _fieldlist;
         private string _message;
         private int _numberOfLoads;
@@ -28,10 +28,10 @@ namespace ContributionSystem.UI.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            _fieldlist = typeof(RequestCalculateContributionViewModel).GetMembers()
+            _fieldlist = typeof(ResponseGetRequestsHistoryContributionViewModel).GetMembers()
                     .Where(mi => mi.MemberType == MemberTypes.Field ||
                     mi.MemberType == MemberTypes.Property);
-            _requestsHistory = new List<RequestCalculateContributionViewModel>();
+            _requestsHistory = new List<ResponseGetRequestsHistoryContributionViewModel>();
             _numberOfLoads = 0;
             await LoadData();
         }

@@ -8,7 +8,7 @@ namespace ContributionSystem.BusinessLogic.Interfaces
     {
         public ResponseCalculateContributionViewModel Calculate(RequestCalculateContributionViewModel request);
 
-        public Task<IEnumerable<RequestCalculateContributionViewModel>> GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request);
+        public Task<IEnumerable<ResponseGetRequestsHistoryContributionViewModel>> GetRequestsHistory(RequestGetRequestsHistoryContributionViewModel request);
 
         public Task AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems);
     }

@@ -17,8 +17,8 @@ namespace ContributionSystem.API.Controllers
             _contributionService = сontributionService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetRequestsHistory(RequestGetRequestsHistoryContrbutionViewModel request)
+        [HttpGet]
+        public async Task<IActionResult> GetRequestsHistory([FromQuery]RequestGetRequestsHistoryContributionViewModel request)
         {
             try
             {
