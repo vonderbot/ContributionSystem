@@ -12,7 +12,7 @@ namespace ContributionSystem.Entities.Entities
         [Column(TypeName = "decimal(12,2)")]
         public decimal Sum { get; set; }
 
-        [ForeignKey("CompId")]
+        [ForeignKey("Contribution")]
         public int ContributionId { get; set; }
 
         public Contribution Contribution { get; set; }

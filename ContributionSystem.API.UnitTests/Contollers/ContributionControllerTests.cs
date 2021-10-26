@@ -20,39 +20,39 @@ namespace ContributionSystem.API.UnitTests.Contollers
 
         public ContributionControllerTests()
         {
-            //contributionController = new ContributionController(new ContributionService());
+            contributionController = new ContributionController(new ContributionService(new ContributionRepository(new ContributionDbContext(new DbContextOptions<ContributionDbContext>()))));
         }
 
-        //[Test]
-        //public void Calculate_ValidRequest_OkObjectResultWithResponseCalculateContributionViewModel()
-        //{
-        //    var response = contributionController.Calculate(GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent));
-        //    var okObjectResult = response as OkObjectResult;
-        //    okObjectResult.Should().NotBeNull();
-        //    okObjectResult.Value.Should().BeOfType<ResponseCalculateContributionViewModel>();
-        //}
+        [Test]
+        public async void Calculate_ValidRequest_OkObjectResultWithResponseCalculateContributionViewModel()
+        {
+            var response = await contributionController.Calculate(GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent));
+            var okObjectResult = response as OkObjectResult;
+            okObjectResult.Should().NotBeNull();
+            okObjectResult.Value.Should().BeOfType<ResponseCalculateContributionViewModel>();
+        }
 
-        //[Test]
-        //public void Calculate_NullRequest_ThrowException()
-        //{
-        //    var response = contributionController.Calculate(null);
-        //    var BadRequestObjectResult = response as BadRequestObjectResult;
-        //    BadRequestObjectResult.Should().NotBeNull();
-        //    BadRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
+        [Test]
+        public async void Calculate_NullRequest_ThrowException()
+        {
+            var response = await contributionController.Calculate(null);
+            var BadRequestObjectResult = response as BadRequestObjectResult;
+            BadRequestObjectResult.Should().NotBeNull();
+            BadRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
 
-        //}
+        }
 
-        //private RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)
-        //{
-        //    var request = new RequestCalculateContributionViewModel
-        //    {
-        //        CalculationMethod = calculationMethod,
-        //        StartValue = startValue,
-        //        Term = term,
-        //        Percent = percent
-        //    };
+        private RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)
+        {
+            var request = new RequestCalculateContributionViewModel
+            {
+                CalculationMethod = calculationMethod,
+                StartValue = startValue,
+                Term = term,
+                Percent = percent
+            };
 
-        //    return request;
-        //}
+            return request;
+        }
     }
 }

@@ -13,13 +13,13 @@ namespace ContributionSystem.UI.Services
 {
     public class ContributionService : IContributionService
     {
-        private readonly string _controllerName;
+        private const string _controllerName = "contribution/";
+
         private readonly HttpClient _http;
 
         public ContributionService(HttpClient httpClient)
         {
             _http = httpClient;
-            _controllerName = "contribution/";
         }
 
         public async Task<List<ResponseGetRequestsHistoryContributionViewModel>> GetRequestsHistory(int take, int skip)

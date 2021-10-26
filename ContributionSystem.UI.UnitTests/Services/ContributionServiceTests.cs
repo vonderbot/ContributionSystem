@@ -21,6 +21,7 @@ namespace ContributionSystem.UI.UnitTests.Services
         private const int CorrectTerm = 1;
         private const decimal CorrectPercent = 100;
         private const string ValidRequest = @"{ ""CalculationMethod"": 0, ""Items"": [{""MonthNumber"": 1, ""Income"": 0.08, ""Sum"": 1.08}]}";
+
         private IContributionService _contributionService;
 
         [Fact]
@@ -46,7 +47,7 @@ namespace ContributionSystem.UI.UnitTests.Services
             var handlerMock = new Mock<HttpMessageHandler>();
             var response = new HttpResponseMessage
             {
-                StatusCode = statusCode,
+                StatusCode = statusCode
             };
 
             if (content == null)

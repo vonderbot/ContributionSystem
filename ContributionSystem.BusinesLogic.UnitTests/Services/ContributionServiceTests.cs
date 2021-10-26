@@ -5,6 +5,9 @@ using NUnit.Framework;
 using System;
 using ContributionSystem.BusinessLogic.Services;
 using System.Collections.Generic;
+using ContributionSystem.DataAccess.Repositories;
+using ContributionSystem.DataAccess.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContributionSystem.BusinesLogic.UnitTests.Services
 {
@@ -17,7 +20,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
 
         public ContributionServiceTests()
         {
-            //_contributionService = new ContributionService();
+            _contributionService = new ContributionService(new ContributionRepository(new ContributionDbContext(new DbContextOptions<ContributionDbContext>())));
         }
 
         [Test]
