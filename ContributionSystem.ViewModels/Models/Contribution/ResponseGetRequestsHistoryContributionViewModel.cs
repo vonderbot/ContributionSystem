@@ -15,5 +15,7 @@ namespace ContributionSystem.ViewModels.Models.Contribution
         public decimal Sum { get; set; }
 
         public string Date { get; set; }
+
+        public int Id { get; set; }
     }
 }

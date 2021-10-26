@@ -65,6 +65,7 @@ namespace ContributionSystem.BusinessLogic.Services
                 Term = u.Term,
                 Sum = u.StartValue,
                 Date = u.Date,
+                Id = u.Id
             });
 
             return response;
@@ -87,7 +88,6 @@ namespace ContributionSystem.BusinessLogic.Services
                 CalculationMethod = (CalculationMethodEnum)(int)request.CalculationMethod,
                 Details = monthsInfo
             };
-
             await _contributionRepository.Create(contribution);
             await _contributionRepository.Save();
         }

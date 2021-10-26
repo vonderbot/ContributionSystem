@@ -2,7 +2,6 @@
 using ContributionSystem.DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.DataAccess.Repositories
@@ -36,7 +35,6 @@ namespace ContributionSystem.DataAccess.Repositories
         public void Update(T obj)
         {
             table.Attach(obj);
-            _contributionDbContext.Entry(obj).State = EntityState.Modified;
         }
 
         public async Task Delete(object id)

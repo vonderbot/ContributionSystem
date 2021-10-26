@@ -29,8 +29,8 @@ namespace ContributionSystem.UI.Pages
         protected override async Task OnInitializedAsync()
         {
             _fieldlist = typeof(ResponseGetRequestsHistoryContributionViewModel).GetMembers()
-                    .Where(mi => mi.MemberType == MemberTypes.Field ||
-                    mi.MemberType == MemberTypes.Property);
+                    .Where(mi => (mi.MemberType == MemberTypes.Field ||
+                    mi.MemberType == MemberTypes.Property) && mi.Name != "Id");
             _requestsHistory = new List<ResponseGetRequestsHistoryContributionViewModel>();
             _numberOfLoads = 0;
             await LoadData();

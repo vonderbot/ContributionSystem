@@ -34,7 +34,7 @@ namespace ContributionSystem.UI.Services
                              select p.Name + "=" + HttpUtility.UrlEncode(p.GetValue(request, null).ToString());
             string queryString = "?" + String.Join("&", properties.ToArray());
             var response = await _http.GetAsync(_controllerName + "GetRequestsHistory/" + queryString);
-            CheckResponseStatusCode(response);
+            await CheckResponseStatusCode(response);
 
             return await response.Content.ReadFromJsonAsync<List<ResponseGetRequestsHistoryContributionViewModel>>();
         }
@@ -42,16 +42,17 @@ namespace ContributionSystem.UI.Services
         public async Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request)
         {
             var response = await _http.PostAsJsonAsync(_controllerName + "calculate/", request);
-            CheckResponseStatusCode(response);
+            await CheckResponseStatusCode(response);
 
             return await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
         }
 
-        private void CheckResponseStatusCode(HttpResponseMessage response)
+        private async Task CheckResponseStatusCode(HttpResponseMessage response)
         {
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception("Server response is incorrect");
+                var exception = await response.Content.ReadFromJsonAsync<string>();
+                throw new Exception(exception);
             }
         }
     }
