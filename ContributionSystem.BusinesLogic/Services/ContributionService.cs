@@ -24,7 +24,7 @@ namespace ContributionSystem.BusinessLogic.Services
             _contributionRepository = contributionRepository;
         }
 
-        public ResponseCalculateContributionViewModel Calculate(RequestCalculateContributionViewModel request)
+        public async Task<ResponseCalculateContributionViewModel> Calculate(RequestCalculateContributionViewModel request)
         {
             CheckRequest(request);
             var contribution = new Contribution() 
@@ -47,12 +47,14 @@ namespace ContributionSystem.BusinessLogic.Services
                 default:
                     throw new Exception("Incorrect calculation method");
             }
-
-            return new ResponseCalculateContributionViewModel()
+            var response = new ResponseCalculateContributionViewModel()
             {
                 CalculationMethod = request.CalculationMethod,
                 Items = allMonthsInfo
             };
+            await AddContribution(request, response.Items);
+
+            return response;
         }
 
         public async Task<IEnumerable<ResponseGetRequestsHistoryContributionViewModel>> GetRequestsHistory(RequestGetRequestsHistoryContributionViewModel request)
@@ -71,7 +73,7 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
-        public async Task AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems)
+        private async Task AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems)
         {
             var monthsInfo = responseItems.Select(u => new MonthInfo
             {
