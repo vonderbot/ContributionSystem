@@ -2,6 +2,7 @@
 using ContributionSystem.DataAccess.Interfaces;
 using ContributionSystem.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -46,7 +47,15 @@ namespace ContributionSystem.DataAccess.Repositories
         public async Task Delete(int id)
         {
             T existing = await table.FindAsync(id);
-            table.Remove(existing);
+
+            if (existing != null)
+            {
+                table.Remove(existing);
+            }
+            else
+            {
+                throw new Exception("Unable to delete, id does not exist.");
+            }
         }
 
         public async Task Save()

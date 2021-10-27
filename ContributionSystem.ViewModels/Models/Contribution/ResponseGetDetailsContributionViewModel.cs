@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
-    public class ResponseCalculateContributionViewModel
+    public class ResponseGetDetailsContributionViewModel
     {
         public CalculationMethodEnumView CalculationMethod { get; set; }
 

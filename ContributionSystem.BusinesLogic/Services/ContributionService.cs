@@ -8,6 +8,7 @@ using ContributionSystem.DataAccess.Interfaces;
 using ContributionSystem.Entities.Enums;
 using System.Linq;
 using System.Threading.Tasks;
+using ContributionSystem.ViewModels.Items.Contribution;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
@@ -23,6 +24,22 @@ namespace ContributionSystem.BusinessLogic.Services
         {
             _contributionRepository = contributionRepository;
         }
+        public async Task<ResponseGetDetailsContributionViewModel> GetDetails(int Id)
+        {
+            var contribution = await _contributionRepository.GetContributionById(Id);
+            var response = new ResponseGetDetailsContributionViewModel
+            {
+                CalculationMethod = (CalculationMethodEnumView)(int)contribution.CalculationMethod,
+                Items = contribution.Details.Select(u => new MonthsInfoContributionViewModelItem
+                {
+                    MonthNumber = u.MonthNumber,
+                    Income = u.Income,
+                    Sum = u.Sum
+                }).ToList()
+            };
+
+            return response;
+        }
 
         public async Task<ResponseCalculateContributionViewModel> Calculate(RequestCalculateContributionViewModel request)
         {
@@ -33,7 +50,7 @@ namespace ContributionSystem.BusinessLogic.Services
                 Term = request.Term,
                 Percent = request.Percent
             };
-            var allMonthsInfo = new List<ResponseCalculateContributionViewModelItem>();
+            var allMonthsInfo = new List<MonthsInfoContributionViewModelItem>();
             switch (request.CalculationMethod)
             {
                 case CalculationMethodEnumView.Simple:
@@ -57,7 +74,7 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
-        public async Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetRequestsHistoryContributionViewModel request)
+        public async Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetHistoryContributionViewModel request)
         {
             var contributions = await _contributionRepository.GetContributions(request.Take, request.Skip);
             var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
@@ -79,7 +96,7 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
-        private async Task AddContribution(RequestCalculateContributionViewModel request, IEnumerable<ResponseCalculateContributionViewModelItem> responseItems)
+        private async Task AddContribution(RequestCalculateContributionViewModel request, IEnumerable<MonthsInfoContributionViewModelItem> responseItems)
         {
             var monthsInfo = responseItems.Select(u => new MonthInfo
             {
@@ -120,13 +137,13 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private void SimpleCalculate(Contribution contribution, List<ResponseCalculateContributionViewModelItem> allMonthsInfo)
+        private void SimpleCalculate(Contribution contribution, List<MonthsInfoContributionViewModelItem> allMonthsInfo)
         {
             var income = contribution.StartValue / Hundred * (contribution.Percent / NumberOfMonthsInAYear);
 
             for (var i = 0; i < contribution.Term; i++)
             {
-                var monthInfo = new ResponseCalculateContributionViewModelItem()
+                var monthInfo = new MonthsInfoContributionViewModelItem()
                 {
                     MonthNumber = i + 1,
                     Income = income,
@@ -137,11 +154,11 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private void ComplexCalculate(Contribution contribution, List<ResponseCalculateContributionViewModelItem> allMonthsInfo)
+        private void ComplexCalculate(Contribution contribution, List<MonthsInfoContributionViewModelItem> allMonthsInfo)
         {
             for (var i = 0; i < contribution.Term; i++)
             {
-                var monthInfo = new ResponseCalculateContributionViewModelItem();
+                var monthInfo = new MonthsInfoContributionViewModelItem();
                 monthInfo.MonthNumber = i + 1;
                 decimal income = ComplexIncomeAndSumCalculating(contribution, monthInfo, ChoosePreviousElement(allMonthsInfo, contribution, i));
                 RoundingMistakeCheck(monthInfo, income, ChoosePreviousElement(allMonthsInfo, contribution, i));
@@ -153,7 +170,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private decimal ChoosePreviousElement(List<ResponseCalculateContributionViewModelItem> allMonthsInfo, Contribution contribution, int index)
+        private decimal ChoosePreviousElement(List<MonthsInfoContributionViewModelItem> allMonthsInfo, Contribution contribution, int index)
         {
             if (index != 0)
             {
@@ -165,7 +182,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private void RoundingMistakeCheck(ResponseCalculateContributionViewModelItem monthInfo, decimal income, decimal previousElement)
+        private void RoundingMistakeCheck(MonthsInfoContributionViewModelItem monthInfo, decimal income, decimal previousElement)
         {
             if (Math.Round(monthInfo.Sum, NumberOfDigitsAfterDecimalPoint) - Math.Round(previousElement, NumberOfDigitsAfterDecimalPoint) != Math.Round(income, NumberOfDigitsAfterDecimalPoint))
             {
@@ -177,7 +194,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private decimal ComplexIncomeAndSumCalculating(Contribution contribution, ResponseCalculateContributionViewModelItem monthInfo, decimal previousElement)
+        private decimal ComplexIncomeAndSumCalculating(Contribution contribution, MonthsInfoContributionViewModelItem monthInfo, decimal previousElement)
         {
             var income = previousElement / Hundred * (contribution.Percent / NumberOfMonthsInAYear);
             monthInfo.Income = income;

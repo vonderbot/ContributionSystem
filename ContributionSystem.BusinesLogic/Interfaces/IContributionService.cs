@@ -5,8 +5,10 @@ namespace ContributionSystem.BusinessLogic.Interfaces
 {
     public interface IContributionService
     {
+        Task<ResponseGetDetailsContributionViewModel> GetDetails(int Id);
+
         public Task<ResponseCalculateContributionViewModel> Calculate(RequestCalculateContributionViewModel request);
 
-        public Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetRequestsHistoryContributionViewModel request);
+        public Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetHistoryContributionViewModel request);
     }
 }

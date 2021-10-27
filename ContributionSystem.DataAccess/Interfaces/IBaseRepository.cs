@@ -11,9 +11,9 @@ namespace ContributionSystem.DataAccess.Interfaces
 
         Task<T> GetById(int id);
 
-        Task Create(T obj);
+        Task Create(T entity);
 
-        void Update(T obj);
+        void Update(T entity);
 
         Task Delete(int id);
 

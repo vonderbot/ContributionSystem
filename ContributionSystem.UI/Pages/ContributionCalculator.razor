@@ -1,5 +1,8 @@
 ﻿@page "/Main"
+
 @using ContributionSystem.UI.Components
+
+<Navbar />
 <div class="row">
     <ContributionCalculatorForm @bind-ResponseCalculateContributionViewModel="_responseCalculateContributionViewModel" @bind-ErrorMessage="_errorMessage" />
     <div ScrollableTable class="col-9 text-center ">

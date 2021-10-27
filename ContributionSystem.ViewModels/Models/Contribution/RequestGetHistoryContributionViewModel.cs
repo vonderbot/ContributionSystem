@@ -1,6 +1,6 @@
 ﻿namespace ContributionSystem.ViewModels.Models.Contribution
 {
-    public class RequestGetRequestsHistoryContributionViewModel
+    public class RequestGetHistoryContributionViewModel
     {
         public int Take { get; set; }
 

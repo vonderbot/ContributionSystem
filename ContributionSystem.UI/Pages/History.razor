@@ -1,5 +1,7 @@
 ﻿@page "/History"
+@using ContributionSystem.UI.Components
 
+<Navbar />
 @if (_requestsHistory != null)
 {
     <div class="row">
@@ -41,7 +43,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-center">
-                        <button class="btn btn-secondary">See details</button>
+                        <button class="btn btn-secondary" @onclick="() => NavigateToDetailsComponent(element.Id)">See details</button>
                     </div>
                 </div>
             </div>

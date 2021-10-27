@@ -1,0 +1,15 @@
+﻿@page "/Details/{id:int}"
+
+@using ContributionSystem.UI.Components
+
+<div ScrollableTable class="text-center">
+    <ContributionCalculatorTable @bind-ResponseCalculateContributionViewModel="_responseCalculateContributionViewModel" />
+</div>
+
+@if (_message != null)
+{
+    <div class="row justify-content-center">
+        <h1>@_message</h1>
+    </div>
+    <br />
+}

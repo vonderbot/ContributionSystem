@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using ContributionSystem.DataAccess.Repositories;
 using ContributionSystem.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
+using ContributionSystem.ViewModels.Items.Contribution;
 
 namespace ContributionSystem.BusinesLogic.UnitTests.Services
 {
@@ -107,21 +108,21 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             var correctResponse = new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-                Items = new List<ResponseCalculateContributionViewModelItem>
+                Items = new List<MonthsInfoContributionViewModelItem>
                 {
-                    new ResponseCalculateContributionViewModelItem
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 1,
                         Income = 0.08M,
                         Sum = 1.08M
                     },
-                    new ResponseCalculateContributionViewModelItem
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 2,
                         Income = 0.09M,
                         Sum = 1.17M
                     },
-                    new ResponseCalculateContributionViewModelItem
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 3,
                         Income = 0.08M,
@@ -138,21 +139,21 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             var correctResponse = new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Complex,
-                Items = new List<ResponseCalculateContributionViewModelItem>
+                Items = new List<MonthsInfoContributionViewModelItem>
                 {
-                    new ResponseCalculateContributionViewModelItem
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 1,
                         Income = 0.08M,
                         Sum = 1.08M
                     },
-                    new ResponseCalculateContributionViewModelItem
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 2,
                         Income = 0.09M,
                         Sum = 1.17M
                     },
-                    new ResponseCalculateContributionViewModelItem
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 3,
                         Income = 0.10M,

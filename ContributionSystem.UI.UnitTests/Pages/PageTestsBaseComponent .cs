@@ -1,6 +1,7 @@
 ﻿using Bunit;
 using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Enums;
+using ContributionSystem.ViewModels.Items.Contribution;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -34,8 +35,8 @@ namespace ContributionSystem.UI.UnitTests.Pages
                 return new ResponseCalculateContributionViewModel
                 {
                     CalculationMethod = CalculationMethodEnumView.Simple,
-                    Items = new List<ResponseCalculateContributionViewModelItem>{
-                    new ResponseCalculateContributionViewModelItem
+                    Items = new List<MonthsInfoContributionViewModelItem>{
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 1,
                         Income = 0.08M,

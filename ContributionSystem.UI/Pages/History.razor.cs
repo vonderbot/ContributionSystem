@@ -13,10 +13,18 @@ namespace ContributionSystem.UI.Pages
         [Inject]
         IContributionService ContributionService { get; set; }
 
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
         private int _take;
         private int _skip;
         private IEnumerable<ResponseGetHistoryContributionViewModelItem> _requestsHistory;
         private string _message;
+
+        public void NavigateToDetailsComponent(int id)
+        {
+            NavigationManager.NavigateTo($"Details/{id}");
+        }
 
         public async Task LoadMore()
         {
@@ -38,6 +46,7 @@ namespace ContributionSystem.UI.Pages
                 _message = "loading...";
                 var response = await ContributionService.GetHistory(_take, _skip);
                 _skip = response.Take + response.Skip;
+
                 if (_skip >= response.TotalNumberOfRecords)
                 {
                     _message = "End of history";
@@ -50,6 +59,7 @@ namespace ContributionSystem.UI.Pages
                 {
                     _message = null;
                 }
+
                 _requestsHistory = _requestsHistory.Concat(response.Items.ToList());
             }
             catch (Exception ex)

@@ -25,5 +25,12 @@ namespace ContributionSystem.DataAccess.Repositories
 
             return contributions;
         }
+
+        public async Task<Contribution> GetContributionById(int id)
+        {
+            var contributions = await _contributionDbContext.Contribution.Include(c => c.Details).SingleOrDefaultAsync(c => c.Id == id);
+
+            return contributions;
+        }
     }
 }

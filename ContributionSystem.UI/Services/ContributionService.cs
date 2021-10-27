@@ -19,6 +19,14 @@ namespace ContributionSystem.UI.Services
             _http = httpClient;
         }
 
+        public async Task<ResponseGetDetailsContributionViewModel> GetDetails(int id)
+        {
+            var response = await _http.GetAsync($"{СontrollerName}/GetDetails?id={id}");
+            await CheckResponseStatusCode(response);
+
+            return await response.Content.ReadFromJsonAsync<ResponseGetDetailsContributionViewModel>();
+        }
+
         public async Task<ResponseGetHistoryContributionViewModel> GetHistory(int take, int skip)
         {
             var response = await _http.GetAsync($"{СontrollerName}/GetHistory?Take={take}&Skip={skip}");
