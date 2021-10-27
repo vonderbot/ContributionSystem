@@ -57,11 +57,10 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
-        public async Task<IEnumerable<ResponseGetRequestsHistoryContributionViewModel>> GetRequestsHistory(RequestGetRequestsHistoryContributionViewModel request)
+        public async Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetRequestsHistoryContributionViewModel request)
         {
             var contributions = await _contributionRepository.GetContributions(request.Take, request.Skip);
-
-            var response = contributions.Select(u => new ResponseGetRequestsHistoryContributionViewModel
+            var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
             {
                 Percent = u.Percent,
                 Term = u.Term,
@@ -69,6 +68,13 @@ namespace ContributionSystem.BusinessLogic.Services
                 Date = u.Date,
                 Id = u.Id
             });
+            var response = new ResponseGetHistoryContributionViewModel
+            {
+                Items = items,
+                TotalNumberOfRecords = await _contributionRepository.GetNumberOfRecords(), 
+                Take = request.Take,
+                Skip = request.Skip
+            };
 
             return response;
         }
@@ -86,7 +92,7 @@ namespace ContributionSystem.BusinessLogic.Services
                 StartValue = request.StartValue,
                 Term = request.Term,
                 Percent = request.Percent,
-                Date = DateTime.Now.Date.ToShortDateString(),
+                Date = DateTime.UtcNow.Date.ToShortDateString(),
                 CalculationMethod = (CalculationMethodEnum)(int)request.CalculationMethod,
                 Details = monthsInfo
             };

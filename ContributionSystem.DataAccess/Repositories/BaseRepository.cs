@@ -9,7 +9,7 @@ namespace ContributionSystem.DataAccess.Repositories
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected readonly ContributionDbContext _contributionDbContext;
-        protected DbSet<T> table;
+        protected readonly DbSet<T> table;
 
         protected BaseRepository(ContributionDbContext contributionDbContext)
         {
@@ -17,12 +17,17 @@ namespace ContributionSystem.DataAccess.Repositories
             table = _contributionDbContext.Set<T>();
         }
 
+        public async Task<int> GetNumberOfRecords()
+        {
+            return await table.CountAsync();
+        }
+
         public async Task<IEnumerable<T>> GetAll()
         {
             return await table.ToListAsync();
         }
 
-        public async Task<T> GetById(object id)
+        public async Task<T> GetById(int id)
         {
             return await table.FindAsync(id);
         }
@@ -34,10 +39,10 @@ namespace ContributionSystem.DataAccess.Repositories
 
         public void Update(T entity)
         {
-            table.Attach(entity);
+            table.Update(entity);
         }
 
-        public async Task Delete(object id)
+        public async Task Delete(int id)
         {
             T existing = await table.FindAsync(id);
             table.Remove(existing);

@@ -18,11 +18,11 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetRequestsHistory([FromQuery]RequestGetRequestsHistoryContributionViewModel request)
+        public async Task<IActionResult> GetHistory([FromQuery]RequestGetRequestsHistoryContributionViewModel request)
         {
             try
             {
-                var response = await _contributionService.GetRequestsHistory(request);
+                var response = await _contributionService.GetHistory(request);
 
                 return Ok(response);
             }

@@ -5,15 +5,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
 using System.Net;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace ContributionSystem.UI.Services
 {
     public class ContributionService : IContributionService
     {
-        private const string _controllerName = "contribution/";
+        private const string СontrollerName = "contribution";
 
         private readonly HttpClient _http;
 
@@ -22,26 +19,17 @@ namespace ContributionSystem.UI.Services
             _http = httpClient;
         }
 
-        public async Task<List<ResponseGetRequestsHistoryContributionViewModel>> GetRequestsHistory(int take, int skip)
+        public async Task<ResponseGetHistoryContributionViewModel> GetHistory(int take, int skip)
         {
-            var request = new RequestGetRequestsHistoryContributionViewModel()
-            {
-                Take = take,
-                Skip = skip
-            };
-            var properties = from p in request.GetType().GetProperties()
-                             where p.GetValue(request, null) != null
-                             select p.Name + "=" + HttpUtility.UrlEncode(p.GetValue(request, null).ToString());
-            string queryString = "?" + String.Join("&", properties.ToArray());
-            var response = await _http.GetAsync(_controllerName + "GetRequestsHistory/" + queryString);
+            var response = await _http.GetAsync($"{СontrollerName}/GetHistory?Take={take}&Skip={skip}");
             await CheckResponseStatusCode(response);
 
-            return await response.Content.ReadFromJsonAsync<List<ResponseGetRequestsHistoryContributionViewModel>>();
+            return await response.Content.ReadFromJsonAsync<ResponseGetHistoryContributionViewModel>();
         }
 
         public async Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request)
         {
-            var response = await _http.PostAsJsonAsync(_controllerName + "calculate/", request);
+            var response = await _http.PostAsJsonAsync($"{СontrollerName}/calculate", request);
             await CheckResponseStatusCode(response);
 
             return await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();

@@ -8,18 +8,38 @@
         {
             <div class="container col-lg-3 col-md-6 col-sm-12 m-0 p-0 ">
                 <div class="content border p-3 mr-5 mb-5">
-
-                    @foreach (var info in _fieldlist)
-                    {
-                        <div class="row p-1">
-                            <div class="col-8">
-                                <p class="text-nowrap">@info.Name:</p>
-                            </div>
-                            <div class="col-4">
-                                <p class="text-nowrap">@element.GetType().GetProperty((string)info.Name).GetValue(element)</p>
-                            </div>
+                    <div class="row p-1">
+                        <div class="col-8">
+                            <p class="text-nowrap">Percent:</p>
                         </div>
-                    }
+                        <div class="col-4">
+                            <p class="text-nowrap">@element.Percent</p>
+                        </div>
+                    </div>
+                    <div class="row p-1">
+                        <div class="col-8">
+                            <p class="text-nowrap">Term:</p>
+                        </div>
+                        <div class="col-4">
+                            <p class="text-nowrap">@element.Term</p>
+                        </div>
+                    </div>
+                    <div class="row p-1">
+                        <div class="col-8">
+                            <p class="text-nowrap">Sum:</p>
+                        </div>
+                        <div class="col-4">
+                            <p class="text-nowrap">@element.Sum</p>
+                        </div>
+                    </div>
+                    <div class="row p-1">
+                        <div class="col-8">
+                            <p class="text-nowrap">Date:</p>
+                        </div>
+                        <div class="col-4">
+                            <p class="text-nowrap">@element.Date</p>
+                        </div>
+                    </div>
                     <div class="row justify-content-center">
                         <button class="btn btn-secondary">See details</button>
                     </div>

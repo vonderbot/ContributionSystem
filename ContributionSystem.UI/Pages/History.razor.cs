@@ -16,8 +16,7 @@ namespace ContributionSystem.UI.Pages
 
         private const int NumberOfContrbutionForOneLoad = 8;
 
-        private IEnumerable<ResponseGetRequestsHistoryContributionViewModel> _requestsHistory;
-        private IEnumerable<MemberInfo> _fieldlist;
+        private IEnumerable<ResponseGetHistoryContributionViewModelItem> _requestsHistory;
         private string _message;
         private int _numberOfLoads;
 
@@ -28,10 +27,7 @@ namespace ContributionSystem.UI.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            _fieldlist = typeof(ResponseGetRequestsHistoryContributionViewModel).GetMembers()
-                    .Where(mi => (mi.MemberType == MemberTypes.Field ||
-                    mi.MemberType == MemberTypes.Property) && mi.Name != "Id");
-            _requestsHistory = new List<ResponseGetRequestsHistoryContributionViewModel>();
+            _requestsHistory = new List<ResponseGetHistoryContributionViewModelItem>();
             _numberOfLoads = 0;
             await LoadData();
         }
@@ -41,13 +37,13 @@ namespace ContributionSystem.UI.Pages
             try
             {
                 _message = "loading...";
-                var response = await ContributionService.GetRequestsHistory(NumberOfContrbutionForOneLoad, _numberOfLoads * NumberOfContrbutionForOneLoad);
+                var response = await ContributionService.GetHistory(NumberOfContrbutionForOneLoad, _numberOfLoads * NumberOfContrbutionForOneLoad);
 
-                if (_numberOfLoads == 0 && response == null)
+                if (_numberOfLoads == 0 && response.Items == null)
                 {
                     _message = "History is empty";
                 }
-                else if (response == null || response.Count < NumberOfContrbutionForOneLoad)
+                else if (response == null || response.Items.ToList().Count < NumberOfContrbutionForOneLoad)
                 {
                     _message = "End of history";
                 }
@@ -55,7 +51,7 @@ namespace ContributionSystem.UI.Pages
                 {
                     _message = null;
                 }
-                _requestsHistory = _requestsHistory.Concat(response);
+                _requestsHistory = _requestsHistory.Concat(response.Items.ToList());
                 _numberOfLoads++;
             }
             catch (Exception ex)
