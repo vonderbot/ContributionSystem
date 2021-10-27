@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Pages
@@ -14,11 +13,10 @@ namespace ContributionSystem.UI.Pages
         [Inject]
         IContributionService ContributionService { get; set; }
 
-        private const int NumberOfContrbutionForOneLoad = 8;
-
+        private int _take;
+        private int _skip;
         private IEnumerable<ResponseGetHistoryContributionViewModelItem> _requestsHistory;
         private string _message;
-        private int _numberOfLoads;
 
         public async Task LoadMore()
         {
@@ -27,8 +25,9 @@ namespace ContributionSystem.UI.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            _take = 8;
+            _skip = 0;
             _requestsHistory = new List<ResponseGetHistoryContributionViewModelItem>();
-            _numberOfLoads = 0;
             await LoadData();
         }
 
@@ -37,22 +36,21 @@ namespace ContributionSystem.UI.Pages
             try
             {
                 _message = "loading...";
-                var response = await ContributionService.GetHistory(NumberOfContrbutionForOneLoad, _numberOfLoads * NumberOfContrbutionForOneLoad);
-
-                if (_numberOfLoads == 0 && response.Items == null)
-                {
-                    _message = "History is empty";
-                }
-                else if (response == null || response.Items.ToList().Count < NumberOfContrbutionForOneLoad)
+                var response = await ContributionService.GetHistory(_take, _skip);
+                _skip = response.Take + response.Skip;
+                if (_skip >= response.TotalNumberOfRecords)
                 {
                     _message = "End of history";
+                }
+                else if(response.TotalNumberOfRecords == 0)
+                {
+                    _message = "History is empty";
                 }
                 else
                 {
                     _message = null;
                 }
                 _requestsHistory = _requestsHistory.Concat(response.Items.ToList());
-                _numberOfLoads++;
             }
             catch (Exception ex)
             {

@@ -5,7 +5,7 @@ namespace ContributionSystem.DataAccess.Interfaces
 {
     public interface IBaseRepository<T> where T : class
     {
-        Task<int> GetNumberOfRecords()
+        Task<int> GetNumberOfRecords();
 
         Task<IEnumerable<T>> GetAll();
 
