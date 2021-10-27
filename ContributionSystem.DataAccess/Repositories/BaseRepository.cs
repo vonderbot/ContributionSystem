@@ -1,12 +1,13 @@
 ﻿using ContributionSystem.DataAccess.Contexts;
 using ContributionSystem.DataAccess.Interfaces;
+using ContributionSystem.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.DataAccess.Repositories
 {
-    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         protected readonly ContributionDbContext _contributionDbContext;
         protected readonly DbSet<T> table;
