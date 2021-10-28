@@ -14,7 +14,7 @@ namespace ContributionSystem.UI.Pages
         [Parameter]
         public int Id { get; set; }
 
-        private ResponseCalculateContributionViewModel _responseCalculateContributionViewModel { get; set; }
+        private ResponseGetDetailsContributionViewModel _responseCalculateContributionViewModel { get; set; }
         private string _message;
 
         protected override async Task OnInitializedAsync()
@@ -27,12 +27,8 @@ namespace ContributionSystem.UI.Pages
             try
             {
                 _message = "loading...";
-                var response = await ContributionService.GetDetails(Id);
-                _responseCalculateContributionViewModel = new ResponseCalculateContributionViewModel 
-                {
-                    Items = response.Items,
-                    CalculationMethod = response.CalculationMethod
-                };
+                _responseCalculateContributionViewModel = await ContributionService.GetDetails(Id);
+                _message = null;
             }
             catch (Exception ex)
             {

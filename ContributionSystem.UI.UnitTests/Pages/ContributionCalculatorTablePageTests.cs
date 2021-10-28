@@ -8,22 +8,22 @@ namespace ContributionSystem.UI.UnitTests.Pages
     public class ContributionCalculatorTablePageTests : PageTestsBaseComponent
     {
 
-        [Fact]
-        public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
-        {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable>();
-            page.Find("thead").Should().NotBeNull();
-            page.FindAll("tbody").Should().BeEmpty();
-        }
+        //[Fact]
+        //public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
+        //{
+        //    var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable>();
+        //    page.Find("thead").Should().NotBeNull();
+        //    page.FindAll("tbody").Should().BeEmpty();
+        //}
 
-        [Fact]
-        public void WhenPageRendered_NullResponse_ExpectedMarkupRendered()
-        {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable>(parameters => parameters
-                .Add(p => p.ResponseCalculateContributionViewModel, null));
-            page.Find("thead").Should().NotBeNull();
-            page.FindAll("tbody").Should().BeEmpty();
-        }
+        //[Fact]
+        //public void WhenPageRendered_NullResponse_ExpectedMarkupRendered()
+        //{
+        //    var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable>(parameters => parameters
+        //        .Add(p => p.ResponseCalculateContributionViewModel, null));
+        //    page.Find("thead").Should().NotBeNull();
+        //    page.FindAll("tbody").Should().BeEmpty();
+        //}
 
         //[Fact]
         //public void WhenPageRendered_ValidResponse_ExpectedMarkupRendered()

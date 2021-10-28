@@ -15,14 +15,14 @@ namespace ContributionSystem.UI.UnitTests.Pages
         private const string CorrectTerm = "1";
         private const string CorrectPercent = "100";
 
-        [Fact]
-        public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
-        {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculator>();
-            page.FindComponent<ContributionCalculatorForm>().Should().NotBeNull();
-            page.FindComponent<ContributionCalculatorTable>().Should().NotBeNull();
-            page.FindAll("div h1").Should().BeEmpty();
-        }
+        //[Fact]
+        //public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
+        //{
+        //    var page = _baseComponent._testContext.RenderComponent<ContributionCalculator>();
+        //    page.FindComponent<ContributionCalculatorForm>().Should().NotBeNull();
+        //    page.FindComponent<ContributionCalculatorTable>().Should().NotBeNull();
+        //    page.FindAll("div h1").Should().BeEmpty();
+        //}
 
         [Fact]
         public void WhenSubmitButtonClicked_ValidParameters_ServerExceptionRendered()

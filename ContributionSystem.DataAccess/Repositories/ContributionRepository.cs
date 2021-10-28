@@ -2,6 +2,7 @@
 using ContributionSystem.DataAccess.Interfaces;
 using ContributionSystem.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +30,10 @@ namespace ContributionSystem.DataAccess.Repositories
         public async Task<Contribution> GetContributionById(int id)
         {
             var contributions = await _contributionDbContext.Contribution.Include(c => c.Details).SingleOrDefaultAsync(c => c.Id == id);
+            if (contributions == null)
+            {
+                throw new Exception("Can't find contribution");
+            }
 
             return contributions;
         }

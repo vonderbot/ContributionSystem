@@ -1,4 +1,6 @@
-﻿<table class="table table-bordered">
+﻿@typeparam T
+<div ScrollableTable class="text-center">
+<table class="table table-bordered">
     <thead>
         <tr class="active bg-light">
             <th class="col-4" scope="row">
@@ -12,23 +14,24 @@
             </th>
         </tr>
     </thead>
-        @if (ResponseCalculateContributionViewModel != null)
-        {
-            <tbody>
-                @foreach (var item in ResponseCalculateContributionViewModel.Items)
-                {
-                    <tr>
-                        <td scope="row">
-                            @item.MonthNumber
-                        </td>
-                        <td>
-                            @item.Income
-                        </td>
-                        <td>
-                            @item.Sum
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        }
-    </table>
+    @if (ResponseCalculateContributionViewModel != null)
+    {
+        <tbody>
+            @foreach (var item in ResponseCalculateContributionViewModel.Items)
+            {
+                <tr>
+                    <td scope="row">
+                        @item.MonthNumber
+                    </td>
+                    <td>
+                        @item.Income
+                    </td>
+                    <td>
+                        @item.Sum
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>
+</div>

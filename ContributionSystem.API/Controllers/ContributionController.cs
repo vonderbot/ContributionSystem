@@ -18,7 +18,7 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDetails([FromQuery] int id)
+        public async Task<IActionResult> GetDetails([FromQuery]int id)
         {
             try
             {

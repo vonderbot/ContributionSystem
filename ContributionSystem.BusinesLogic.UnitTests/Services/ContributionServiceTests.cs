@@ -50,45 +50,45 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             response.Should().BeOfType<ResponseCalculateContributionViewModel>();
         }
 
-        [Test]
-        [TestCase(0, 3, 1)]
-        [TestCase(-1, 3, 1)]
-        public void Calculate_RequestWithZeroOrNegativeStartValue_ThrowException(decimal startValue, int term, decimal percent)
-        {
-            var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
-            Action act = () => _contributionService.Calculate(request);
-            act.Should().Throw<Exception>()
-               .WithMessage("Incorrect start value in request");
-        }
+        //[Test]
+        //[TestCase(0, 3, 1)]
+        //[TestCase(-1, 3, 1)]
+        //public void Calculate_RequestWithZeroOrNegativeStartValue_ThrowException(decimal startValue, int term, decimal percent)
+        //{
+        //    var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
+        //    Action act = () => _contributionService.Calculate(request);
+        //    act.Should().Throw<Exception>()
+        //       .WithMessage("Incorrect start value in request");
+        //}
 
-        [Test]
-        [TestCase(1, 0, 1)]
-        [TestCase(1, -1, 1)]
-        public void Calculate_RequestWithZeroOrNegativeTerm_ThrowException(decimal startValue, int term, decimal percent)
-        {
-            var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
-            Action act = () => _contributionService.Calculate(request);
-            act.Should().Throw<Exception>()
-               .WithMessage("Incorrect term in request");
-        }
+        //[Test]
+        //[TestCase(1, 0, 1)]
+        //[TestCase(1, -1, 1)]
+        //public void Calculate_RequestWithZeroOrNegativeTerm_ThrowException(decimal startValue, int term, decimal percent)
+        //{
+        //    var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
+        //    Action act = () => _contributionService.Calculate(request);
+        //    act.Should().Throw<Exception>()
+        //       .WithMessage("Incorrect term in request");
+        //}
 
-        [Test]
-        [TestCase(1, 1, 0)]
-        [TestCase(1, 1, -1)]
-        public void Calculate_RequestWithZeroOrNegativePercent_ThrowException(decimal startValue, int term, decimal percent)
-        {
-            var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
-            Action act = () => _contributionService.Calculate(request);
-            act.Should().Throw<Exception>()
-                .WithMessage("Incorrect percent in request");
-        }
+        //[Test]
+        //[TestCase(1, 1, 0)]
+        //[TestCase(1, 1, -1)]
+        //public void Calculate_RequestWithZeroOrNegativePercent_ThrowException(decimal startValue, int term, decimal percent)
+        //{
+        //    var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
+        //    Action act = () => _contributionService.Calculate(request);
+        //    act.Should().Throw<Exception>()
+        //        .WithMessage("Incorrect percent in request");
+        //}
 
-        [Test]
-        public void Calculate_NullRequest_ThrowException()
-        {
-            Action act = () => _contributionService.Calculate(null);
-            act.Should().Throw<Exception>().WithMessage("Null request");
-        }
+        //[Test]
+        //public void Calculate_NullRequest_ThrowException()
+        //{
+        //    Action act = () => _contributionService.Calculate(null);
+        //    act.Should().Throw<Exception>().WithMessage("Null request");
+        //}
 
         private RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)
         {

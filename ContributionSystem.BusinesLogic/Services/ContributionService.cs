@@ -24,12 +24,13 @@ namespace ContributionSystem.BusinessLogic.Services
         {
             _contributionRepository = contributionRepository;
         }
-        public async Task<ResponseGetDetailsContributionViewModel> GetDetails(int Id)
+
+        public async Task<ResponseGetDetailsContributionViewModel> GetDetails(int id)
         {
-            var contribution = await _contributionRepository.GetContributionById(Id);
+            var contribution = await _contributionRepository.GetContributionById(id);
             var response = new ResponseGetDetailsContributionViewModel
             {
-                CalculationMethod = (CalculationMethodEnumView)(int)contribution.CalculationMethod,
+                ContributionId = contribution.Id,
                 Items = contribution.Details.Select(u => new MonthsInfoContributionViewModelItem
                 {
                     MonthNumber = u.MonthNumber,
