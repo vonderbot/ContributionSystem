@@ -25,10 +25,10 @@ namespace ContributionSystem.BusinessLogic.Services
             _contributionRepository = contributionRepository;
         }
 
-        public async Task<ResponseGetDetailsContributionViewModel> GetDetails(int id)
+        public async Task<ResponseGetDetailsByIdContributionViewModel> GetDetailsById(int id)
         {
-            var contribution = await _contributionRepository.GetContributionById(id);
-            var response = new ResponseGetDetailsContributionViewModel
+            var contribution = await _contributionRepository.GetById(id);
+            var response = new ResponseGetDetailsByIdContributionViewModel
             {
                 ContributionId = contribution.Id,
                 Items = contribution.Details.Select(u => new MonthsInfoContributionViewModelItem
@@ -77,7 +77,7 @@ namespace ContributionSystem.BusinessLogic.Services
 
         public async Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetHistoryContributionViewModel request)
         {
-            var contributions = await _contributionRepository.GetContributions(request.Take, request.Skip);
+            var contributions = await _contributionRepository.Get(request.Take, request.Skip);
             var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
             {
                 Percent = u.Percent,

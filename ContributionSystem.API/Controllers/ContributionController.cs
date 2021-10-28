@@ -18,11 +18,11 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDetails([FromQuery]int id)
+        public async Task<IActionResult> GetDetailsById([FromQuery]int id)
         {
             try
             {
-                var response = await _contributionService.GetDetails(id);
+                var response = await _contributionService.GetDetailsById(id);
 
                 return Ok(response);
             }

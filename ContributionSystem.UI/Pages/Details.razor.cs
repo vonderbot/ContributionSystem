@@ -11,11 +11,19 @@ namespace ContributionSystem.UI.Pages
         [Inject]
         IContributionService ContributionService { get; set; }
 
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
         [Parameter]
         public int Id { get; set; }
 
-        private ResponseGetDetailsContributionViewModel _responseCalculateContributionViewModel { get; set; }
+        private ResponseGetDetailsByIdContributionViewModel _responseGetDetailsByIdContributionViewModel { get; set; }
         private string _message;
+
+        public void NavigateToHistoryComponent()
+        {
+            NavigationManager.NavigateTo($"History");
+        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -27,7 +35,7 @@ namespace ContributionSystem.UI.Pages
             try
             {
                 _message = "loading...";
-                _responseCalculateContributionViewModel = await ContributionService.GetDetails(Id);
+                _responseGetDetailsByIdContributionViewModel = await ContributionService.GetDetailsById(Id);
                 _message = null;
             }
             catch (Exception ex)

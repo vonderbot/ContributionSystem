@@ -5,7 +5,7 @@ namespace ContributionSystem.UI.Interfaces
 {
     public interface IContributionService
     {
-        Task<ResponseGetDetailsContributionViewModel> GetDetails(int id);
+        public Task<ResponseGetDetailsByIdContributionViewModel> GetDetailsById(int id);
 
         public Task<ResponseGetHistoryContributionViewModel> GetHistory(int take, int skip);
 

@@ -16,7 +16,7 @@ namespace ContributionSystem.DataAccess.Repositories
         {
         }
 
-        public async Task<List<Contribution>> GetContributions(int take, int skip)
+        public async Task<List<Contribution>> Get(int take, int skip)
         {
             var contributions =  await _contributionDbContext.Contribution
                 .OrderByDescending(x => x.Id)
@@ -27,15 +27,15 @@ namespace ContributionSystem.DataAccess.Repositories
             return contributions;
         }
 
-        public async Task<Contribution> GetContributionById(int id)
+        public override async Task<Contribution> GetById(int id)
         {
-            var contributions = await _contributionDbContext.Contribution.Include(c => c.Details).SingleOrDefaultAsync(c => c.Id == id);
-            if (contributions == null)
+            var contribution = await _contributionDbContext.Contribution.Include(c => c.Details).SingleOrDefaultAsync(c => c.Id == id);
+            if (contribution == null)
             {
                 throw new Exception("Can't find contribution");
             }
 
-            return contributions;
+            return contribution;
         }
     }
 }

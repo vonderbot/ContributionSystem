@@ -6,8 +6,6 @@ namespace ContributionSystem.DataAccess.Interfaces
 {
     public interface IContributionRepository : IBaseRepository<Contribution>
     {
-        Task<List<Contribution>> GetContributions(int take, int skip);
-
-        Task<Contribution> GetContributionById(int id);
+        public Task<List<Contribution>> Get(int take, int skip);
     }
 }

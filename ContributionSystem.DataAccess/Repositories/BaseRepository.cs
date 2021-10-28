@@ -29,7 +29,7 @@ namespace ContributionSystem.DataAccess.Repositories
             return await table.ToListAsync();
         }
 
-        public async Task<T> GetById(int id)
+        public virtual async Task<T> GetById(int id)
         {
             return await table.FindAsync(id);
         }

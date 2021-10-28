@@ -2,7 +2,7 @@
 
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
-    public class ResponseGetDetailsContributionViewModel : CollectionOfItems<MonthsInfoContributionViewModelItem>
+    public class ResponseGetDetailsByIdContributionViewModel : CollectionOfItems<MonthsInfoContributionViewModelItem>
     {
         public int ContributionId { get; set; }
     }

@@ -5,18 +5,18 @@ namespace ContributionSystem.DataAccess.Interfaces
 {
     public interface IBaseRepository<T> where T : class
     {
-        Task<int> GetNumberOfRecords();
+        public Task<int> GetNumberOfRecords();
 
-        Task<IEnumerable<T>> GetAll();
+        public Task<IEnumerable<T>> GetAll();
 
-        Task<T> GetById(int id);
+        public Task<T> GetById(int id);
 
-        Task Create(T entity);
+        public Task Create(T entity);
 
-        void Update(T entity);
+        public void Update(T entity);
 
-        Task Delete(int id);
+        public Task Delete(int id);
 
-        Task Save();
+        public Task Save();
     }
 }
