@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ContributionSystem.ViewModels.Items.Contribution
+namespace ContributionSystem.ViewModels.Common
 {
     public class CollectionOfItems<T>
     {

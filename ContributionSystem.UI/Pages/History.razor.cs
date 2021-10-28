@@ -1,5 +1,5 @@
 ﻿using ContributionSystem.UI.Interfaces;
-using ContributionSystem.ViewModels.Items.Contribution;
+using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;

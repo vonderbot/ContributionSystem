@@ -1,7 +1,6 @@
 ﻿using Bunit;
 using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Enums;
-using ContributionSystem.ViewModels.Items.Contribution;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;

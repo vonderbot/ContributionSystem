@@ -12,7 +12,6 @@ using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.ViewModels.Enums;
 using FluentAssertions;
-using ContributionSystem.ViewModels.Items.Contribution;
 
 namespace ContributionSystem.UI.UnitTests.Services
 {

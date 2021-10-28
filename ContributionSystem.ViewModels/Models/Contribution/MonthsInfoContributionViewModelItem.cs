@@ -1,4 +1,4 @@
-﻿namespace ContributionSystem.ViewModels.Items.Contribution
+﻿namespace ContributionSystem.ViewModels.Models.Contribution
 {
     public class MonthsInfoContributionViewModelItem
     {

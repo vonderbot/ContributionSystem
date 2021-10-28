@@ -1,37 +1,39 @@
 ﻿@typeparam T
+@typeparam U
+
 <div ScrollableTable class="text-center">
-<table class="table table-bordered">
-    <thead>
-        <tr class="active bg-light">
-            <th class="col-4" scope="row">
-                Month
-            </th>
-            <th class="col-2">
-                %
-            </th>
-            <th class="col-3">
-                Sum
-            </th>
-        </tr>
-    </thead>
-    @if (ResponseCalculateContributionViewModel != null)
-    {
-        <tbody>
-            @foreach (var item in ResponseCalculateContributionViewModel.Items)
-            {
-                <tr>
-                    <td scope="row">
-                        @item.MonthNumber
-                    </td>
-                    <td>
-                        @item.Income
-                    </td>
-                    <td>
-                        @item.Sum
-                    </td>
-                </tr>
-            }
-        </tbody>
-    }
-</table>
+    <table class="table table-bordered">
+        <thead>
+            <tr class="active bg-light">
+                <th class="col-4" scope="row">
+                    Month
+                </th>
+                <th class="col-2">
+                    %
+                </th>
+                <th class="col-3">
+                    Sum
+                </th>
+            </tr>
+        </thead>
+        @if (ResponseCalculateContributionViewModel != null)
+        {
+            <tbody>
+                @foreach (var item in ResponseCalculateContributionViewModel.Items)
+                {
+                    <tr>
+                        <td scope="row">
+                            @item.MonthNumber
+                        </td>
+                        <td>
+                            @item.Income
+                        </td>
+                        <td>
+                            @item.Sum
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
 </div>

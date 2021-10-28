@@ -8,7 +8,6 @@ using ContributionSystem.DataAccess.Interfaces;
 using ContributionSystem.Entities.Enums;
 using System.Linq;
 using System.Threading.Tasks;
-using ContributionSystem.ViewModels.Items.Contribution;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
@@ -31,8 +30,9 @@ namespace ContributionSystem.BusinessLogic.Services
             var response = new ResponseGetDetailsByIdContributionViewModel
             {
                 ContributionId = contribution.Id,
-                Items = contribution.Details.Select(u => new MonthsInfoContributionViewModelItem
+                Items = contribution.Details.Select(u => new ResponseGetDetailsByIdContributionViewModelItem
                 {
+                    Id = u.Id,
                     MonthNumber = u.MonthNumber,
                     Income = u.Income,
                     Sum = u.Sum

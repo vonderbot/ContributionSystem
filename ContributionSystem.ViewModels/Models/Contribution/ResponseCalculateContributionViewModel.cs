@@ -1,5 +1,5 @@
-﻿using ContributionSystem.ViewModels.Enums;
-using ContributionSystem.ViewModels.Items.Contribution;
+﻿using ContributionSystem.ViewModels.Common;
+using ContributionSystem.ViewModels.Enums;
 
 namespace ContributionSystem.ViewModels.Models.Contribution
 {

@@ -1,9 +1,14 @@
-﻿using ContributionSystem.ViewModels.Items.Contribution;
+﻿using ContributionSystem.ViewModels.Common;
 
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
-    public class ResponseGetDetailsByIdContributionViewModel : CollectionOfItems<MonthsInfoContributionViewModelItem>
+    public class ResponseGetDetailsByIdContributionViewModel : CollectionOfItems<ResponseGetDetailsByIdContributionViewModelItem>
     {
         public int ContributionId { get; set; }
+    }
+
+    public class ResponseGetDetailsByIdContributionViewModelItem : MonthsInfoContributionViewModelItem
+    {
+        public int Id { get; set; }
     }
 }

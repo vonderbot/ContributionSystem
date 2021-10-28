@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using ContributionSystem.DataAccess.Repositories;
 using ContributionSystem.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
-using ContributionSystem.ViewModels.Items.Contribution;
 
 namespace ContributionSystem.BusinesLogic.UnitTests.Services
 {
