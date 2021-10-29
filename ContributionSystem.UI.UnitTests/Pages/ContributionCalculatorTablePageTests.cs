@@ -1,5 +1,6 @@
 ﻿using Bunit;
 using ContributionSystem.UI.Components;
+using ContributionSystem.ViewModels.Models.Contribution;
 using FluentAssertions;
 using Xunit;
 
@@ -8,27 +9,27 @@ namespace ContributionSystem.UI.UnitTests.Pages
     public class ContributionCalculatorTablePageTests : PageTestsBaseComponent
     {
 
-        //[Fact]
-        //public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
-        //{
-        //    var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable>();
-        //    page.Find("thead").Should().NotBeNull();
-        //    page.FindAll("tbody").Should().BeEmpty();
-        //}
+        [Fact]
+        public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
+        {
+            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable<ResponseCalculateContributionViewModel, MonthsInfoContributionViewModelItem>>();
+            page.Find("thead").Should().NotBeNull();
+            page.FindAll("tbody").Should().BeEmpty();
+        }
 
-        //[Fact]
-        //public void WhenPageRendered_NullResponse_ExpectedMarkupRendered()
-        //{
-        //    var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable>(parameters => parameters
-        //        .Add(p => p.ResponseCalculateContributionViewModel, null));
-        //    page.Find("thead").Should().NotBeNull();
-        //    page.FindAll("tbody").Should().BeEmpty();
-        //}
+        [Fact]
+        public void WhenPageRendered_NullResponse_ExpectedMarkupRendered()
+        {
+            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable<ResponseCalculateContributionViewModel, MonthsInfoContributionViewModelItem>>(parameters => parameters
+                .Add(p => p.ResponseCalculateContributionViewModel, null));
+            page.Find("thead").Should().NotBeNull();
+            page.FindAll("tbody").Should().BeEmpty();
+        }
 
         //[Fact]
         //public void WhenPageRendered_ValidResponse_ExpectedMarkupRendered()
         //{
-        //    var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable>(parameters => parameters
+        //    var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable<ResponseCalculateContributionViewModel, MonthsInfoContributionViewModelItem>>(parameters => parameters
         //        .Add(p => p.ResponseCalculateContributionViewModel, _baseComponent.GetCalculationResponse()));
         //    page.Find("thead").Should().NotBeNull();
         //    page.Find("tbody").Should().NotBeNull();
@@ -53,6 +54,6 @@ namespace ContributionSystem.UI.UnitTests.Pages
         //                break;
         //        }
         //    }
-        //}
+        }
     }
 }

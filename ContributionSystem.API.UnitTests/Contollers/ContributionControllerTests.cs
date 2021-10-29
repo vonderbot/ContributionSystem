@@ -14,8 +14,8 @@ namespace ContributionSystem.API.UnitTests.Contollers
     {
         private readonly ContributionController contributionController;
 
-        private const int PozitiveNumber = 1;
-        private const int Zero = 0;
+        private const int ValidId = 1;
+        private const int InvalidId = 0;
 
         public ContributionControllerTests()
         {
@@ -42,18 +42,18 @@ namespace ContributionSystem.API.UnitTests.Contollers
         }
 
         [Test]
-        public async Task GetDetailsById_Positivenumber_OkObjectResultWithResponseCalculateContributionViewModel()
+        public async Task GetDetailsById_ValidId_OkObjectResultWithResponseCalculateContributionViewModel()
         {
-            var response = await contributionController.GetDetailsById(PozitiveNumber);
+            var response = await contributionController.GetDetailsById(ValidId);
             var okObjectResult = response as OkObjectResult;
             okObjectResult.Should().NotBeNull();
             okObjectResult.Value.Should().BeOfType<ResponseGetDetailsByIdContributionViewModel>();
         }
 
         [Test]
-        public async Task GetDetailsById_Zero_ThrowException()
+        public async Task GetDetailsById_InvalidId_ThrowException()
         {
-            var response = await contributionController.GetDetailsById(Zero);
+            var response = await contributionController.GetDetailsById(InvalidId);
             var BadRequestObjectResult = response as BadRequestObjectResult;
             BadRequestObjectResult.Should().NotBeNull();
             BadRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");

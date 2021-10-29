@@ -47,7 +47,7 @@ namespace ContributionSystem.UI.Services
         {
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                var exception = await response.Content.ReadFromJsonAsync<string>();
+                var exception = await response.Content.ReadAsStringAsync();
                 throw new Exception(exception);
             }
         }

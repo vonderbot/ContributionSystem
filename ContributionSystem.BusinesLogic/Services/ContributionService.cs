@@ -42,10 +42,32 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
+        public async Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetHistoryContributionViewModel request)
+        {
+            var contributions = await _contributionRepository.Get(request.Take, request.Skip);
+            var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
+            {
+                Percent = u.Percent,
+                Term = u.Term,
+                Sum = u.StartValue,
+                Date = u.Date,
+                Id = u.Id
+            });
+            var response = new ResponseGetHistoryContributionViewModel
+            {
+                Items = items,
+                TotalNumberOfRecords = await _contributionRepository.GetNumberOfRecords(), 
+                Take = request.Take,
+                Skip = request.Skip
+            };
+
+            return response;
+        }
+
         public async Task<ResponseCalculateContributionViewModel> Calculate(RequestCalculateContributionViewModel request)
         {
             CheckRequest(request);
-            var contribution = new Contribution() 
+            var contribution = new Contribution()
             {
                 StartValue = request.StartValue,
                 Term = request.Term,
@@ -71,28 +93,6 @@ namespace ContributionSystem.BusinessLogic.Services
                 Items = allMonthsInfo
             };
             await AddContribution(request, response.Items);
-
-            return response;
-        }
-
-        public async Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetHistoryContributionViewModel request)
-        {
-            var contributions = await _contributionRepository.Get(request.Take, request.Skip);
-            var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
-            {
-                Percent = u.Percent,
-                Term = u.Term,
-                Sum = u.StartValue,
-                Date = u.Date,
-                Id = u.Id
-            });
-            var response = new ResponseGetHistoryContributionViewModel
-            {
-                Items = items,
-                TotalNumberOfRecords = await _contributionRepository.GetNumberOfRecords(), 
-                Take = request.Take,
-                Skip = request.Skip
-            };
 
             return response;
         }

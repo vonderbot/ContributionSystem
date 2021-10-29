@@ -24,19 +24,35 @@ namespace ContributionSystem.UI.UnitTests.Services
 
         private IContributionService _contributionService;
 
+        public ContributionServiceTests()
+        {
+            //var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            //mockHttpMessageHandler.Protected()
+            //    .Setup<Task<HttpResponseMessage>>("GetAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            //    .ReturnsAsync(new HttpResponseMessage
+            //    {
+            //        StatusCode = HttpStatusCode.OK
+            //    });
+
+            //var client = new HttpClient(mockHttpMessageHandler.Object);
+            //_contributionService = new ContributionService(client);
+        }
+
         [Fact]
-        public async void Calculate_ValidRequest_ValidResponse()
+        public async Task Calculate_ValidRequest_ValidResponse()
         {
             var httpClient = MoqHttpClientSetup(HttpStatusCode.OK, ValidRequest);
+            httpClient.BaseAddress = new Uri("https://localhost:44303/api/");
             _contributionService = new ContributionService(httpClient);
             var moqResponse = await _contributionService.Сalculate(GetCalculationRequest(CorrectSum, CorrectTerm, CorrectPercent));
             moqResponse.Should().BeEquivalentTo(GetCalculationResponse());
         }
 
         [Fact]
-        public async void Calculate_NullRequest_ThrowException()
+        public async Task Calculate_NullRequest_ThrowException()
         {
-            var httpClient = MoqHttpClientSetup(HttpStatusCode.BadRequest, null);
+            var httpClient = MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect");
+            httpClient.BaseAddress = new Uri("https://localhost:44303/api/");
             _contributionService = new ContributionService(httpClient);
             Func<Task> act = async () => await _contributionService.Сalculate(null);
             await act.Should().ThrowAsync<Exception>().WithMessage("Server response is incorrect");
