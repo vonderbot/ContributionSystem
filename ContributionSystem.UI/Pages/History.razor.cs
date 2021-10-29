@@ -47,7 +47,7 @@ namespace ContributionSystem.UI.Pages
                 var response = await ContributionService.GetHistory(_take, _skip);
                 _skip = response.Take + response.Skip;
 
-                if (_skip >= response.TotalNumberOfRecords)
+                if (_skip >= response.TotalNumberOfRecords && response.TotalNumberOfRecords != 0)
                 {
                     _message = "End of history";
                 }

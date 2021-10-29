@@ -8,7 +8,7 @@
 
         @foreach (var element in _requestsHistory)
         {
-            <div class="container col-lg-3 col-md-6 col-sm-12 m-0 p-0 ">
+            <div class="container col-lg-3 col-md-6 col-sm-12 m-0 p-0 " id="DataContainer">
                 <div class="content border p-3 mr-5 mb-5">
                     <div class="row p-1">
                         <div class="col-8">
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-center">
-                        <button class="btn btn-secondary" @onclick="() => NavigateToDetailsComponent(element.Id)">See details</button>
+                        <button class="btn btn-secondary" @onclick="() => NavigateToDetailsComponent(element.Id)" id="SeeDetails">See details</button>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
 else
 {
     <div class="row justify-content-center">
-        <button class="btn btn-secondary" @onclick="() => LoadMore()">Load more</button>
+        <button class="btn btn-secondary" @onclick="() => LoadMore()" id="LoadMore">Load more</button>
     </div>
     <br />
 }

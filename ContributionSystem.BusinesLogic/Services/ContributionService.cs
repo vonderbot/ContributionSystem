@@ -44,6 +44,10 @@ namespace ContributionSystem.BusinessLogic.Services
 
         public async Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetHistoryContributionViewModel request)
         {
+            if (request == null)
+            {
+                throw new Exception("Null request");
+            }
             var contributions = await _contributionRepository.Get(request.Take, request.Skip);
             var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
             {
@@ -138,7 +142,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private void SimpleCalculate(Contribution contribution, List<MonthsInfoContributionViewModelItem> allMonthsInfo)
+            private void SimpleCalculate(Contribution contribution, List<MonthsInfoContributionViewModelItem> allMonthsInfo)
         {
             var income = contribution.StartValue / Hundred * (contribution.Percent / NumberOfMonthsInAYear);
 

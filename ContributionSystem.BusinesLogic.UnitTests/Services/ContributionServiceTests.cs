@@ -18,6 +18,11 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
     {
         private readonly ContributionService _contributionService;
 
+        private const int Take = 1;
+        private const int Skip = 0;
+        private const int InvalidTake = 0;
+        private const int InvalidSkip = -1;
+        private const int TotalNumberOfRecords = 1;
         private const int CorrectStartValue = 1;
         private const int CorrectTerm = 3;
         private const int CorrectPercent = 100;
@@ -27,17 +32,86 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         public ContributionServiceTests()
         {
             var mock = new Mock<IContributionRepository>();
+            var contribution = GetContribution(GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent), GetSimpleCalculationResponse());
             mock.Setup(repo => repo
-                .GetById(It.Is<int>(p => p > 0)))
-                .ReturnsAsync(GetContribution(GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent), GetSimpleCalculationResponse()));
+                .GetById(It.Is<int>(p => p == ValidId)))
+                .ReturnsAsync(contribution);
             mock.Setup(repo => repo
-                .GetById(It.Is<int>(p => p <= 0)))
+                .GetById(It.Is<int>(p => p != ValidId)))
                 .ThrowsAsync(new Exception("Can't find contribution"));
+            var contributionList = new List<Contribution>();
+            mock.Setup(repo => repo
+                .Get(It.Is<int>(p => p <= 0), It.Is<int>(p => p >= 0)))
+                .ThrowsAsync(new Exception("The number of rows provided for a FETCH clause must be greater then zero."));
+            mock.Setup(repo => repo
+                .Get(It.IsAny<int>(), It.Is<int>(p => p < 0)))
+                .ThrowsAsync(new Exception("The offset specified in a OFFSET clause may not be negative"));
+            mock.Setup(repo => repo
+                .Get(It.Is<int>(p => p > InvalidTake), It.Is<int>(p => p >= TotalNumberOfRecords)))
+                .ReturnsAsync(contributionList);
+            contributionList.Add(contribution);
+            mock.Setup(repo => repo
+                .Get(It.Is<int>(p => p >= TotalNumberOfRecords), It.Is<int>(p => p < TotalNumberOfRecords && p >= 0)))
+                .ReturnsAsync(contributionList);
+            mock.Setup(repo => repo
+                .GetNumberOfRecords())
+                .ReturnsAsync(1);
             _contributionService = new ContributionService(mock.Object);
         }
 
         [Test]
-        public async Task GetDetailsById_InvalidId_ValidResponse()
+        public async Task GetHistory_NullRequest_ThrowException()
+        {
+            RequestGetHistoryContributionViewModel request = null;
+            Func<Task> act = async () => await _contributionService.GetHistory(request);
+            await act.Should().ThrowAsync<Exception>()
+               .WithMessage("Null request");
+        }
+
+        [Test]
+        public async Task GetHistory_InvalidTakeInRequest_ThrowException()
+        {
+            var request = new RequestGetHistoryContributionViewModel
+            {
+                Take = InvalidTake,
+                Skip = Skip
+            };
+            Func<Task> act = async () => await _contributionService.GetHistory(request);
+            await act.Should().ThrowAsync<Exception>()
+               .WithMessage("The number of rows provided for a FETCH clause must be greater then zero.");
+        }
+
+        [Test]
+        public async Task GetHistory_InvalidSkipInRequest_ThrowException()
+        {
+            var request = new RequestGetHistoryContributionViewModel
+            {
+                Take = Take,
+                Skip = InvalidSkip
+            };
+            Func<Task> act = async () => await _contributionService.GetHistory(request);
+            await act.Should().ThrowAsync<Exception>()
+               .WithMessage("The offset specified in a OFFSET clause may not be negative");
+        }
+
+        [Test]
+        public async Task GetHistory_ValidRequest_ValidResponse()
+        {
+            var request = new RequestGetHistoryContributionViewModel
+            {
+                Take = Take,
+                Skip = Skip
+            };
+            var contributionList = new List<Contribution>();
+            contributionList.Add(GetContribution(GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent), GetSimpleCalculationResponse()));
+            var correctResponse = GetGetHistoryResponse(request, contributionList);
+            var response = await _contributionService.GetHistory(request);
+            response.Should().NotBeNull();
+            response.Should().BeEquivalentTo(correctResponse);
+        }
+
+        [Test]
+        public async Task GetDetailsById_InvalidId_ThrowException()
         {
             Func<Task> act = async () => await _contributionService.GetDetailsById(InvalidId);
             await act.Should().ThrowAsync<Exception>()
@@ -119,6 +193,27 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         {
             Func<Task> act = async () => await _contributionService.Calculate(null);
             await act.Should().ThrowAsync<Exception>().WithMessage("Null request");
+        }
+
+        private ResponseGetHistoryContributionViewModel GetGetHistoryResponse(RequestGetHistoryContributionViewModel request, List<Contribution> contributions)
+        {
+            var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
+            {
+                Percent = u.Percent,
+                Term = u.Term,
+                Sum = u.StartValue,
+                Date = u.Date,
+                Id = u.Id
+            });
+            var response = new ResponseGetHistoryContributionViewModel
+            {
+                Items = items,
+                TotalNumberOfRecords = TotalNumberOfRecords,
+                Take = request.Take,
+                Skip = request.Skip
+            };
+
+            return response;
         }
 
         private ResponseGetDetailsByIdContributionViewModel GetGetDetailsByIdResponse(Contribution contribution)

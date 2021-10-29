@@ -27,13 +27,13 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenSubmitButtonClicked_ValidParameters_ServerExceptionRendered()
         {
-            _baseComponent._contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Mock exception"));
+            _baseComponent._contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Server exception"));
             var page = _baseComponent._testContext.RenderComponent<ContributionCalculator>();
             page.Find("#Percent").Change(CorrectPercent);
             page.Find("#Term").Change(CorrectTerm);
             page.Find("#Sum").Change(CorrectSum);
             page.Find("form").Submit();
-            page.Find("div h1").InnerHtml.Should().BeEquivalentTo("Mock exception");
+            page.Find("div h1").InnerHtml.Should().BeEquivalentTo("Server exception");
         }
     }
 }
