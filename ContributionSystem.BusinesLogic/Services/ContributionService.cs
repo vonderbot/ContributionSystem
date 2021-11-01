@@ -44,10 +44,7 @@ namespace ContributionSystem.BusinessLogic.Services
 
         public async Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetHistoryContributionViewModel request)
         {
-            if (request == null)
-            {
-                throw new Exception("Null request");
-            }
+            CheckGetHistoryRequest(request);
             var contributions = await _contributionRepository.Get(request.Take, request.Skip);
             var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
             {
@@ -70,7 +67,7 @@ namespace ContributionSystem.BusinessLogic.Services
 
         public async Task<ResponseCalculateContributionViewModel> Calculate(RequestCalculateContributionViewModel request)
         {
-            CheckRequest(request);
+            CheckCalculationRequest(request);
             var contribution = new Contribution()
             {
                 StartValue = request.StartValue,
@@ -101,6 +98,22 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
+        private void CheckGetHistoryRequest(RequestGetHistoryContributionViewModel request)
+        {
+            if (request == null)
+            {
+                throw new Exception("Null request");
+            }
+            else if (request.Take < 1)
+            {
+                throw new Exception("Attempt to take an invalid amount of contributions");
+            }
+            else if (request.Skip < 0)
+            {
+                throw new Exception("Attempt to skip an invalid amount of contributions");
+            }
+        }
+
         private async Task AddContribution(RequestCalculateContributionViewModel request, IEnumerable<MonthsInfoContributionViewModelItem> responseItems)
         {
             var monthsInfo = responseItems.Select(u => new MonthInfo
@@ -122,7 +135,7 @@ namespace ContributionSystem.BusinessLogic.Services
             await _contributionRepository.Save();
         }
 
-        private void CheckRequest(RequestCalculateContributionViewModel request)
+        private void CheckCalculationRequest(RequestCalculateContributionViewModel request)
         {
             if (request == null)
             {
@@ -142,7 +155,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-            private void SimpleCalculate(Contribution contribution, List<MonthsInfoContributionViewModelItem> allMonthsInfo)
+        private void SimpleCalculate(Contribution contribution, List<MonthsInfoContributionViewModelItem> allMonthsInfo)
         {
             var income = contribution.StartValue / Hundred * (contribution.Percent / NumberOfMonthsInAYear);
 

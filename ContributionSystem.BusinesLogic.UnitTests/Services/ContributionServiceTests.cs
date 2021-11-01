@@ -41,21 +41,15 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                 .ThrowsAsync(new Exception("Can't find contribution"));
             var contributionList = new List<Contribution>();
             mock.Setup(repo => repo
-                .Get(It.Is<int>(p => p <= 0), It.Is<int>(p => p >= 0)))
-                .ThrowsAsync(new Exception("The number of rows provided for a FETCH clause must be greater then zero."));
-            mock.Setup(repo => repo
-                .Get(It.IsAny<int>(), It.Is<int>(p => p < 0)))
-                .ThrowsAsync(new Exception("The offset specified in a OFFSET clause may not be negative"));
-            mock.Setup(repo => repo
-                .Get(It.Is<int>(p => p > InvalidTake), It.Is<int>(p => p >= TotalNumberOfRecords)))
+                .Get(It.IsAny<int>(), It.Is<int>(p => p >= TotalNumberOfRecords)))
                 .ReturnsAsync(contributionList);
             contributionList.Add(contribution);
             mock.Setup(repo => repo
-                .Get(It.Is<int>(p => p >= TotalNumberOfRecords), It.Is<int>(p => p < TotalNumberOfRecords && p >= 0)))
+                .Get(It.Is<int>(p => p >= TotalNumberOfRecords), It.Is<int>(p => p < TotalNumberOfRecords)))
                 .ReturnsAsync(contributionList);
             mock.Setup(repo => repo
                 .GetNumberOfRecords())
-                .ReturnsAsync(1);
+                .ReturnsAsync(TotalNumberOfRecords);
             _contributionService = new ContributionService(mock.Object);
         }
 
@@ -69,41 +63,33 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         }
 
         [Test]
-        public async Task GetHistory_InvalidTakeInRequest_ThrowException()
+        public async Task GetHistory_RequestWithInvalidTake_ThrowException()
         {
-            var request = new RequestGetHistoryContributionViewModel
-            {
-                Take = InvalidTake,
-                Skip = Skip
-            };
+            var request = GetGetHistoryRequest(InvalidTake, Skip);
             Func<Task> act = async () => await _contributionService.GetHistory(request);
             await act.Should().ThrowAsync<Exception>()
-               .WithMessage("The number of rows provided for a FETCH clause must be greater then zero.");
+               .WithMessage("Attempt to take an invalid amount of contributions");
         }
 
         [Test]
-        public async Task GetHistory_InvalidSkipInRequest_ThrowException()
+        public async Task GetHistory_RequestWithInvalidSkip_ThrowException()
         {
-            var request = new RequestGetHistoryContributionViewModel
-            {
-                Take = Take,
-                Skip = InvalidSkip
-            };
+            var request = GetGetHistoryRequest(Take, InvalidSkip);
             Func<Task> act = async () => await _contributionService.GetHistory(request);
             await act.Should().ThrowAsync<Exception>()
-               .WithMessage("The offset specified in a OFFSET clause may not be negative");
+               .WithMessage("Attempt to skip an invalid amount of contributions");
         }
 
         [Test]
         public async Task GetHistory_ValidRequest_ValidResponse()
         {
-            var request = new RequestGetHistoryContributionViewModel
+            var request = GetGetHistoryRequest(Take, Skip);
+            var contributionList = new List<Contribution>
             {
-                Take = Take,
-                Skip = Skip
+                GetContribution(
+                    GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm,
+                        CorrectPercent), GetSimpleCalculationResponse())
             };
-            var contributionList = new List<Contribution>();
-            contributionList.Add(GetContribution(GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent), GetSimpleCalculationResponse()));
             var correctResponse = GetGetHistoryResponse(request, contributionList);
             var response = await _contributionService.GetHistory(request);
             response.Should().NotBeNull();
@@ -195,6 +181,14 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             await act.Should().ThrowAsync<Exception>().WithMessage("Null request");
         }
 
+        private RequestGetHistoryContributionViewModel GetGetHistoryRequest(int take, int skip)
+        {
+            return new RequestGetHistoryContributionViewModel
+            {
+                Take = take,
+                Skip = skip
+            };
+        }
         private ResponseGetHistoryContributionViewModel GetGetHistoryResponse(RequestGetHistoryContributionViewModel request, List<Contribution> contributions)
         {
             var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem

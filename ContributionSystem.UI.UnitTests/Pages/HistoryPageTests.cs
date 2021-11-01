@@ -2,8 +2,6 @@
 using ContributionSystem.UI.Pages;
 using ContributionSystem.ViewModels.Models.Contribution;
 using FluentAssertions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System.Collections.Generic;
 using Xunit;
@@ -16,48 +14,22 @@ namespace ContributionSystem.UI.UnitTests.Pages
         private const int Skip = 0;
 
         [Fact]
-        public void WhenButtonSeeDetailsClicked_DataOnlyForOneLoad_Redirect()
+        public void WhenButtonSeeDetailsClicked_DataForOneLoad_Redirect()
         {
-            var itemList = new List<ResponseGetHistoryContributionViewModelItem>();
-            for (int i = 0; i < Take; i++)
-            {
-                itemList.Add(new ResponseGetHistoryContributionViewModelItem());
-            }
-            var response = new ResponseGetHistoryContributionViewModel
-            {
-                Items = itemList,
-                Skip = Skip,
-                Take = Take,
-                TotalNumberOfRecords = Take
-            };
-            var nav = _baseComponent._testContext.Services.GetRequiredService<NavigationManager>();
-            _baseComponent._contributionServiceMock.Setup(x => x.GetHistory(Take, Skip)).ReturnsAsync(response);
+            BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take);
             var page = _baseComponent._testContext.RenderComponent<History>();
             page.Find("#SeeDetails").Click();
-            Assert.Equal("http://localhost/Details/0", nav.Uri);
+            Assert.Equal("http://localhost/Details/0", _baseComponent.navigationManager.Uri);
         }
 
         [Fact]
         public void WhenButtonLoadMoreClicked_DataForTwoLoads_ExpectedMarkupRendered()
         {
-            var itemList = new List<ResponseGetHistoryContributionViewModelItem>();
-            for (int i = 0; i < Take; i++)
-            {
-                itemList.Add(new ResponseGetHistoryContributionViewModelItem());
-            }
-            var response = new ResponseGetHistoryContributionViewModel
-            {
-                Items = itemList,
-                Skip = Skip,
-                Take = Take,
-                TotalNumberOfRecords = Take * 2
-            };
-            _baseComponent._contributionServiceMock.Setup(x => x.GetHistory(Take, Skip)).ReturnsAsync(response);
+            BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take * 2);
+            BaseComponentSetup(GetEmptyItemList(Take), Take, Take + Skip, Take * 2);
             var page = _baseComponent._testContext.RenderComponent<History>();
-            response.Skip = Take + Skip;
-            _baseComponent._contributionServiceMock.Setup(x => x.GetHistory(Take, Take + Skip)).ReturnsAsync(response);
             page.Find("#LoadMore").Click();
-            page.FindAll("#DataContainer").Should().HaveCount(Take* 2);
+            page.FindAll("#DataContainer").Should().HaveCount(Take * 2);
             page.FindAll("#LoadMore").Should().BeEmpty();
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("End of history");
         }
@@ -65,19 +37,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_DataForTwoLoads_ExpectedMarkupRendered()
         {
-            var itemList = new List<ResponseGetHistoryContributionViewModelItem>();
-            for (int i = 0; i < Take; i++)
-            {
-                itemList.Add(new ResponseGetHistoryContributionViewModelItem());
-            }
-            var response = new ResponseGetHistoryContributionViewModel
-            {
-                Items = itemList,
-                Skip = Skip,
-                Take = Take,
-                TotalNumberOfRecords = Take * 2
-            };
-            _baseComponent._contributionServiceMock.Setup(x => x.GetHistory(Take, Skip)).ReturnsAsync(response);
+            BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take * 2);
             var page = _baseComponent._testContext.RenderComponent<History>();
             page.FindAll("#DataContainer").Should().HaveCount(Take);
             page.FindAll("#LoadMore").Should().NotBeEmpty();
@@ -85,42 +45,47 @@ namespace ContributionSystem.UI.UnitTests.Pages
         }
 
         [Fact]
-        public void WhenPageRendered_DataOnlyForOneLoad_ExpectedMarkupRendered()
+        public void WhenPageRendered_DataForOneLoad_ExpectedMarkupRendered()
         {
-            var itemList = new List<ResponseGetHistoryContributionViewModelItem>();
-            for (int i = 0; i < Take; i++)
-            {
-                itemList.Add(new ResponseGetHistoryContributionViewModelItem());
-            }
-            var response = new ResponseGetHistoryContributionViewModel
-            {
-                Items = itemList,
-                Skip = Skip,
-                Take = Take,
-                TotalNumberOfRecords = Take
-            };
-            _baseComponent._contributionServiceMock.Setup(x => x.GetHistory(Take, Skip)).ReturnsAsync(response);
+            BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take);
             var page = _baseComponent._testContext.RenderComponent<History>();
-            page.FindAll("#DataContainer").Should().HaveCount(response.TotalNumberOfRecords);
+            page.FindAll("#DataContainer").Should().HaveCount(Take);
             page.FindAll("#LoadMore").Should().BeEmpty();
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("End of history");
         }
 
         [Fact]
-        public void WhenPageRendered_NoData_ExpectedMarkupRendered()
+        public void WhenPageRendered_EmptyDataBase_ExpectedMarkupRendered()
         {
-            var response = new ResponseGetHistoryContributionViewModel
-            {
-                Items = new List<ResponseGetHistoryContributionViewModelItem>(),
-                Skip = Skip,
-                Take = Take,
-                TotalNumberOfRecords = 0
-            };
-            _baseComponent._contributionServiceMock.Setup(x => x.GetHistory(Take, Skip)).ReturnsAsync(response);
+            BaseComponentSetup(new List<ResponseGetHistoryContributionViewModelItem>(), Take, Skip, 0);
             var page = _baseComponent._testContext.RenderComponent<History>();
             page.FindAll("#DataContainer").Should().BeEmpty();
             page.FindAll("#LoadMore").Should().BeEmpty();
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("History is empty");
+        }
+
+        private void BaseComponentSetup(List<ResponseGetHistoryContributionViewModelItem> items, int take, int skip, int totalNumberOfRecords)
+        {
+            var response = new ResponseGetHistoryContributionViewModel
+            {
+                Items = items,
+                Take = take,
+                Skip = skip,
+                TotalNumberOfRecords = totalNumberOfRecords
+            };
+            _baseComponent._contributionServiceMock.Setup(x => x.GetHistory(take, skip)).ReturnsAsync(response);
+        }
+
+        private List<ResponseGetHistoryContributionViewModelItem> GetEmptyItemList(int numberOfItems)
+        {
+            var itemList = new List<ResponseGetHistoryContributionViewModelItem>();
+
+            for (int i = 0; i < numberOfItems; i++)
+            {
+                itemList.Add(new ResponseGetHistoryContributionViewModelItem());
+            }
+
+            return itemList;
         }
     }
 }

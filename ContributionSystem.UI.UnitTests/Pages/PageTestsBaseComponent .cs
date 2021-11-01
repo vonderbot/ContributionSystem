@@ -5,6 +5,7 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Components;
 
 namespace ContributionSystem.UI.UnitTests.Pages
 {
@@ -21,12 +22,14 @@ namespace ContributionSystem.UI.UnitTests.Pages
         {
             public readonly TestContext _testContext;
             public readonly Mock<IContributionService> _contributionServiceMock;
+            public readonly NavigationManager navigationManager;
 
             public BaseComponent()
             {
                 _testContext = new TestContext();
                 _contributionServiceMock = new Mock<IContributionService>();
                 _testContext.Services.AddSingleton(_contributionServiceMock.Object);
+                navigationManager = _testContext.Services.GetRequiredService<NavigationManager>();
             }
 
             public ResponseCalculateContributionViewModel GetCalculationResponse()

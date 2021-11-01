@@ -12,7 +12,7 @@ namespace ContributionSystem.API.UnitTests.Contollers
 {
     public class ContributionControllerTests
     {
-        private readonly ContributionController contributionController;
+        private readonly ContributionController _contributionController;
 
         private const int ValidId = 1;
         private const int InvalidId = 0;
@@ -38,13 +38,13 @@ namespace ContributionSystem.API.UnitTests.Contollers
             mock.Setup(repo => repo
                 .GetDetailsById(It.Is<int>(p => p <= 0)))
                 .ThrowsAsync(new Exception());
-            contributionController = new ContributionController(mock.Object);
+            _contributionController = new ContributionController(mock.Object);
         }
 
         [Test]
         public async Task GetDetailsById_ValidId_OkObjectResultWithResponseCalculateContributionViewModel()
         {
-            var response = await contributionController.GetDetailsById(ValidId);
+            var response = await _contributionController.GetDetailsById(ValidId);
             var okObjectResult = response as OkObjectResult;
             okObjectResult.Should().NotBeNull();
             okObjectResult.Value.Should().BeOfType<ResponseGetDetailsByIdContributionViewModel>();
@@ -53,17 +53,17 @@ namespace ContributionSystem.API.UnitTests.Contollers
         [Test]
         public async Task GetDetailsById_InvalidId_ThrowException()
         {
-            var response = await contributionController.GetDetailsById(InvalidId);
-            var BadRequestObjectResult = response as BadRequestObjectResult;
-            BadRequestObjectResult.Should().NotBeNull();
-            BadRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
+            var response = await _contributionController.GetDetailsById(InvalidId);
+            var badRequestObjectResult = response as BadRequestObjectResult;
+            badRequestObjectResult.Should().NotBeNull();
+            badRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
 
         }
 
         [Test]
         public async Task GetHistory_ValidRequest_OkObjectResultWithResponseCalculateContributionViewModel()
         {
-            var response = await contributionController.GetHistory(new RequestGetHistoryContributionViewModel());
+            var response = await _contributionController.GetHistory(new RequestGetHistoryContributionViewModel());
             var okObjectResult = response as OkObjectResult;
             okObjectResult.Should().NotBeNull();
             okObjectResult.Value.Should().BeOfType<ResponseGetHistoryContributionViewModel>();
@@ -72,17 +72,17 @@ namespace ContributionSystem.API.UnitTests.Contollers
         [Test]
         public async Task GetHistory_NullRequest_ThrowException()
         {
-            var response = await contributionController.GetHistory(null);
-            var BadRequestObjectResult = response as BadRequestObjectResult;
-            BadRequestObjectResult.Should().NotBeNull();
-            BadRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
+            var response = await _contributionController.GetHistory(null);
+            var badRequestObjectResult = response as BadRequestObjectResult;
+            badRequestObjectResult.Should().NotBeNull();
+            badRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
 
         }
 
         [Test]
         public async Task Calculate_ValidRequest_OkObjectResultWithResponseCalculateContributionViewModel()
         {
-            var response = await contributionController.Calculate(new RequestCalculateContributionViewModel());
+            var response = await _contributionController.Calculate(new RequestCalculateContributionViewModel());
             var okObjectResult = response as OkObjectResult;
             okObjectResult.Should().NotBeNull();
             okObjectResult.Value.Should().BeOfType<ResponseCalculateContributionViewModel>();
@@ -91,10 +91,10 @@ namespace ContributionSystem.API.UnitTests.Contollers
         [Test]
         public async Task Calculate_NullRequest_ThrowException()
         {
-            var response = await contributionController.Calculate(null);
-            var BadRequestObjectResult = response as BadRequestObjectResult;
-            BadRequestObjectResult.Should().NotBeNull();
-            BadRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
+            var response = await _contributionController.Calculate(null);
+            var badRequestObjectResult = response as BadRequestObjectResult;
+            badRequestObjectResult.Should().NotBeNull();
+            badRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
 
         }
     }

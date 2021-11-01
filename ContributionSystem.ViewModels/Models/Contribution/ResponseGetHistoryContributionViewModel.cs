@@ -10,7 +10,7 @@ namespace ContributionSystem.ViewModels.Models.Contribution
 
         public int Skip { get; set; }
     }
-
+    
     public class ResponseGetHistoryContributionViewModelItem
     {
         public decimal Percent { get; set; }
