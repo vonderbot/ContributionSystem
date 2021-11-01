@@ -1,6 +1,5 @@
 using ContributionSystem.UI.Interfaces;
 using ContributionSystem.UI.Services;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
