@@ -7,7 +7,7 @@ using Moq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 
-namespace ContributionSystem.UI.UnitTests.Pages
+namespace ContributionSystem.UI.UnitTests.Common
 {
     public class PageTestsBaseComponent
     {

@@ -5,22 +5,23 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using FluentAssertions;
 using Moq;
 using System;
+using ContributionSystem.UI.UnitTests.Common;
 using Xunit;
 
 namespace ContributionSystem.UI.UnitTests.Pages
 {
-    public class DetailsPageTests : PageTestsBaseComponent
+    public class DetailsTests : PageTestsBaseComponent
     {
         private const int Id = 1;
 
-        public DetailsPageTests()
+        public DetailsTests()
         {
             ResponseGetDetailsByIdContributionViewModel response = null;
             _baseComponent._contributionServiceMock.Setup(x => x.GetDetailsById(Id)).ReturnsAsync(response);
         }
 
         [Fact]
-        public void WhenPageRendered_ValidParameters_ServiceExceptionMessageRendered()
+        public void WhenPageRendered_ServiceException_ExpectedMarkupRendered()
         {
             _baseComponent._contributionServiceMock.Setup(x => x.GetDetailsById(Id)).ThrowsAsync(new Exception("Service exception"));
             var page = _baseComponent._testContext.RenderComponent<Details>(parameter => parameter.Add(p => p.Id, Id));

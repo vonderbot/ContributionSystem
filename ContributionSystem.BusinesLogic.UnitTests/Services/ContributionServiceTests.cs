@@ -140,8 +140,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             var response = await _contributionService.Calculate(request);
             response.Should().BeOfType<ResponseCalculateContributionViewModel>();
         }
-
-        [Test]
+        
         [TestCase(0, 3, 1)]
         [TestCase(-1, 3, 1)]
         public async Task Calculate_RequestWithZeroOrNegativeStartValue_ThrowException(decimal startValue, int term, decimal percent)
@@ -151,8 +150,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Incorrect start value in request");
         }
-
-        [Test]
+        
         [TestCase(1, 0, 1)]
         [TestCase(1, -1, 1)]
         public async Task Calculate_RequestWithZeroOrNegativeTerm_ThrowException(decimal startValue, int term, decimal percent)
@@ -162,8 +160,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Incorrect term in request");
         }
-
-        [Test]
+        
         [TestCase(1, 1, 0)]
         [TestCase(1, 1, -1)]
         public async Task Calculate_RequestWithZeroOrNegativePercent_ThrowException(decimal startValue, int term, decimal percent)

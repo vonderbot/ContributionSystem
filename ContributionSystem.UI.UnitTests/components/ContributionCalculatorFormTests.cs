@@ -4,11 +4,12 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using FluentAssertions;
 using Moq;
 using System;
+using ContributionSystem.UI.UnitTests.Common;
 using Xunit;
 
-namespace ContributionSystem.UI.UnitTests.Pages
+namespace ContributionSystem.UI.UnitTests.Components
 {
-    public class ContributionCalculatorFormPageTests : PageTestsBaseComponent
+    public class ContributionCalculatorFormTests : PageTestsBaseComponent
     {
         private const string CorrectSum = "1";
         private const string CorrectTerm = "1";

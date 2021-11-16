@@ -3,11 +3,12 @@ using ContributionSystem.UI.Components;
 using ContributionSystem.ViewModels.Models.Contribution;
 using FluentAssertions;
 using System.Linq;
+using ContributionSystem.UI.UnitTests.Common;
 using Xunit;
 
-namespace ContributionSystem.UI.UnitTests.Pages
+namespace ContributionSystem.UI.UnitTests.Components
 {
-    public class ContributionCalculatorTablePageTests : PageTestsBaseComponent
+    public class ContributionCalculatorTableTests : PageTestsBaseComponent
     {
 
         [Fact]

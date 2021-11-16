@@ -8,7 +8,7 @@ using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace ContributionSystem.API.UnitTests.Contollers
+namespace ContributionSystem.API.UnitTests.Controllers
 {
     public class ContributionControllerTests
     {
@@ -42,7 +42,7 @@ namespace ContributionSystem.API.UnitTests.Contollers
         }
 
         [Test]
-        public async Task GetDetailsById_ValidId_OkObjectResultWithResponseCalculateContributionViewModel()
+        public async Task GetDetailsById_ValidId_The200Result()
         {
             var response = await _contributionController.GetDetailsById(ValidId);
             var okObjectResult = response as OkObjectResult;
@@ -51,17 +51,16 @@ namespace ContributionSystem.API.UnitTests.Contollers
         }
 
         [Test]
-        public async Task GetDetailsById_InvalidId_ThrowException()
+        public async Task GetDetailsById_InvalidId_The400Result()
         {
             var response = await _contributionController.GetDetailsById(InvalidId);
             var badRequestObjectResult = response as BadRequestObjectResult;
             badRequestObjectResult.Should().NotBeNull();
             badRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
-
         }
 
         [Test]
-        public async Task GetHistory_ValidRequest_OkObjectResultWithResponseCalculateContributionViewModel()
+        public async Task GetHistory_ValidRequest_The200Result()
         {
             var response = await _contributionController.GetHistory(new RequestGetHistoryContributionViewModel());
             var okObjectResult = response as OkObjectResult;
@@ -70,17 +69,16 @@ namespace ContributionSystem.API.UnitTests.Contollers
         }
 
         [Test]
-        public async Task GetHistory_NullRequest_ThrowException()
+        public async Task GetHistory_NullRequest_The400Result()
         {
             var response = await _contributionController.GetHistory(null);
             var badRequestObjectResult = response as BadRequestObjectResult;
             badRequestObjectResult.Should().NotBeNull();
             badRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
-
         }
 
         [Test]
-        public async Task Calculate_ValidRequest_OkObjectResultWithResponseCalculateContributionViewModel()
+        public async Task Calculate_ValidRequest_The200Result()
         {
             var response = await _contributionController.Calculate(new RequestCalculateContributionViewModel());
             var okObjectResult = response as OkObjectResult;
@@ -89,13 +87,12 @@ namespace ContributionSystem.API.UnitTests.Contollers
         }
 
         [Test]
-        public async Task Calculate_NullRequest_ThrowException()
+        public async Task Calculate_NullRequest_The400Result()
         {
             var response = await _contributionController.Calculate(null);
             var badRequestObjectResult = response as BadRequestObjectResult;
             badRequestObjectResult.Should().NotBeNull();
             badRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
-
         }
     }
 }
