@@ -19,7 +19,8 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculator>();
+            var page = TestContext.RenderComponent<ContributionCalculator>();
+
             page.FindComponent<ContributionCalculatorForm>().Should().NotBeNull();
             page.FindComponent<ContributionCalculatorTable<ResponseCalculateContributionViewModel, MonthsInfoContributionViewModelItem>>().Should().NotBeNull();
             page.FindAll("div h1").Should().BeEmpty();
@@ -28,8 +29,9 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenSubmitButtonClicked_ServiceException_ExpectedMarkupRendered()
         {
-            _baseComponent._contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Server exception"));
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculator>();
+            _contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Server exception"));
+            var page = TestContext.RenderComponent<ContributionCalculator>();
+
             page.Find("#Percent").Change(CorrectPercent);
             page.Find("#Term").Change(CorrectTerm);
             page.Find("#Sum").Change(CorrectSum);

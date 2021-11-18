@@ -1,14 +1,32 @@
 ﻿<div class="p-3">
     <ul class="nav nav-fill w-100">
         <li class="nav-item col-3 p-0">
-            <NavLink class="nav-link border rounded-top" id="Calculations" @onclick="() => NavigateToCalculationPage()" href="/Main" Match="NavLinkMatch.All">
-                Calculations
-            </NavLink>
+            @if (NavigationManager.Uri.Substring(NavigationManager.BaseUri.Length - 1) == "/Main")
+            {
+                <a class="nav-link active border rounded-top " type="button" id="Calculations" @onclick="() => NavigateToCalculationPage()" Match="NavLinkMatch.All">
+                    Calculations
+                </a>
+            }
+            else
+            {
+                <a class="nav-link border rounded-top" type="button" id="Calculations" @onclick="() => NavigateToCalculationPage()" Match="NavLinkMatch.All">
+                    Calculations
+                </a>
+            }
         </li>
         <li class="nav-item col-3 p-0">
-            <NavLink class="nav-link border rounded-top" @onclick="() => NavigateToHistoryPage()" id="History" href="/History">
-                History
-            </NavLink>
+            @if (NavigationManager.Uri.Substring(NavigationManager.BaseUri.Length - 1) == "/History")
+            {
+                <a class="nav-link active border rounded-top" type="button" @onclick="() => NavigateToHistoryPage()" id="History">
+                    History
+                </a>
+            }
+            else
+            {
+                <a class="nav-link border rounded-top" type="button" @onclick="() => NavigateToHistoryPage()" id="History">
+                    History
+                </a>
+            }
         </li>
     </ul>
 </div>

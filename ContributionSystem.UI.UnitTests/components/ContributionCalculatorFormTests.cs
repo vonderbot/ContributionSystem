@@ -20,7 +20,8 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorForm>();
+            var page = TestContext.RenderComponent<ContributionCalculatorForm>();
+
             page.Find("#Percent").Should().NotBeNull();
             page.Find("#Term").Should().NotBeNull();
             page.Find("#Sum").Should().NotBeNull();
@@ -31,40 +32,44 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenSubmitButtonClicked_ValidParameters_CalculateInvoked()
         {
-            _baseComponent._contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(_baseComponent.GetCalculationResponse());
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorForm>();
+            _contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(GetCalculationResponse());
+            var page = TestContext.RenderComponent<ContributionCalculatorForm>();
             InputsValuesAndSubmitForm(page, CorrectPercent, CorrectTerm, CorrectSum);
-            _baseComponent._contributionServiceMock.Verify(m => m.Сalculate(It.IsAny<RequestCalculateContributionViewModel>()), Times.Once());
+
+            _contributionServiceMock.Verify(m => m.Сalculate(It.IsAny<RequestCalculateContributionViewModel>()), Times.Once());
         }
 
         [Fact]
         public void WhenSubmitButtonClicked_ValidParameters_RequestViewModelEventCallbackInvoked()
         {
-            _baseComponent._contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(_baseComponent.GetCalculationResponse());
+            _contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(GetCalculationResponse());
             var eventCalled = false;
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
+            var page = TestContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
                 .Add(p => p.ResponseCalculateContributionViewModelChanged, () => { eventCalled = true; }));
             InputsValuesAndSubmitForm(page, CorrectPercent, CorrectTerm, CorrectSum);
+
             Assert.True(eventCalled);
         }
 
         [Fact]
         public void WhenSubmitButtonClicked_ValidParameters_ServerErrorMessageEventCallbackInvoked()
         {
-            _baseComponent._contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Mock exception"));
+            _contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Mock exception"));
             var eventCalled = false;
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
+            var page = TestContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
                 .Add(p => p.ErrorMessageChanged, () => { eventCalled = true; }));
             InputsValuesAndSubmitForm(page, CorrectPercent, CorrectTerm, CorrectSum);
+
             Assert.True(eventCalled);
         }
 
         [Fact]
         public void WhenSubmitButtonClicked_InvalidPercent_ValidationMinElementMessageAppear()
         {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorForm>();
+            var page = TestContext.RenderComponent<ContributionCalculatorForm>();
             InputsValuesAndSubmitForm(page, IncorrectElementUnderMinValue, CorrectTerm, CorrectSum);
             var validationMessage = page.Find(".validation-message").TextContent;
+
             page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Percent can`t be less then 0.01");
         }
@@ -72,9 +77,10 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenSubmitButtonClicked_InvalidPercent_ValidationDecimalPlacesMessageAppear()
         {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorForm>();
+            var page = TestContext.RenderComponent<ContributionCalculatorForm>();
             InputsValuesAndSubmitForm(page, IncorrectElementToMuchDecimalPlaces, CorrectTerm, CorrectSum);
             var validationMessage = page.Find(".validation-message").TextContent;
+
             page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Percent can only have 6 numbers, 2 of them after the decimal point");
         }
@@ -82,9 +88,10 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenSubmitButtonClicked_InvalidTerm_ValidationMinElementMessageAppear()
         {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorForm>();
+            var page = TestContext.RenderComponent<ContributionCalculatorForm>();
             InputsValuesAndSubmitForm(page, CorrectPercent, IncorrectElementUnderMinValue, CorrectSum);
             var validationMessage = page.Find(".validation-message").TextContent;
+
             page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Term can`t be less then 1");
         }
@@ -92,9 +99,10 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenSubmitButtonClicked_InvalidSum_ValidationMinElementMessageAppear()
         {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorForm>();
+            var page = TestContext.RenderComponent<ContributionCalculatorForm>();
             InputsValuesAndSubmitForm(page, CorrectPercent, CorrectTerm, IncorrectElementUnderMinValue);
             var validationMessage = page.Find(".validation-message").TextContent;
+
             page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Sum can`t be less then 0.01");
         }
@@ -102,9 +110,10 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenSubmitButtonClicked_InvalidSum_ValidationDecimalPlacesMessageAppear()
         {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorForm>();
+            var page = TestContext.RenderComponent<ContributionCalculatorForm>();
             InputsValuesAndSubmitForm(page, CorrectPercent, CorrectTerm, IncorrectElementToMuchDecimalPlaces);
             var validationMessage = page.Find(".validation-message").TextContent;
+
             page.FindAll("[aria-invalid]").Count.Should().Be(1);
             validationMessage.Should().BeEquivalentTo("Sum can only have 12 numbers, 2 of them after the decimal point");
         }

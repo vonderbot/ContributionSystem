@@ -46,6 +46,7 @@ namespace ContributionSystem.API.UnitTests.Controllers
         {
             var response = await _contributionController.GetDetailsById(ValidId);
             var okObjectResult = response as OkObjectResult;
+
             okObjectResult.Should().NotBeNull();
             okObjectResult.Value.Should().BeOfType<ResponseGetDetailsByIdContributionViewModel>();
         }
@@ -55,8 +56,9 @@ namespace ContributionSystem.API.UnitTests.Controllers
         {
             var response = await _contributionController.GetDetailsById(InvalidId);
             var badRequestObjectResult = response as BadRequestObjectResult;
+
             badRequestObjectResult.Should().NotBeNull();
-            badRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
+            badRequestObjectResult.StatusCode.Value.Should().Be(400);
         }
 
         [Test]
@@ -64,6 +66,7 @@ namespace ContributionSystem.API.UnitTests.Controllers
         {
             var response = await _contributionController.GetHistory(new RequestGetHistoryContributionViewModel());
             var okObjectResult = response as OkObjectResult;
+
             okObjectResult.Should().NotBeNull();
             okObjectResult.Value.Should().BeOfType<ResponseGetHistoryContributionViewModel>();
         }
@@ -73,8 +76,9 @@ namespace ContributionSystem.API.UnitTests.Controllers
         {
             var response = await _contributionController.GetHistory(null);
             var badRequestObjectResult = response as BadRequestObjectResult;
+
             badRequestObjectResult.Should().NotBeNull();
-            badRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
+            badRequestObjectResult.StatusCode.Value.Should().Be(400);
         }
 
         [Test]
@@ -82,6 +86,7 @@ namespace ContributionSystem.API.UnitTests.Controllers
         {
             var response = await _contributionController.Calculate(new RequestCalculateContributionViewModel());
             var okObjectResult = response as OkObjectResult;
+
             okObjectResult.Should().NotBeNull();
             okObjectResult.Value.Should().BeOfType<ResponseCalculateContributionViewModel>();
         }
@@ -91,8 +96,9 @@ namespace ContributionSystem.API.UnitTests.Controllers
         {
             var response = await _contributionController.Calculate(null);
             var badRequestObjectResult = response as BadRequestObjectResult;
+
             badRequestObjectResult.Should().NotBeNull();
-            badRequestObjectResult.StatusCode.ToString().Should().BeEquivalentTo("400");
+            badRequestObjectResult.StatusCode.Value.Should().Be(400);
         }
     }
 }

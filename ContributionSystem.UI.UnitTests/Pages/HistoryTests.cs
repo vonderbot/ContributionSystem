@@ -18,8 +18,9 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_ServiceException_ExpectedMarkupRendered()
         {
-            _baseComponent._contributionServiceMock.Setup(x => x.GetHistory(Take, Skip)).ThrowsAsync(new Exception("Service exception"));
-            var page = _baseComponent._testContext.RenderComponent<History>();
+            _contributionServiceMock.Setup(x => x.GetHistory(Take, Skip)).ThrowsAsync(new Exception("Service exception"));
+            var page = TestContext.RenderComponent<History>();
+
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("Service exception");
         }
 
@@ -27,9 +28,10 @@ namespace ContributionSystem.UI.UnitTests.Pages
         public void WhenButtonSeeDetailsClicked_DataForOneLoad_Redirect()
         {
             BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take);
-            var page = _baseComponent._testContext.RenderComponent<History>();
+            var page = TestContext.RenderComponent<History>();
             page.Find("#SeeDetails").Click();
-            Assert.Equal("http://localhost/Details/0", _baseComponent.navigationManager.Uri);
+
+            Assert.Equal("http://localhost/Details/0", navigationManager.Uri);
         }
 
         [Fact]
@@ -37,9 +39,10 @@ namespace ContributionSystem.UI.UnitTests.Pages
         {
             BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take * 2);
             BaseComponentSetup(GetEmptyItemList(Take), Take, Take + Skip, Take * 2);
-            var page = _baseComponent._testContext.RenderComponent<History>();
+            var page = TestContext.RenderComponent<History>();
             page.Find("#LoadMore").Click();
-            ChecDataContainers(page, Take * 2);
+            CheckDataContainers(page, Take * 2);
+
             page.FindAll("#LoadMore").Should().BeEmpty();
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("End of history");
         }
@@ -48,8 +51,9 @@ namespace ContributionSystem.UI.UnitTests.Pages
         public void WhenPageRendered_DataForTwoLoads_ExpectedMarkupRendered()
         {
             BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take * 2);
-            var page = _baseComponent._testContext.RenderComponent<History>();
-            ChecDataContainers(page, Take);
+            var page = TestContext.RenderComponent<History>();
+            CheckDataContainers(page, Take);
+
             page.FindAll("#LoadMore").Should().NotBeEmpty();
             page.FindAll("div h1").Should().BeEmpty();
         }
@@ -58,8 +62,9 @@ namespace ContributionSystem.UI.UnitTests.Pages
         public void WhenPageRendered_DataForOneLoad_ExpectedMarkupRendered()
         {
             BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take);
-            var page = _baseComponent._testContext.RenderComponent<History>();
-            ChecDataContainers(page, Take);
+            var page = TestContext.RenderComponent<History>();
+            CheckDataContainers(page, Take);
+
             page.FindAll("#LoadMore").Should().BeEmpty();
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("End of history");
         }
@@ -68,13 +73,14 @@ namespace ContributionSystem.UI.UnitTests.Pages
         public void WhenPageRendered_EmptyDataBase_ExpectedMarkupRendered()
         {
             BaseComponentSetup(new List<ResponseGetHistoryContributionViewModelItem>(), Take, Skip, 0);
-            var page = _baseComponent._testContext.RenderComponent<History>();
-            ChecDataContainers(page, 0);
+            var page = TestContext.RenderComponent<History>();
+            CheckDataContainers(page, 0);
+
             page.FindAll("#LoadMore").Should().BeEmpty();
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("History is empty");
         }
 
-        private void ChecDataContainers(IRenderedComponent<History> page, int count)
+        private void CheckDataContainers(IRenderedComponent<History> page, int count)
         {
             page.FindAll("#DataContainer").Count.Should().Be(count);
             page.FindAll("#Percent").Count.Should().Be(count);
@@ -92,14 +98,14 @@ namespace ContributionSystem.UI.UnitTests.Pages
                 Skip = skip,
                 TotalNumberOfRecords = totalNumberOfRecords
             };
-            _baseComponent._contributionServiceMock.Setup(x => x.GetHistory(take, skip)).ReturnsAsync(response);
+            _contributionServiceMock.Setup(x => x.GetHistory(take, skip)).ReturnsAsync(response);
         }
 
         private List<ResponseGetHistoryContributionViewModelItem> GetEmptyItemList(int numberOfItems)
         {
             var itemList = new List<ResponseGetHistoryContributionViewModelItem>();
 
-            for (int i = 0; i < numberOfItems; i++)
+            for (var i = 0; i < numberOfItems; i++)
             {
                 itemList.Add(new ResponseGetHistoryContributionViewModelItem());
             }
