@@ -6,7 +6,6 @@ using Moq;
 using ContributionSystem.UI.Services;
 using System.Net.Http;
 using System.Net;
-using System.Net.Http.Headers;
 using Moq.Protected;
 using System.Threading;
 using ContributionSystem.UI.Interfaces;
@@ -42,7 +41,7 @@ namespace ContributionSystem.UI.UnitTests.Services
         {
             _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"));
             Func<Task> act = async () => await _contributionService.GetHistory(Take, Skip);
-            await act.Should().ThrowAsync<Exception>().WithMessage("Server response is incorrect");
+            await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
         }
 
         [Fact]
@@ -59,7 +58,7 @@ namespace ContributionSystem.UI.UnitTests.Services
         {
             _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"));
             Func<Task> act = async () => await _contributionService.GetHistory(Take, Skip);
-            await act.Should().ThrowAsync<Exception>().WithMessage("Server response is incorrect");
+            await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
         }
 
         [Fact]
@@ -71,58 +70,12 @@ namespace ContributionSystem.UI.UnitTests.Services
             moqResponse.Should().BeEquivalentTo(GetCalculationResponse());
         }
 
-        //[Fact]
-        //public async Task GetDetailsById_WrongModelFromServer_ThrowException()
-        //{
-        //    var jsonResponse = JsonSerializer.Serialize(GetCalculationResponse());
-        //    _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse));
-        //    Func<Task> act = async () => await _contributionService.GetDetailsById(Id);
-        //    await act.Should().ThrowAsync<Exception>().WithMessage("Server wrong model");
-        //}
-
-        //[Fact]
-        //public async Task GetHistory_WrongModelFromServer_ThrowException()
-        //{
-        //    var jsonResponse = JsonSerializer.Serialize(GetCalculationResponse());
-        //    _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse));
-        //    Func<Task> act = async () => await _contributionService.GetHistory(Take, Skip);
-        //    await act.Should().ThrowAsync<Exception>().WithMessage("Server wrong model");
-        //}
-
-        [Fact]
-        public async Task Calculate_WrongModelFromServer_ThrowException()
-        {
-            var jsonResponse = JsonSerializer.Serialize(new RequestGetHistoryContributionViewModel() { Take = 2, Skip = 0 });
-            //_contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse));
-            var handlerMock = new Mock<HttpMessageHandler>();
-            var response = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK
-            };
-            response.Content = new StringContent(jsonResponse);
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("aboba");
-
-            handlerMock
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(response);
-            var httpClient = new HttpClient(handlerMock.Object)
-            {
-                BaseAddress = new Uri("https://localhost:44303/api/")
-            };
-            Func<Task> act = async () => await _contributionService.Сalculate(null);
-            await act.Should().ThrowAsync<Exception>().WithMessage("Server wrong model");
-        }
-
         [Fact]
         public async Task Calculate_NullRequest_ThrowException()
         {
             _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"));
             Func<Task> act = async () => await _contributionService.Сalculate(null);
-            await act.Should().ThrowAsync<Exception>().WithMessage("Server response is incorrect");
+            await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
         }
 
         private ResponseGetHistoryContributionViewModel GetHistoryResponse()

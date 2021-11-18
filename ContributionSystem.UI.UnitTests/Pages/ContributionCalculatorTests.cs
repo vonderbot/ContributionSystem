@@ -26,7 +26,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         }
 
         [Fact]
-        public void WhenSubmitButtonClicked_ValidParameters_ServerExceptionRendered()
+        public void WhenSubmitButtonClicked_ServiceException_ExpectedMarkupRendered()
         {
             _baseComponent._contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Server exception"));
             var page = _baseComponent._testContext.RenderComponent<ContributionCalculator>();

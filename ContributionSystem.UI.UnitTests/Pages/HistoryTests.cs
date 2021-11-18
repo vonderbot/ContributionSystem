@@ -6,6 +6,7 @@ using Moq;
 using System.Collections.Generic;
 using ContributionSystem.UI.UnitTests.Common;
 using Xunit;
+using System;
 
 namespace ContributionSystem.UI.UnitTests.Pages
 {
@@ -13,6 +14,14 @@ namespace ContributionSystem.UI.UnitTests.Pages
     {
         private const int Take = 8;
         private const int Skip = 0;
+
+        [Fact]
+        public void WhenPageRendered_ServiceException_ExpectedMarkupRendered()
+        {
+            _baseComponent._contributionServiceMock.Setup(x => x.GetHistory(Take, Skip)).ThrowsAsync(new Exception("Service exception"));
+            var page = _baseComponent._testContext.RenderComponent<History>();
+            page.Find("div h1").InnerHtml.Should().BeEquivalentTo("Service exception");
+        }
 
         [Fact]
         public void WhenButtonSeeDetailsClicked_DataForOneLoad_Redirect()
@@ -30,13 +39,9 @@ namespace ContributionSystem.UI.UnitTests.Pages
             BaseComponentSetup(GetEmptyItemList(Take), Take, Take + Skip, Take * 2);
             var page = _baseComponent._testContext.RenderComponent<History>();
             page.Find("#LoadMore").Click();
-            page.FindAll("#DataContainer").Should().HaveCount(Take * 2);
+            ChecDataContainers(page, Take * 2);
             page.FindAll("#LoadMore").Should().BeEmpty();
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("End of history");
-            page.FindAll("#Percent").Count.Should().Be(Take*2);
-            page.FindAll("#Term").Count.Should().Be(Take * 2);
-            page.FindAll("#Sum").Count.Should().Be(Take * 2);
-            page.FindAll("#Date").Count.Should().Be(Take * 2);
         }
 
         [Fact]
@@ -44,13 +49,9 @@ namespace ContributionSystem.UI.UnitTests.Pages
         {
             BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take * 2);
             var page = _baseComponent._testContext.RenderComponent<History>();
-            page.FindAll("#DataContainer").Should().HaveCount(Take);
+            ChecDataContainers(page, Take);
             page.FindAll("#LoadMore").Should().NotBeEmpty();
             page.FindAll("div h1").Should().BeEmpty();
-            page.FindAll("#Percent").Count.Should().Be(Take);
-            page.FindAll("#Term").Count.Should().Be(Take);
-            page.FindAll("#Sum").Count.Should().Be(Take);
-            page.FindAll("#Date").Count.Should().Be(Take);
         }
 
         [Fact]
@@ -58,13 +59,9 @@ namespace ContributionSystem.UI.UnitTests.Pages
         {
             BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take);
             var page = _baseComponent._testContext.RenderComponent<History>();
-            page.FindAll("#DataContainer").Should().HaveCount(Take);
+            ChecDataContainers(page, Take);
             page.FindAll("#LoadMore").Should().BeEmpty();
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("End of history");
-            page.FindAll("#Percent").Count.Should().Be(Take);
-            page.FindAll("#Term").Count.Should().Be(Take);
-            page.FindAll("#Sum").Count.Should().Be(Take);
-            page.FindAll("#Date").Count.Should().Be(Take);
         }
 
         [Fact]
@@ -72,13 +69,18 @@ namespace ContributionSystem.UI.UnitTests.Pages
         {
             BaseComponentSetup(new List<ResponseGetHistoryContributionViewModelItem>(), Take, Skip, 0);
             var page = _baseComponent._testContext.RenderComponent<History>();
-            page.FindAll("#DataContainer").Should().BeEmpty();
+            ChecDataContainers(page, 0);
             page.FindAll("#LoadMore").Should().BeEmpty();
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("History is empty");
-            page.FindAll("#Percent").Count.Should().Be(0);
-            page.FindAll("#Term").Count.Should().Be(0);
-            page.FindAll("#Sum").Count.Should().Be(0);
-            page.FindAll("#Date").Count.Should().Be(0);
+        }
+
+        private void ChecDataContainers(IRenderedComponent<History> page, int count)
+        {
+            page.FindAll("#DataContainer").Count.Should().Be(count);
+            page.FindAll("#Percent").Count.Should().Be(count);
+            page.FindAll("#Term").Count.Should().Be(count);
+            page.FindAll("#Sum").Count.Should().Be(count);
+            page.FindAll("#Date").Count.Should().Be(count);
         }
 
         private void BaseComponentSetup(List<ResponseGetHistoryContributionViewModelItem> items, int take, int skip, int totalNumberOfRecords)

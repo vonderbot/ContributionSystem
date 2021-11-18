@@ -12,16 +12,14 @@ namespace ContributionSystem.UI.UnitTests.Components
         public void WhenHistoryButtonClicked_NoParametersPassed_Redirect()
         {
             var page = _baseComponent._testContext.RenderComponent<Navbar>();
-            page.Find("#History").Click();
-            Assert.Equal("http://localhost/History", _baseComponent.navigationManager.Uri);
+            page.Find("#History").GetAttribute("href").Should().BeEquivalentTo("/History");
         }
 
         [Fact]
         public void WhenCalculationsButtonClicked_NoParametersPassed_Redirect()
         {
             var page = _baseComponent._testContext.RenderComponent<Navbar>();
-            page.Find("#Calculations").Click();
-            Assert.Equal("http://localhost/Main", _baseComponent.navigationManager.Uri);
+            page.Find("#Calculations").GetAttribute("href").Should().BeEquivalentTo("/Main");
         }
 
         [Fact]
