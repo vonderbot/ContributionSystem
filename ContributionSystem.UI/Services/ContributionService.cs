@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
 using System.Net;
-using System.Text.Json;
 
 namespace ContributionSystem.UI.Services
 {
@@ -22,58 +21,53 @@ namespace ContributionSystem.UI.Services
 
         public async Task<ResponseGetDetailsByIdContributionViewModel> GetDetailsById(int id)
         {
-            var response = await _http.GetAsync($"{СontrollerName}/GetDetailsById?id={id}");
-            await CheckResponseStatusCode(response);
-            ResponseGetDetailsByIdContributionViewModel details;
-
             try
             {
+                var response = await _http.GetAsync($"{СontrollerName}/GetDetailsById?id={id}");
+                await CheckResponseStatusCode(response);
+                ResponseGetDetailsByIdContributionViewModel details;
                 details = await response.Content.ReadFromJsonAsync<ResponseGetDetailsByIdContributionViewModel>();
+
+                return details;
             }
             catch
             {
                 throw new Exception("Server wrong model");
             }
-
-            return details;
         }
 
         public async Task<ResponseGetHistoryContributionViewModel> GetHistory(int take, int skip)
         {
-            var response = await _http.GetAsync($"{СontrollerName}/GetHistory?Take={take}&Skip={skip}");
-            await CheckResponseStatusCode(response);
-            ResponseGetHistoryContributionViewModel details;
-            
             try
             {
+                var response = await _http.GetAsync($"{СontrollerName}/GetHistory?Take={take}&Skip={skip}");
+                await CheckResponseStatusCode(response);
+                ResponseGetHistoryContributionViewModel details;
                 details = await response.Content.ReadFromJsonAsync<ResponseGetHistoryContributionViewModel>();
+
+                return details;
             }
             catch
             {
                 throw new Exception("Server wrong model");
             }
-
-            return details;
         }
 
         public async Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request)
         {
-            var response = await _http.PostAsJsonAsync($"{СontrollerName}/calculate", request);
-            await CheckResponseStatusCode(response);
-            ResponseCalculateContributionViewModel details;
-
             try
             {
+                var response = await _http.PostAsJsonAsync($"{СontrollerName}/calculate", request);
+                await CheckResponseStatusCode(response);
+                ResponseCalculateContributionViewModel details;
                 details = await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
-                //details = await response.Content.<ResponseCalculateContributionViewModel>();
-                var d = response.Content.Headers.ContentType;
+
+                return details;
             }
             catch
             {
                 throw new Exception("Server wrong model");
             }
-
-            return details;
         }
 
         private async Task CheckResponseStatusCode(HttpResponseMessage response)
