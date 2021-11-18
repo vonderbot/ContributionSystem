@@ -25,14 +25,13 @@ namespace ContributionSystem.UI.Services
             {
                 var response = await _http.GetAsync($"{СontrollerName}/GetDetailsById?id={id}");
                 await CheckResponseStatusCode(response);
-                ResponseGetDetailsByIdContributionViewModel details;
-                details = await response.Content.ReadFromJsonAsync<ResponseGetDetailsByIdContributionViewModel>();
+                var details = await response.Content.ReadFromJsonAsync<ResponseGetDetailsByIdContributionViewModel>();
 
                 return details;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Server wrong model");
+                throw new Exception($"Exception in service: {ex.Message}");
             }
         }
 
@@ -42,14 +41,13 @@ namespace ContributionSystem.UI.Services
             {
                 var response = await _http.GetAsync($"{СontrollerName}/GetHistory?Take={take}&Skip={skip}");
                 await CheckResponseStatusCode(response);
-                ResponseGetHistoryContributionViewModel details;
-                details = await response.Content.ReadFromJsonAsync<ResponseGetHistoryContributionViewModel>();
+                var details = await response.Content.ReadFromJsonAsync<ResponseGetHistoryContributionViewModel>();
 
                 return details;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Server wrong model");
+                throw new Exception($"Exception in service: {ex.Message}");
             }
         }
 
@@ -59,14 +57,13 @@ namespace ContributionSystem.UI.Services
             {
                 var response = await _http.PostAsJsonAsync($"{СontrollerName}/calculate", request);
                 await CheckResponseStatusCode(response);
-                ResponseCalculateContributionViewModel details;
-                details = await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
+                var details = await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
 
                 return details;
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Server wrong model");
+                throw new Exception($"Exception in service: {ex.Message}");
             }
         }
 
@@ -75,6 +72,7 @@ namespace ContributionSystem.UI.Services
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 var exception = await response.Content.ReadAsStringAsync();
+
                 throw new Exception(exception);
             }
         }

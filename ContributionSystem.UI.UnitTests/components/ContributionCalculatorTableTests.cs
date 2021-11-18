@@ -10,11 +10,11 @@ namespace ContributionSystem.UI.UnitTests.Components
 {
     public class ContributionCalculatorTableTests : PageTestsBaseComponent
     {
-
         [Fact]
         public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable<ResponseCalculateContributionViewModel, MonthsInfoContributionViewModelItem>>();
+            var page =TestContext.RenderComponent<ContributionCalculatorTable<ResponseCalculateContributionViewModel, MonthsInfoContributionViewModelItem>>();
+
             page.Find("thead").Should().NotBeNull();
             page.FindAll("tbody").Should().BeEmpty();
         }
@@ -22,8 +22,9 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenPageRendered_NullResponse_ExpectedMarkupRendered()
         {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable<ResponseCalculateContributionViewModel, MonthsInfoContributionViewModelItem>>(parameters => parameters
+            var page = TestContext.RenderComponent<ContributionCalculatorTable<ResponseCalculateContributionViewModel, MonthsInfoContributionViewModelItem>>(parameters => parameters
                 .Add(p => p.ResponseCalculateContributionViewModel, null));
+
             page.Find("thead").Should().NotBeNull();
             page.FindAll("tbody").Should().BeEmpty();
         }
@@ -31,15 +32,16 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenPageRendered_ValidResponse_ExpectedMarkupRendered()
         {
-            var page = _baseComponent._testContext.RenderComponent<ContributionCalculatorTable<ResponseCalculateContributionViewModel, MonthsInfoContributionViewModelItem>>(parameters => parameters
-                .Add(p => p.ResponseCalculateContributionViewModel, _baseComponent.GetCalculationResponse()));
-            page.Find("thead").Should().NotBeNull();
-            page.Find("tbody").Should().NotBeNull();
+            var page = TestContext.RenderComponent<ContributionCalculatorTable<ResponseCalculateContributionViewModel, MonthsInfoContributionViewModelItem>>(parameters => parameters
+                .Add(p => p.ResponseCalculateContributionViewModel, GetCalculationResponse()));
             var rows = page.FindAll("tbody tr");
-            var items = _baseComponent.GetCalculationResponse().Items.ToList();
-            rows.Count.Should().Be(items.Count);
+            var items = GetCalculationResponse().Items.ToList();
             var cells = page.FindAll("tbody tr td");
             var rowsCounter = 0;
+
+            page.Find("thead").Should().NotBeNull();
+            page.Find("tbody").Should().NotBeNull();
+            rows.Count.Should().Be(items.Count);
 
             for (var i = 0; i < cells.Count; i++)
             {

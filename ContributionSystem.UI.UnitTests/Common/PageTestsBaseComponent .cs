@@ -9,44 +9,34 @@ using Microsoft.AspNetCore.Components;
 
 namespace ContributionSystem.UI.UnitTests.Common
 {
-    public class PageTestsBaseComponent
+    public abstract class PageTestsBaseComponent
     {
-        protected readonly BaseComponent _baseComponent;
+        protected readonly TestContext TestContext;
+        protected readonly Mock<IContributionService> _contributionServiceMock;
+        protected readonly NavigationManager navigationManager;
 
         protected PageTestsBaseComponent()
         {
-            _baseComponent = new BaseComponent();
+            TestContext = new TestContext();
+            _contributionServiceMock = new Mock<IContributionService>();
+            TestContext.Services.AddSingleton(_contributionServiceMock.Object);
+            navigationManager = TestContext.Services.GetRequiredService<NavigationManager>();
         }
 
-        protected class BaseComponent
+        protected ResponseCalculateContributionViewModel GetCalculationResponse()
         {
-            public readonly TestContext _testContext;
-            public readonly Mock<IContributionService> _contributionServiceMock;
-            public readonly NavigationManager navigationManager;
-
-            public BaseComponent()
+            return new ResponseCalculateContributionViewModel
             {
-                _testContext = new TestContext();
-                _contributionServiceMock = new Mock<IContributionService>();
-                _testContext.Services.AddSingleton(_contributionServiceMock.Object);
-                navigationManager = _testContext.Services.GetRequiredService<NavigationManager>();
-            }
-
-            public ResponseCalculateContributionViewModel GetCalculationResponse()
-            {
-                return new ResponseCalculateContributionViewModel
-                {
-                    CalculationMethod = CalculationMethodEnumView.Simple,
-                    Items = new List<MonthsInfoContributionViewModelItem>{
+                CalculationMethod = CalculationMethodEnumView.Simple,
+                Items = new List<MonthsInfoContributionViewModelItem>{
                     new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 1,
                         Income = 0.08M,
                         Sum = 1.08M
                     }
-                    }
-                };
-            }
+                }
+            };
         }
     }
 }

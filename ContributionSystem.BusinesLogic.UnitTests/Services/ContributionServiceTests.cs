@@ -56,8 +56,8 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         [Test]
         public async Task GetHistory_NullRequest_ThrowException()
         {
-            RequestGetHistoryContributionViewModel request = null;
-            Func<Task> act = async () => await _contributionService.GetHistory(request);
+            Func<Task> act = async () => await _contributionService.GetHistory(null);
+
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Null request");
         }
@@ -67,6 +67,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         {
             var request = GetGetHistoryRequest(InvalidTake, Skip);
             Func<Task> act = async () => await _contributionService.GetHistory(request);
+
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Attempt to take an invalid amount of contributions");
         }
@@ -76,6 +77,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         {
             var request = GetGetHistoryRequest(Take, InvalidSkip);
             Func<Task> act = async () => await _contributionService.GetHistory(request);
+
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Attempt to skip an invalid amount of contributions");
         }
@@ -92,6 +94,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             };
             var correctResponse = GetGetHistoryResponse(request, contributionList);
             var response = await _contributionService.GetHistory(request);
+
             response.Should().NotBeNull();
             response.Should().BeEquivalentTo(correctResponse);
         }
@@ -100,6 +103,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         public async Task GetDetailsById_InvalidId_ThrowException()
         {
             Func<Task> act = async () => await _contributionService.GetDetailsById(InvalidId);
+
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Can't find contribution");
         }
@@ -111,6 +115,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                 GetContribution(
                     GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent), GetSimpleCalculationResponse()));
             var response = await _contributionService.GetDetailsById(ValidId);
+
             response.Should().NotBeNull();
             response.Should().BeEquivalentTo(correctResponse);
         }
@@ -121,6 +126,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             var request = GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent);
             var correctResponse = GetSimpleCalculationResponse();
             var response = await _contributionService.Calculate(request);
+
             response.Should().BeEquivalentTo(correctResponse);
         }
 
@@ -130,6 +136,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             var request = GetCalculationRequest(CalculationMethodEnumView.Complex, CorrectStartValue, CorrectTerm, CorrectPercent);
             var correctResponse = GetComplexCalculationResponse();
             var response = await _contributionService.Calculate(request);
+
             response.Should().BeEquivalentTo(correctResponse);
         }
 
@@ -138,6 +145,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         {
             var request = GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent);
             var response = await _contributionService.Calculate(request);
+
             response.Should().BeOfType<ResponseCalculateContributionViewModel>();
         }
         
@@ -147,6 +155,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         {
             var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
             Func<Task> act = async () => await _contributionService.Calculate(request);
+
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Incorrect start value in request");
         }
@@ -157,6 +166,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         {
             var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
             Func<Task> act = async () => await _contributionService.Calculate(request);
+
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Incorrect term in request");
         }
@@ -167,6 +177,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         {
             var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
             Func<Task> act = async () => await _contributionService.Calculate(request);
+
             await act.Should().ThrowAsync<Exception>()
                 .WithMessage("Incorrect percent in request");
         }
@@ -175,6 +186,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         public async Task Calculate_NullRequest_ThrowException()
         {
             Func<Task> act = async () => await _contributionService.Calculate(null);
+
             await act.Should().ThrowAsync<Exception>().WithMessage("Null request");
         }
 

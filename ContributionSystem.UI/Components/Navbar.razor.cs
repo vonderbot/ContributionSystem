@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 
 namespace ContributionSystem.UI.Components
 {
@@ -18,6 +15,7 @@ namespace ContributionSystem.UI.Components
 
         public void NavigateToHistoryPage()
         {
+            var b = NavigationManager.Uri;
             NavigationManager.NavigateTo("/History");
         }
     }
