@@ -12,15 +12,15 @@ namespace ContributionSystem.UI.UnitTests.Common
     public abstract class PageTestsBaseComponent
     {
         protected readonly TestContext TestContext;
-        protected readonly Mock<IContributionService> _contributionServiceMock;
-        protected readonly NavigationManager navigationManager;
+        protected readonly Mock<IContributionService> ContributionServiceMock;
+        protected readonly NavigationManager NavigationManager;
 
         protected PageTestsBaseComponent()
         {
             TestContext = new TestContext();
-            _contributionServiceMock = new Mock<IContributionService>();
-            TestContext.Services.AddSingleton(_contributionServiceMock.Object);
-            navigationManager = TestContext.Services.GetRequiredService<NavigationManager>();
+            ContributionServiceMock = new Mock<IContributionService>();
+            TestContext.Services.AddSingleton(ContributionServiceMock.Object);
+            NavigationManager = TestContext.Services.GetRequiredService<NavigationManager>();
         }
 
         protected ResponseCalculateContributionViewModel GetCalculationResponse()
