@@ -1,12 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Bunit;
+using ContributionSystem.UI.Components;
+using ContributionSystem.UI.UnitTests.Common;
+using FluentAssertions;
+using Xunit;
 
 namespace ContributionSystem.UI.UnitTests.Components
 {
-    class NavbarTests
+    public class NavbarTests : PageTestsBaseComponent
     {
+        [Fact]
+        public void WhenHistoryButtonClicked_NoParametersPassed_Redirect()
+        {
+            var page = TestContext.RenderComponent<Navbar>();
+            page.Find("#History").Click();
+
+            Assert.Equal("http://localhost/History", NavigationManager.Uri);
+        }
+
+        [Fact]
+        public void WhenCalculationsButtonClicked_NoParametersPassed_Redirect()
+        {
+            var page = TestContext.RenderComponent<Navbar>();
+            page.Find("#Calculations").Click();
+
+            Assert.Equal("http://localhost/Main", NavigationManager.Uri);
+        }
+
+        [Fact]
+        public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
+        {
+            var page = TestContext.RenderComponent<Navbar>();
+
+            page.Find("#Calculations").Should().NotBeNull();
+            page.FindAll("#History").Should().NotBeNull();
+        }
     }
 }
