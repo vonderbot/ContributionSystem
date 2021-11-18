@@ -29,7 +29,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenSubmitButtonClicked_ServiceException_ExpectedMarkupRendered()
         {
-            _contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Server exception"));
+            ContributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Server exception"));
             var page = TestContext.RenderComponent<ContributionCalculator>();
 
             page.Find("#Percent").Change(CorrectPercent);

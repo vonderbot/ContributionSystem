@@ -13,7 +13,7 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
-            var page =TestContext.RenderComponent<ContributionCalculatorTable<ResponseCalculateContributionViewModel, MonthsInfoContributionViewModelItem>>();
+            var page = TestContext.RenderComponent<ContributionCalculatorTable<ResponseCalculateContributionViewModel, MonthsInfoContributionViewModelItem>>();
 
             page.Find("thead").Should().NotBeNull();
             page.FindAll("tbody").Should().BeEmpty();

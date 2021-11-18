@@ -32,17 +32,17 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenSubmitButtonClicked_ValidParameters_CalculateInvoked()
         {
-            _contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(GetCalculationResponse());
+            ContributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(GetCalculationResponse());
             var page = TestContext.RenderComponent<ContributionCalculatorForm>();
             InputsValuesAndSubmitForm(page, CorrectPercent, CorrectTerm, CorrectSum);
 
-            _contributionServiceMock.Verify(m => m.Сalculate(It.IsAny<RequestCalculateContributionViewModel>()), Times.Once());
+            ContributionServiceMock.Verify(m => m.Сalculate(It.IsAny<RequestCalculateContributionViewModel>()), Times.Once());
         }
 
         [Fact]
         public void WhenSubmitButtonClicked_ValidParameters_RequestViewModelEventCallbackInvoked()
         {
-            _contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(GetCalculationResponse());
+            ContributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ReturnsAsync(GetCalculationResponse());
             var eventCalled = false;
             var page = TestContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
                 .Add(p => p.ResponseCalculateContributionViewModelChanged, () => { eventCalled = true; }));
@@ -54,7 +54,7 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenSubmitButtonClicked_ValidParameters_ServerErrorMessageEventCallbackInvoked()
         {
-            _contributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Mock exception"));
+            ContributionServiceMock.Setup(x => x.Сalculate(It.IsAny<RequestCalculateContributionViewModel>())).ThrowsAsync(new Exception("Mock exception"));
             var eventCalled = false;
             var page = TestContext.RenderComponent<ContributionCalculatorForm>(parameters => parameters
                 .Add(p => p.ErrorMessageChanged, () => { eventCalled = true; }));

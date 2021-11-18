@@ -18,7 +18,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_ServiceException_ExpectedMarkupRendered()
         {
-            _contributionServiceMock.Setup(x => x.GetDetailsById(Id)).ThrowsAsync(new Exception("Service exception"));
+            ContributionServiceMock.Setup(x => x.GetDetailsById(Id)).ThrowsAsync(new Exception("Service exception"));
             var page = TestContext.RenderComponent<Details>(parameter => parameter.Add(p => p.Id, Id));
 
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("Service exception");
@@ -27,17 +27,17 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenCloseButtonClicked_ValidParameters_Redirect()
         {
-            _contributionServiceMock.Setup(x => x.GetDetailsById(Id)).ReturnsAsync(GetDetailsByIdResponse(Id));
+            ContributionServiceMock.Setup(x => x.GetDetailsById(Id)).ReturnsAsync(GetDetailsByIdResponse(Id));
             var page = TestContext.RenderComponent<Details>(parameter => parameter.Add(p => p.Id, Id));
             page.Find("#CloseButton").Click();
 
-            Assert.Equal("http://localhost/History", navigationManager.Uri);
+            Assert.Equal("http://localhost/History", NavigationManager.Uri);
         }
 
         [Fact]
         public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
-            _contributionServiceMock.Setup(x => x.GetDetailsById(Id)).ReturnsAsync(GetDetailsByIdResponse(Id));
+            ContributionServiceMock.Setup(x => x.GetDetailsById(Id)).ReturnsAsync(GetDetailsByIdResponse(Id));
             var page = TestContext.RenderComponent<Details>();
 
             page.FindComponent<ContributionCalculatorTable<ResponseGetDetailsByIdContributionViewModel, ResponseGetDetailsByIdContributionViewModelItem>>().Should().NotBeNull();
