@@ -1,16 +1,22 @@
-﻿@page "/"
-@using ContributionSystem.UI.Components
+﻿@page "/Main"
 
+@using ContributionSystem.UI.Components
+@using ContributionSystem.ViewModels.Models.Contribution;
+
+<Navbar />
 <div class="row">
     <ContributionCalculatorForm @bind-ResponseCalculateContributionViewModel="_responseCalculateContributionViewModel" @bind-ErrorMessage="_errorMessage" />
-    <div ScrollableTable class="col-9 text-center ">
-        <ContributionCalculatorTable @bind-ResponseCalculateContributionViewModel="_responseCalculateContributionViewModel" />
+    <div class="col-9 text-center ">
+        <ContributionCalculatorTable @bind-ResponseCalculateContributionViewModel="_responseCalculateContributionViewModel" 
+                                     T="ResponseCalculateContributionViewModel" 
+                                     U="MonthsInfoContributionViewModelItem"/>
     </div>
 </div>
 
 @if (_errorMessage != null)
 {
-    <div class="row">
+    <div class="row justify-content-center">
         <h1>@_errorMessage</h1>
     </div>
+    <br />
 }

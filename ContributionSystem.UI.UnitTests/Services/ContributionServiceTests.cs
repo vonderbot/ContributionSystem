@@ -12,6 +12,7 @@ using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.ViewModels.Enums;
 using FluentAssertions;
+using System.Text.Json;
 
 namespace ContributionSystem.UI.UnitTests.Services
 {
@@ -20,60 +21,113 @@ namespace ContributionSystem.UI.UnitTests.Services
         private const decimal CorrectSum = 1;
         private const int CorrectTerm = 1;
         private const decimal CorrectPercent = 100;
-        private const string ValidRequest = @"{ ""CalculationMethod"": 0, ""Items"": [{""MonthNumber"": 1, ""Income"": 0.08, ""Sum"": 1.08}]}";
+        private const int Take = 1;
+        private const int Skip = 0;
+        private const int Id = 1;
+
         private IContributionService _contributionService;
 
         [Fact]
-        public async void Calculate_ValidRequest_ValidResponse()
+        public async Task GetDetailsById_ValidRequest_ValidResponse()
         {
-            var httpClient = MoqHttpClientSetup(HttpStatusCode.OK, ValidRequest);
-            _contributionService = new ContributionService(httpClient);
+            var jsonResponse = JsonSerializer.Serialize(GetDetailsByIdResponse());
+            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse));
+            var moqResponse = await _contributionService.GetDetailsById(Id);
+
+            moqResponse.Should().BeEquivalentTo(GetDetailsByIdResponse());
+        }
+
+        [Fact]
+        public async Task GetDetailsById_NullRequest_ThrowException()
+        {
+            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"));
+            Func<Task> act = async () => await _contributionService.GetHistory(Take, Skip);
+
+            await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
+        }
+
+        [Fact]
+        public async Task GetHistory_ValidRequest_ValidResponse()
+        {
+            var jsonResponse = JsonSerializer.Serialize(GetHistoryResponse());
+            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse));
+            var moqResponse = await _contributionService.GetHistory(Take, Skip);
+
+            moqResponse.Should().BeEquivalentTo(GetHistoryResponse());
+        }
+
+        [Fact]
+        public async Task GetHistory_NullRequest_ThrowException()
+        {
+            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"));
+            Func<Task> act = async () => await _contributionService.GetHistory(Take, Skip);
+
+            await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
+        }
+
+        [Fact]
+        public async Task Calculate_ValidRequest_ValidResponse()
+        {
+            var jsonResponse = JsonSerializer.Serialize(GetCalculationResponse());
+            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse));
             var moqResponse = await _contributionService.Сalculate(GetCalculationRequest(CorrectSum, CorrectTerm, CorrectPercent));
+
             moqResponse.Should().BeEquivalentTo(GetCalculationResponse());
         }
 
         [Fact]
-        public async void Calculate_NullRequest_ThrowException()
+        public async Task Calculate_NullRequest_ThrowException()
         {
-            var httpClient = MoqHttpClientSetup(HttpStatusCode.BadRequest, null);
-            _contributionService = new ContributionService(httpClient);
+            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"));
             Func<Task> act = async () => await _contributionService.Сalculate(null);
-            await act.Should().ThrowAsync<Exception>().WithMessage("Server response is incorrect");
+
+            await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
         }
 
-        private static HttpClient MoqHttpClientSetup(HttpStatusCode statusCode, string content)
+        private ResponseGetHistoryContributionViewModel GetHistoryResponse()
         {
-            var handlerMock = new Mock<HttpMessageHandler>();
-            var response = new HttpResponseMessage
+            return new ResponseGetHistoryContributionViewModel
             {
-                StatusCode = statusCode,
+                TotalNumberOfRecords = 1,
+                Take = Take,
+                Skip = Skip,
+                Items = new List<ResponseGetHistoryContributionViewModelItem>{
+                    new ResponseGetHistoryContributionViewModelItem{
+                        Percent =1,
+                        Term =1,
+                        Sum =1,
+                        Date = "01/11/2021",
+                        Id = 1
+                    }
+                }
             };
-
-            if (content == null)
-            {
-                response.Content = null;
-            }
-            else
-            {
-                response.Content = new StringContent(content);
-            }
-            handlerMock
-               .Protected()
-               .Setup<Task<HttpResponseMessage>>(
-                  "SendAsync",
-                  ItExpr.IsAny<HttpRequestMessage>(),
-                  ItExpr.IsAny<CancellationToken>())
-               .ReturnsAsync(response);
-            return new HttpClient(handlerMock.Object);
         }
 
-        private static ResponseCalculateContributionViewModel GetCalculationResponse()
+        private ResponseGetDetailsByIdContributionViewModel GetDetailsByIdResponse()
+        {
+            return new ResponseGetDetailsByIdContributionViewModel
+            {
+                ContributionId = 1,
+                Items = new List<ResponseGetDetailsByIdContributionViewModelItem>
+                {
+                    new ResponseGetDetailsByIdContributionViewModelItem
+                    {
+                        Id = 1,
+                        MonthNumber = 1,
+                        Income = 1,
+                        Sum = 1
+                    }
+                }
+            };
+        }
+
+        private ResponseCalculateContributionViewModel GetCalculationResponse()
         {
             return new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-                Items = new List<ResponseCalculateContributionViewModelItem>{
-                    new ResponseCalculateContributionViewModelItem
+                Items = new List<MonthsInfoContributionViewModelItem>{
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 1,
                         Income = 0.08M,
@@ -83,7 +137,7 @@ namespace ContributionSystem.UI.UnitTests.Services
             };
         }
 
-        private static RequestCalculateContributionViewModel GetCalculationRequest(decimal startValue, int term, decimal percent)
+        private RequestCalculateContributionViewModel GetCalculationRequest(decimal startValue, int term, decimal percent)
         {
             return new RequestCalculateContributionViewModel()
             {
@@ -92,6 +146,29 @@ namespace ContributionSystem.UI.UnitTests.Services
                 Term = term,
                 Percent = percent
             };
+        }
+
+        private HttpClient MoqHttpClientSetup(HttpStatusCode statusCode, string content)
+        {
+            var handlerMock = new Mock<HttpMessageHandler>();
+            var response = new HttpResponseMessage
+            {
+                StatusCode = statusCode
+            };
+            response.Content = content == null ? new StringContent(String.Empty) : new StringContent(content);
+            handlerMock
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(response);
+            var httpClient = new HttpClient(handlerMock.Object)
+            {
+                BaseAddress = new Uri("https://localhost:44303/api/")
+            };
+
+            return httpClient;
         }
     }
 }

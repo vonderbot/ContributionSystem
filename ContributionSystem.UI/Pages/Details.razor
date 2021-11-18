@@ -1,0 +1,25 @@
+﻿@page "/Details/{id:int}"
+
+@using ContributionSystem.UI.Components
+@using ContributionSystem.ViewModels.Models.Contribution;
+
+<div class="row justify-content-end">
+    <button type="button" class="close" aria-label="Close" @onclick="() => NavigateToHistoryComponent()" id="CloseButton">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="row">
+    <div class="col-12 text-center">
+        <ContributionCalculatorTable @bind-ResponseCalculateContributionViewModel="_responseGetDetailsByIdContributionViewModel" 
+                                     T="ResponseGetDetailsByIdContributionViewModel" 
+                                     U="ResponseGetDetailsByIdContributionViewModelItem"/>
+    </div>
+</div>
+
+@if (_message != null)
+{
+    <div class="row justify-content-center">
+        <h1>@_message</h1>
+    </div>
+    <br />
+}

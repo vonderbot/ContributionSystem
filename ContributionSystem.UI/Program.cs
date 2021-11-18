@@ -15,12 +15,13 @@ namespace ContributionSystem.UI
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped<IContributionService, ContributionService>();
             builder.Services.AddScoped(sp =>
             new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:44303")
+                BaseAddress = new Uri("https://localhost:44303/api/")
             });
+
+            builder.Services.AddScoped<IContributionService, ContributionService>();
 
             await builder.Build().RunAsync();
         }

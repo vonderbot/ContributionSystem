@@ -1,14 +1,15 @@
-﻿using ContributionSystem.ViewModels.Models.Contribution;
+﻿using ContributionSystem.ViewModels.Common;
+using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 
 namespace ContributionSystem.UI.Components
 {
-    public partial class ContributionCalculatorTable
+    public partial class ContributionCalculatorTable<T, U> : ComponentBase where T : CollectionOfItems<U> where U : MonthsInfoContributionViewModelItem
     {
         [Parameter]
-        public ResponseCalculateContributionViewModel ResponseCalculateContributionViewModel { get; set; }
+        public T ResponseCalculateContributionViewModel { get; set; }
 
         [Parameter]
-        public EventCallback<ResponseCalculateContributionViewModel> ResponseCalculateContributionViewModelChanged { get; set; }
+        public EventCallback<T> ResponseCalculateContributionViewModelChanged { get; set; }
     }
 }

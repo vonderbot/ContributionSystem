@@ -5,88 +5,256 @@ using NUnit.Framework;
 using System;
 using ContributionSystem.BusinessLogic.Services;
 using System.Collections.Generic;
+using Moq;
+using ContributionSystem.DataAccess.Interfaces;
+using System.Threading.Tasks;
+using ContributionSystem.Entities.Entities;
+using ContributionSystem.Entities.Enums;
+using System.Linq;
 
 namespace ContributionSystem.BusinesLogic.UnitTests.Services
 {
     public class ContributionServiceTests
     {
         private readonly ContributionService _contributionService;
+
+        private const int Take = 1;
+        private const int Skip = 0;
+        private const int InvalidTake = 0;
+        private const int InvalidSkip = -1;
+        private const int TotalNumberOfRecords = 1;
         private const int CorrectStartValue = 1;
         private const int CorrectTerm = 3;
         private const int CorrectPercent = 100;
+        private const int ValidId = 1;
+        private const int InvalidId = 0;
 
         public ContributionServiceTests()
         {
-            _contributionService = new ContributionService();
+            var mock = new Mock<IContributionRepository>();
+            var contribution = GetContribution(GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent), GetSimpleCalculationResponse());
+            mock.Setup(repo => repo
+                .GetById(It.Is<int>(p => p == ValidId)))
+                .ReturnsAsync(contribution);
+            mock.Setup(repo => repo
+                .GetById(It.Is<int>(p => p != ValidId)))
+                .ThrowsAsync(new Exception("Can't find contribution"));
+            var contributionList = new List<Contribution>();
+            mock.Setup(repo => repo
+                .Get(It.IsAny<int>(), It.Is<int>(p => p >= TotalNumberOfRecords)))
+                .ReturnsAsync(contributionList);
+            contributionList.Add(contribution);
+            mock.Setup(repo => repo
+                .Get(It.Is<int>(p => p >= TotalNumberOfRecords), It.Is<int>(p => p < TotalNumberOfRecords)))
+                .ReturnsAsync(contributionList);
+            mock.Setup(repo => repo
+                .GetNumberOfRecords())
+                .ReturnsAsync(TotalNumberOfRecords);
+            _contributionService = new ContributionService(mock.Object);
         }
 
         [Test]
-        public void Calculate_ValidRequestWithSimpleCalculationMethod_ValidResponse()
+        public async Task GetHistory_NullRequest_ThrowException()
+        {
+            Func<Task> act = async () => await _contributionService.GetHistory(null);
+
+            await act.Should().ThrowAsync<Exception>()
+               .WithMessage("Null request");
+        }
+
+        [Test]
+        public async Task GetHistory_RequestWithInvalidTake_ThrowException()
+        {
+            var request = GetGetHistoryRequest(InvalidTake, Skip);
+            Func<Task> act = async () => await _contributionService.GetHistory(request);
+
+            await act.Should().ThrowAsync<Exception>()
+               .WithMessage("Attempt to take an invalid amount of contributions");
+        }
+
+        [Test]
+        public async Task GetHistory_RequestWithInvalidSkip_ThrowException()
+        {
+            var request = GetGetHistoryRequest(Take, InvalidSkip);
+            Func<Task> act = async () => await _contributionService.GetHistory(request);
+
+            await act.Should().ThrowAsync<Exception>()
+               .WithMessage("Attempt to skip an invalid amount of contributions");
+        }
+
+        [Test]
+        public async Task GetHistory_ValidRequest_ValidResponse()
+        {
+            var request = GetGetHistoryRequest(Take, Skip);
+            var contributionList = new List<Contribution>
+            {
+                GetContribution(
+                    GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm,
+                        CorrectPercent), GetSimpleCalculationResponse())
+            };
+            var correctResponse = GetGetHistoryResponse(request, contributionList);
+            var response = await _contributionService.GetHistory(request);
+
+            response.Should().NotBeNull();
+            response.Should().BeEquivalentTo(correctResponse);
+        }
+
+        [Test]
+        public async Task GetDetailsById_InvalidId_ThrowException()
+        {
+            Func<Task> act = async () => await _contributionService.GetDetailsById(InvalidId);
+
+            await act.Should().ThrowAsync<Exception>()
+               .WithMessage("Can't find contribution");
+        }
+
+        [Test]
+        public async Task GetDetailsById_ValidId_ValidResponse()
+        {
+            var correctResponse = GetGetDetailsByIdResponse(
+                GetContribution(
+                    GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent), GetSimpleCalculationResponse()));
+            var response = await _contributionService.GetDetailsById(ValidId);
+
+            response.Should().NotBeNull();
+            response.Should().BeEquivalentTo(correctResponse);
+        }
+
+        [Test]
+        public async Task Calculate_ValidRequestWithSimpleCalculationMethod_ValidResponse()
         {
             var request = GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent);
             var correctResponse = GetSimpleCalculationResponse();
-            var response = _contributionService.Calculate(request);
+            var response = await _contributionService.Calculate(request);
+
             response.Should().BeEquivalentTo(correctResponse);
         }
 
         [Test]
-        public void Calculate_ValidRequestWithComplexCalculationMethod_ValidResponse()
+        public async Task Calculate_ValidRequestWithComplexCalculationMethod_ValidResponse()
         {
             var request = GetCalculationRequest(CalculationMethodEnumView.Complex, CorrectStartValue, CorrectTerm, CorrectPercent);
             var correctResponse = GetComplexCalculationResponse();
-            var response = _contributionService.Calculate(request);
+            var response = await _contributionService.Calculate(request);
+
             response.Should().BeEquivalentTo(correctResponse);
         }
 
         [Test]
-        public void Calculate_ValidRequest_TypeResponseCalculateContributionViewModel()
+        public async Task Calculate_ValidRequest_TypeResponseCalculateContributionViewModel()
         {
             var request = GetCalculationRequest(CalculationMethodEnumView.Simple, CorrectStartValue, CorrectTerm, CorrectPercent);
-            var response = _contributionService.Calculate(request);
+            var response = await _contributionService.Calculate(request);
+
             response.Should().BeOfType<ResponseCalculateContributionViewModel>();
         }
-
-        [Test]
+        
         [TestCase(0, 3, 1)]
         [TestCase(-1, 3, 1)]
-        public void Calculate_RequestWithZeroOrNegativeStartValue_ThrowException(decimal startValue, int term, decimal percent)
+        public async Task Calculate_RequestWithZeroOrNegativeStartValue_ThrowException(decimal startValue, int term, decimal percent)
         {
             var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
-            Action act = () => _contributionService.Calculate(request);
-            act.Should().Throw<Exception>()
+            Func<Task> act = async () => await _contributionService.Calculate(request);
+
+            await act.Should().ThrowAsync<Exception>()
                .WithMessage("Incorrect start value in request");
         }
-
-        [Test]
+        
         [TestCase(1, 0, 1)]
         [TestCase(1, -1, 1)]
-        public void Calculate_RequestWithZeroOrNegativeTerm_ThrowException(decimal startValue, int term, decimal percent)
+        public async Task Calculate_RequestWithZeroOrNegativeTerm_ThrowException(decimal startValue, int term, decimal percent)
         {
             var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
-            Action act = () => _contributionService.Calculate(request);
-            act.Should().Throw<Exception>()
+            Func<Task> act = async () => await _contributionService.Calculate(request);
+
+            await act.Should().ThrowAsync<Exception>()
                .WithMessage("Incorrect term in request");
         }
-
-        [Test]
+        
         [TestCase(1, 1, 0)]
         [TestCase(1, 1, -1)]
-        public void Calculate_RequestWithZeroOrNegativePercent_ThrowException(decimal startValue, int term, decimal percent)
+        public async Task Calculate_RequestWithZeroOrNegativePercent_ThrowException(decimal startValue, int term, decimal percent)
         {
             var request = GetCalculationRequest(CalculationMethodEnumView.Simple, startValue, term, percent);
-            Action act = () => _contributionService.Calculate(request);
-            act.Should().Throw<Exception>()
+            Func<Task> act = async () => await _contributionService.Calculate(request);
+
+            await act.Should().ThrowAsync<Exception>()
                 .WithMessage("Incorrect percent in request");
         }
 
         [Test]
-        public void Calculate_NullRequest_ThrowException()
+        public async Task Calculate_NullRequest_ThrowException()
         {
-            Action act = () => _contributionService.Calculate(null);
-            act.Should().Throw<Exception>().WithMessage("Null request");
+            Func<Task> act = async () => await _contributionService.Calculate(null);
+
+            await act.Should().ThrowAsync<Exception>().WithMessage("Null request");
         }
 
-        private static RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)
+        private RequestGetHistoryContributionViewModel GetGetHistoryRequest(int take, int skip)
+        {
+            return new RequestGetHistoryContributionViewModel
+            {
+                Take = take,
+                Skip = skip
+            };
+        }
+        private ResponseGetHistoryContributionViewModel GetGetHistoryResponse(RequestGetHistoryContributionViewModel request, List<Contribution> contributions)
+        {
+            var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
+            {
+                Percent = u.Percent,
+                Term = u.Term,
+                Sum = u.StartValue,
+                Date = u.Date,
+                Id = u.Id
+            });
+            var response = new ResponseGetHistoryContributionViewModel
+            {
+                Items = items,
+                TotalNumberOfRecords = TotalNumberOfRecords,
+                Take = request.Take,
+                Skip = request.Skip
+            };
+
+            return response;
+        }
+
+        private ResponseGetDetailsByIdContributionViewModel GetGetDetailsByIdResponse(Contribution contribution)
+        {
+            return new ResponseGetDetailsByIdContributionViewModel()
+            {
+                ContributionId = contribution.Id,
+                Items = contribution.Details.Select(u => new ResponseGetDetailsByIdContributionViewModelItem
+                {
+                    Id = u.Id,
+                    MonthNumber = u.MonthNumber,
+                    Income = u.Income,
+                    Sum = u.Sum
+                }).ToList()
+            };
+        }
+
+        private Contribution GetContribution(RequestCalculateContributionViewModel requestCalculationModel, ResponseCalculateContributionViewModel responseCalculationModel)
+        {
+            var monthsInfo = responseCalculationModel.Items.Select(u => new MonthInfo
+            {
+                MonthNumber = u.MonthNumber,
+                Income = u.Income,
+                Sum = u.Sum
+            }).ToList();
+            var contribution = new Contribution()
+            {
+                StartValue = requestCalculationModel.StartValue,
+                Term = requestCalculationModel.Term,
+                Percent = requestCalculationModel.Percent,
+                Date = DateTime.UtcNow.Date.ToShortDateString(),
+                CalculationMethod = (CalculationMethodEnum)(int)requestCalculationModel.CalculationMethod,
+                Details = monthsInfo
+            };
+            return contribution;
+        }
+
+        private RequestCalculateContributionViewModel GetCalculationRequest(CalculationMethodEnumView calculationMethod, decimal startValue, int term, decimal percent)
         {
             var request = new RequestCalculateContributionViewModel
             {
@@ -99,26 +267,26 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             return request;
         }
 
-        private static ResponseCalculateContributionViewModel GetSimpleCalculationResponse()
+        private ResponseCalculateContributionViewModel GetSimpleCalculationResponse()
         {
             var correctResponse = new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Simple,
-                Items = new List<ResponseCalculateContributionViewModelItem>
+                Items = new List<MonthsInfoContributionViewModelItem>
                 {
-                    new ResponseCalculateContributionViewModelItem
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 1,
                         Income = 0.08M,
                         Sum = 1.08M
                     },
-                    new ResponseCalculateContributionViewModelItem
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 2,
                         Income = 0.09M,
                         Sum = 1.17M
                     },
-                    new ResponseCalculateContributionViewModelItem
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 3,
                         Income = 0.08M,
@@ -130,26 +298,26 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             return correctResponse;
         }
 
-        private static ResponseCalculateContributionViewModel GetComplexCalculationResponse()
+        private ResponseCalculateContributionViewModel GetComplexCalculationResponse()
         {
             var correctResponse = new ResponseCalculateContributionViewModel
             {
                 CalculationMethod = CalculationMethodEnumView.Complex,
-                Items = new List<ResponseCalculateContributionViewModelItem>
+                Items = new List<MonthsInfoContributionViewModelItem>
                 {
-                    new ResponseCalculateContributionViewModelItem
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 1,
                         Income = 0.08M,
                         Sum = 1.08M
                     },
-                    new ResponseCalculateContributionViewModelItem
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 2,
                         Income = 0.09M,
                         Sum = 1.17M
                     },
-                    new ResponseCalculateContributionViewModelItem
+                    new MonthsInfoContributionViewModelItem
                     {
                         MonthNumber = 3,
                         Income = 0.10M,

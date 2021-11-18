@@ -5,6 +5,8 @@ using Microsoft.Extensions.Hosting;
 using ContributionSystem.API.Setup;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
+using ContributionSystem.DataAccess.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContributionSystem.API
 {
@@ -24,7 +26,13 @@ namespace ContributionSystem.API
                 fv.DisableDataAnnotationsValidation = true;
                 fv.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
+
             services.SetInject();
+
+            string connection = configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<ContributionDbContext>(options =>
+                options.UseSqlServer(connection));
+
             services.ConfigureCorsForOrigins(configuration);
         }
 
@@ -34,6 +42,7 @@ namespace ContributionSystem.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseCors(configuration.GetSection("CorsOrigin:AllowOrigins").Value);
 
             app.UseHttpsRedirection();

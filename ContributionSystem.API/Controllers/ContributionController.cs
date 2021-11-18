@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.BusinessLogic.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace ContributionSystem.API.Controllers
 {
@@ -15,18 +17,48 @@ namespace ContributionSystem.API.Controllers
             _contributionService = сontributionService;
         }
 
-        [HttpPost]
-        public IActionResult Calculate(RequestCalculateContributionViewModel request)
+        [HttpGet]
+        public async Task<IActionResult> GetDetailsById([FromQuery]int id)
         {
             try
             {
-                var response = _contributionService.Calculate(request);
+                var response = await _contributionService.GetDetailsById(id);
 
                 return Ok(response);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest("BadRequest");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetHistory([FromQuery]RequestGetHistoryContributionViewModel request)
+        {
+            try
+            {
+                var response = await _contributionService.GetHistory(request);
+
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Calculate(RequestCalculateContributionViewModel request)
+        {
+            try
+            {
+                var response = await _contributionService.Calculate(request);
+
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

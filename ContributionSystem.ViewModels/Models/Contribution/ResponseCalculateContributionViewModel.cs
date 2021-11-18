@@ -1,21 +1,10 @@
-﻿using ContributionSystem.ViewModels.Enums;
-using System.Collections.Generic;
+﻿using ContributionSystem.ViewModels.Common;
+using ContributionSystem.ViewModels.Enums;
 
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
-    public class ResponseCalculateContributionViewModel
+    public class ResponseCalculateContributionViewModel : CollectionOfItems<MonthsInfoContributionViewModelItem>
     {
         public CalculationMethodEnumView CalculationMethod { get; set; }
-
-        public  List<ResponseCalculateContributionViewModelItem> Items { get; set; }
-    }
-
-    public class ResponseCalculateContributionViewModelItem
-    {
-        public int MonthNumber { get; set; }
-
-        public decimal Income { get; set; }
-
-        public decimal Sum { get; set; }
     }
 }
