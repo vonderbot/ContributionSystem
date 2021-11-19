@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Routing;
+using ContributionSystem.UI.Common;
 
 namespace ContributionSystem.UI.Components
 {
@@ -8,15 +8,14 @@ namespace ContributionSystem.UI.Components
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        public void NavigateToCalculationPage()
+        private void NavigateToCalculationPage()
         {
-            NavigationManager.NavigateTo("/Main");
+            NavigationManager.NavigateTo(URIs.Calculation);
         }
 
-        public void NavigateToHistoryPage()
+        private void NavigateToHistoryPage()
         {
-            var b = NavigationManager.Uri;
-            NavigationManager.NavigateTo("/History");
+            NavigationManager.NavigateTo(URIs.History);
         }
     }
 }

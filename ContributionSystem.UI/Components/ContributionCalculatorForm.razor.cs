@@ -9,7 +9,7 @@ namespace ContributionSystem.UI.Components
     public partial class ContributionCalculatorForm : ComponentBase
     {
         [Inject]
-        IContributionService ContributionService { get; set; }
+        private IContributionService сontributionService { get; set; }
 
         private RequestCalculateContributionViewModel _requestCalculateContributionViewModel { get; set; }
 
@@ -28,14 +28,14 @@ namespace ContributionSystem.UI.Components
 
         public ContributionCalculatorForm()
         {
-            _requestCalculateContributionViewModel = new();
+            _requestCalculateContributionViewModel = new RequestCalculateContributionViewModel();
         }
 
         private async Task Calculate()
         {
             try
             {
-                ResponseCalculateContributionViewModel = await ContributionService.Сalculate(_requestCalculateContributionViewModel);
+                ResponseCalculateContributionViewModel = await сontributionService.Сalculate(_requestCalculateContributionViewModel);
                 await ResponseCalculateContributionViewModelChanged.InvokeAsync(ResponseCalculateContributionViewModel);
             }
             catch(Exception ex)

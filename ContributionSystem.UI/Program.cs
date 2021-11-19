@@ -1,10 +1,13 @@
 using ContributionSystem.UI.Interfaces;
 using ContributionSystem.UI.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.AspNetCore.Components.WebAssembly;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace ContributionSystem.UI
 {
@@ -22,6 +25,12 @@ namespace ContributionSystem.UI
             });
 
             builder.Services.AddScoped<IContributionService, ContributionService>();
+
+            builder.Services.AddMsalAuthentication(options =>
+            {
+                builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
+                options.ProviderOptions.DefaultAccessTokenScopes.Add("http://graph.microsoft.com/openid");
+            });
 
             await builder.Build().RunAsync();
         }

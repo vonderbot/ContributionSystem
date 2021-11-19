@@ -31,7 +31,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
             var page = TestContext.RenderComponent<Details>(parameter => parameter.Add(p => p.Id, Id));
             page.Find("#CloseButton").Click();
 
-            Assert.Equal("http://localhost/History", NavigationManager.Uri);
+            Assert.Equal("http://localhost" + URLs.History, NavigationManager.Uri);
         }
 
         [Fact]

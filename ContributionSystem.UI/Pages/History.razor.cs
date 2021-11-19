@@ -1,4 +1,5 @@
-﻿using ContributionSystem.UI.Interfaces;
+﻿using ContributionSystem.UI.Common;
+using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -11,7 +12,7 @@ namespace ContributionSystem.UI.Pages
     public partial class History : ComponentBase
     {
         [Inject]
-        IContributionService ContributionService { get; set; }
+        private IContributionService сontributionService { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
@@ -23,7 +24,7 @@ namespace ContributionSystem.UI.Pages
 
         public void NavigateToDetailsComponent(int id)
         {
-            NavigationManager.NavigateTo($"Details/{id}");
+            NavigationManager.NavigateTo($"{URIs.Details}/{id}");
         }
 
         public async Task LoadMore()
@@ -44,7 +45,7 @@ namespace ContributionSystem.UI.Pages
             try
             {
                 _message = "loading...";
-                var response = await ContributionService.GetHistory(_take, _skip);
+                var response = await сontributionService.GetHistory(_take, _skip);
                 _skip = response.Take + response.Skip;
 
                 if (_skip >= response.TotalNumberOfRecords && response.TotalNumberOfRecords != 0)
