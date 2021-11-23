@@ -27,7 +27,7 @@ namespace ContributionSystem.UI
             builder.Services.AddMsalAuthentication(options =>
             {
                 builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
-                options.ProviderOptions.DefaultAccessTokenScopes.Add("http://graph.microsoft.com/openid");
+                options.ProviderOptions.DefaultAccessTokenScopes.Add("api://ac090f55-725f-4ce0-be8b-d2e5d6b300bf/TestScope");
             }); 
 
             await builder.Build().RunAsync();
