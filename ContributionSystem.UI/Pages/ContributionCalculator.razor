@@ -2,6 +2,8 @@
 @using ContributionSystem.UI.Authentication
 @using ContributionSystem.UI.Components
 @using ContributionSystem.ViewModels.Models.Contribution;
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <Navbar />
 <div class="row">
@@ -14,6 +16,8 @@
 </div>
 <div class="row px-4">
     <LoginDisplay></LoginDisplay>
+    <button @onclick="asd"></button>
+    @D
 </div>
 @if (_errorMessage != null)
 {

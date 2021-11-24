@@ -1,6 +1,5 @@
 ﻿using ContributionSystem.BusinessLogic.Interfaces;
 using ContributionSystem.BusinessLogic.Services;
-using ContributionSystem.DataAccess.Contexts;
 using ContributionSystem.DataAccess.Interfaces;
 using ContributionSystem.DataAccess.Repositories;
 using ContributionSystem.UI.Validators;

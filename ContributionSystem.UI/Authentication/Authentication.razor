@@ -1,9 +1,26 @@
 ﻿@page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using ContributionSystem.UI.Common;
 
-<RemoteAuthenticatorView Action="@Action" />
+<RemoteAuthenticatorView Action="@Action"/>
 
 @code {
+    [CascadingParameter]
+    protected AuthenticationState AuthStat { get; set; }
+
     [Parameter]
     public string Action { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    protected void Redirect()
+    {
+        base.OnInitialized();
+        var user = AuthStat.User;
+        if (user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo(URIs.Calculation);
+        }
+    }
 }
