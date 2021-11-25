@@ -1,5 +1,7 @@
 ﻿@page "/History"
 @using ContributionSystem.UI.Components
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <Navbar />
 @if (_requestsHistory != null)

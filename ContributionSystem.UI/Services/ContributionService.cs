@@ -35,13 +35,13 @@ namespace ContributionSystem.UI.Services
             }
         }
 
-        public async Task<ResponseGetHistoryContributionViewModel> GetHistory(int take, int skip)
+        public async Task<ResponseGetHistoryByUserIdContributionViewModel> GetHistoryByUserId(int take, int skip, string userId)
         {
             try
             {
-                var response = await _http.GetAsync($"{СontrollerName}/GetHistory?Take={take}&Skip={skip}");
+                var response = await _http.GetAsync($"{СontrollerName}/GetHistoryByUserId?Take={take}&Skip={skip}&UserId={userId}");
                 await CheckResponseStatusCode(response);
-                var details = await response.Content.ReadFromJsonAsync<ResponseGetHistoryContributionViewModel>();
+                var details = await response.Content.ReadFromJsonAsync<ResponseGetHistoryByUserIdContributionViewModel>();
 
                 return details;
             }

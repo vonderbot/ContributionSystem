@@ -7,7 +7,7 @@ namespace ContributionSystem.UI.Interfaces
     {
         public Task<ResponseGetDetailsByIdContributionViewModel> GetDetailsById(int id);
 
-        public Task<ResponseGetHistoryContributionViewModel> GetHistory(int take, int skip);
+        public Task<ResponseGetHistoryByUserIdContributionViewModel> GetHistoryByUserId(int take, int skip, string userId);
 
         public Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request);
     }

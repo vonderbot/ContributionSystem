@@ -1,7 +1,9 @@
 ﻿using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Components
@@ -10,6 +12,9 @@ namespace ContributionSystem.UI.Components
     {
         [Inject]
         private IContributionService сontributionService { get; set; }
+
+        [Inject]
+        private  AuthenticationStateProvider authenticationStateProvider { get; set; }
 
         private RequestCalculateContributionViewModel _requestCalculateContributionViewModel { get; set; }
 
@@ -35,8 +40,17 @@ namespace ContributionSystem.UI.Components
         {
             try
             {
-                ResponseCalculateContributionViewModel = await сontributionService.Сalculate(_requestCalculateContributionViewModel);
-                await ResponseCalculateContributionViewModelChanged.InvokeAsync(ResponseCalculateContributionViewModel);
+                var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+                if (authState.User.Identity.IsAuthenticated)
+                {
+                    _requestCalculateContributionViewModel.UserId = authState.User.Claims.FirstOrDefault(c => c.Type == "oid")?.Value;
+                    ResponseCalculateContributionViewModel = await сontributionService.Сalculate(_requestCalculateContributionViewModel);
+                    await ResponseCalculateContributionViewModelChanged.InvokeAsync(ResponseCalculateContributionViewModel);
+                }
+                else
+                {
+                    throw new Exception("You must be authorized");
+                }
             }
             catch(Exception ex)
             {

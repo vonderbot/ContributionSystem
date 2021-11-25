@@ -35,12 +35,11 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetHistory([FromQuery]RequestGetHistoryContributionViewModel request)
+        public async Task<IActionResult> GetHistoryByUserId([FromQuery]RequestGetHistoryByUserIdContributionViewModel request)
         {
             try
             {
-                ClaimsPrincipal currentUser = this.User;
-                var response = await _contributionService.GetHistory(request);
+                var response = await _contributionService.GetHistoryByUserId(request);
 
                 return Ok(response);
             }

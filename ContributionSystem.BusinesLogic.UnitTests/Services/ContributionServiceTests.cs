@@ -56,7 +56,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         [Test]
         public async Task GetHistory_NullRequest_ThrowException()
         {
-            Func<Task> act = async () => await _contributionService.GetHistory(null);
+            Func<Task> act = async () => await _contributionService.GetHistoryByUserId(null);
 
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Null request");
@@ -66,7 +66,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         public async Task GetHistory_RequestWithInvalidTake_ThrowException()
         {
             var request = GetGetHistoryRequest(InvalidTake, Skip);
-            Func<Task> act = async () => await _contributionService.GetHistory(request);
+            Func<Task> act = async () => await _contributionService.GetHistoryByUserId(request);
 
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Attempt to take an invalid amount of contributions");
@@ -76,7 +76,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         public async Task GetHistory_RequestWithInvalidSkip_ThrowException()
         {
             var request = GetGetHistoryRequest(Take, InvalidSkip);
-            Func<Task> act = async () => await _contributionService.GetHistory(request);
+            Func<Task> act = async () => await _contributionService.GetHistoryByUserId(request);
 
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Attempt to skip an invalid amount of contributions");
@@ -93,7 +93,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                         CorrectPercent), GetSimpleCalculationResponse())
             };
             var correctResponse = GetGetHistoryResponse(request, contributionList);
-            var response = await _contributionService.GetHistory(request);
+            var response = await _contributionService.GetHistoryByUserId(request);
 
             response.Should().NotBeNull();
             response.Should().BeEquivalentTo(correctResponse);
@@ -190,15 +190,15 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             await act.Should().ThrowAsync<Exception>().WithMessage("Null request");
         }
 
-        private RequestGetHistoryContributionViewModel GetGetHistoryRequest(int take, int skip)
+        private RequestGetHistoryByUserIdContributionViewModel GetGetHistoryRequest(int take, int skip)
         {
-            return new RequestGetHistoryContributionViewModel
+            return new RequestGetHistoryByUserIdContributionViewModel
             {
                 Take = take,
                 Skip = skip
             };
         }
-        private ResponseGetHistoryContributionViewModel GetGetHistoryResponse(RequestGetHistoryContributionViewModel request, List<Contribution> contributions)
+        private ResponseGetHistoryByUserIdContributionViewModel GetGetHistoryResponse(RequestGetHistoryByUserIdContributionViewModel request, List<Contribution> contributions)
         {
             var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
             {
@@ -208,10 +208,10 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                 Date = u.Date,
                 Id = u.Id
             });
-            var response = new ResponseGetHistoryContributionViewModel
+            var response = new ResponseGetHistoryByUserIdContributionViewModel
             {
                 Items = items,
-                TotalNumberOfRecords = TotalNumberOfRecords,
+                TotalNumberOfUserRecords = TotalNumberOfRecords,
                 Take = request.Take,
                 Skip = request.Skip
             };

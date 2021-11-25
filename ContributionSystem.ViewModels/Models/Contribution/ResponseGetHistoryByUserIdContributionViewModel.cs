@@ -2,13 +2,15 @@
 
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
-    public class ResponseGetHistoryContributionViewModel : CollectionOfItems<ResponseGetHistoryContributionViewModelItem>
+    public class ResponseGetHistoryByUserIdContributionViewModel : CollectionOfItems<ResponseGetHistoryContributionViewModelItem>
     {
-        public int TotalNumberOfRecords { get; set; }
+        public int TotalNumberOfUserRecords { get; set; }
 
         public int Take { get; set; }
 
         public int Skip { get; set; }
+
+        public string UserId { get; set; }
     }
     
     public class ResponseGetHistoryContributionViewModelItem

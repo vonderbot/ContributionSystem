@@ -2,6 +2,8 @@
 
 @using ContributionSystem.UI.Components
 @using ContributionSystem.ViewModels.Models.Contribution;
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <div class="row justify-content-end">
     <button type="button" class="close" aria-label="Close" @onclick="NavigateToHistoryComponent" id="CloseButton">
@@ -10,9 +12,9 @@
 </div>
 <div class="row">
     <div class="col-12 text-center">
-        <ContributionCalculatorTable @bind-ResponseCalculateContributionViewModel="_responseGetDetailsByIdContributionViewModel" 
-                                     T="ResponseGetDetailsByIdContributionViewModel" 
-                                     U="ResponseGetDetailsByIdContributionViewModelItem"/>
+        <ContributionCalculatorTable @bind-ResponseCalculateContributionViewModel="_responseGetDetailsByIdContributionViewModel"
+                                     T="ResponseGetDetailsByIdContributionViewModel"
+                                     U="ResponseGetDetailsByIdContributionViewModelItem" />
     </div>
 </div>
 

@@ -42,10 +42,10 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
-        public async Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetHistoryContributionViewModel request)
+        public async Task<ResponseGetHistoryByUserIdContributionViewModel> GetHistoryByUserId(RequestGetHistoryByUserIdContributionViewModel request)
         {
-            CheckGetHistoryRequest(request);
-            var contributions = await _contributionRepository.Get(request.Take, request.Skip);
+            CheckGetHistoryByUserIdRequest(request);
+            var contributions = await _contributionRepository.GetByUserId(request.Take, request.Skip, request.UserId);
             var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
             {
                 Percent = u.Percent,
@@ -54,10 +54,11 @@ namespace ContributionSystem.BusinessLogic.Services
                 Date = u.Date,
                 Id = u.Id
             });
-            var response = new ResponseGetHistoryContributionViewModel
+            var response = new ResponseGetHistoryByUserIdContributionViewModel
             {
+                UserId = request.UserId,
                 Items = items,
-                TotalNumberOfRecords = await _contributionRepository.GetNumberOfRecords(), 
+                TotalNumberOfUserRecords = await _contributionRepository.GetNumberOfUserRecords(request.UserId), 
                 Take = request.Take,
                 Skip = request.Skip
             };
@@ -98,7 +99,7 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
-        private void CheckGetHistoryRequest(RequestGetHistoryContributionViewModel request)
+        private void CheckGetHistoryByUserIdRequest(RequestGetHistoryByUserIdContributionViewModel request)
         {
             if (request == null)
             {
@@ -112,6 +113,10 @@ namespace ContributionSystem.BusinessLogic.Services
             {
                 throw new Exception("Attempt to skip an invalid amount of contributions");
             }
+            else if (request.UserId == String.Empty)
+            {
+                throw new Exception("Attempt to get history without user id");
+            }
         }
 
         private async Task AddContribution(RequestCalculateContributionViewModel request, IEnumerable<MonthsInfoContributionViewModelItem> responseItems)
@@ -124,6 +129,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }).ToList();
             var contribution = new Contribution()
             {
+                UserId = request.UserId,
                 StartValue = request.StartValue,
                 Term = request.Term,
                 Percent = request.Percent,

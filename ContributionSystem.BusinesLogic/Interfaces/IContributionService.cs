@@ -9,6 +9,6 @@ namespace ContributionSystem.BusinessLogic.Interfaces
 
         public Task<ResponseCalculateContributionViewModel> Calculate(RequestCalculateContributionViewModel request);
 
-        public Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetHistoryContributionViewModel request);
+        public Task<ResponseGetHistoryByUserIdContributionViewModel> GetHistoryByUserId(RequestGetHistoryByUserIdContributionViewModel request);
     }
 }

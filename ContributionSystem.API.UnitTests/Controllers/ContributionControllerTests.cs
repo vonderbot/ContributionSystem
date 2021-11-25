@@ -27,10 +27,10 @@ namespace ContributionSystem.API.UnitTests.Controllers
                 .Calculate(null))
                 .ThrowsAsync(new Exception());
             mock.Setup(repo => repo
-                .GetHistory(It.IsAny<RequestGetHistoryContributionViewModel>()))
-                .ReturnsAsync(new ResponseGetHistoryContributionViewModel());
+                .GetHistoryByUserId(It.IsAny<RequestGetHistoryByUserIdContributionViewModel>()))
+                .ReturnsAsync(new ResponseGetHistoryByUserIdContributionViewModel());
             mock.Setup(repo => repo
-                .GetHistory(null))
+                .GetHistoryByUserId(null))
                 .ThrowsAsync(new Exception());
             mock.Setup(repo => repo
                 .GetDetailsById(It.Is<int>(p => p > 0)))
@@ -64,17 +64,17 @@ namespace ContributionSystem.API.UnitTests.Controllers
         [Test]
         public async Task GetHistory_ValidRequest_The200Result()
         {
-            var response = await _contributionController.GetHistory(new RequestGetHistoryContributionViewModel());
+            var response = await _contributionController.GetHistoryByUserId(new RequestGetHistoryByUserIdContributionViewModel());
             var okObjectResult = response as OkObjectResult;
 
             okObjectResult.Should().NotBeNull();
-            okObjectResult.Value.Should().BeOfType<ResponseGetHistoryContributionViewModel>();
+            okObjectResult.Value.Should().BeOfType<ResponseGetHistoryByUserIdContributionViewModel>();
         }
 
         [Test]
         public async Task GetHistory_NullRequest_The400Result()
         {
-            var response = await _contributionController.GetHistory(null);
+            var response = await _contributionController.GetHistoryByUserId(null);
             var badRequestObjectResult = response as BadRequestObjectResult;
 
             badRequestObjectResult.Should().NotBeNull();

@@ -25,12 +25,7 @@ namespace ContributionSystem.UI.Pages
         private int _skip;
         private IEnumerable<ResponseGetHistoryContributionViewModelItem> _requestsHistory;
         private string _message;
-
-        public async void asd()
-        {
-            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            var d = authState.User.Claims.FirstOrDefault(c => c.Type == "oid")?.Value;
-        }
+        private string _userId;
 
         public void NavigateToDetailsComponent(int id)
         {
@@ -44,6 +39,8 @@ namespace ContributionSystem.UI.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            _userId = authState.User.Claims.FirstOrDefault(c => c.Type == "oid")?.Value;
             _take = 8;
             _skip = 0;
             _requestsHistory = new List<ResponseGetHistoryContributionViewModelItem>();
@@ -55,14 +52,14 @@ namespace ContributionSystem.UI.Pages
             try
             {
                 _message = "loading...";
-                var response = await сontributionService.GetHistory(_take, _skip);
+                var response = await сontributionService.GetHistoryByUserId(_take, _skip, _userId);
                 _skip = response.Take + response.Skip;
 
-                if (_skip >= response.TotalNumberOfRecords && response.TotalNumberOfRecords != 0)
+                if (_skip >= response.TotalNumberOfUserRecords && response.TotalNumberOfUserRecords != 0)
                 {
                     _message = "End of history";
                 }
-                else if(response.TotalNumberOfRecords == 0)
+                else if(response.TotalNumberOfUserRecords == 0)
                 {
                     _message = "History is empty";
                 }

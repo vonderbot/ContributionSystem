@@ -16,9 +16,27 @@ namespace ContributionSystem.DataAccess.Repositories
         {
         }
 
+        public async Task<int> GetNumberOfUserRecords(string userId)
+        {
+            return await table.Where(c => c.UserId == userId).CountAsync();
+        }
+
         public async Task<List<Contribution>> Get(int take, int skip)
         {
             var contributions =  await _contributionDbContext.Contribution
+                .OrderByDescending(x => x.Id)
+                .Skip(skip)
+                .Take(take)
+                .ToListAsync();
+
+            return contributions;
+        }
+
+        public async Task<List<Contribution>> GetByUserId(int take, int skip, string userId)
+        {
+            var contributions = await _contributionDbContext.Contribution
+                .Include(c => c.Details)
+                .Where(c => c.UserId == userId)
                 .OrderByDescending(x => x.Id)
                 .Skip(skip)
                 .Take(take)
