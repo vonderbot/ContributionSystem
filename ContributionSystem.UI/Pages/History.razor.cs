@@ -2,6 +2,7 @@
 using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,19 @@ namespace ContributionSystem.UI.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
         private int _take;
         private int _skip;
         private IEnumerable<ResponseGetHistoryContributionViewModelItem> _requestsHistory;
         private string _message;
+
+        public async void asd()
+        {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var d = authState.User.Claims.FirstOrDefault(c => c.Type == "oid")?.Value;
+        }
 
         public void NavigateToDetailsComponent(int id)
         {

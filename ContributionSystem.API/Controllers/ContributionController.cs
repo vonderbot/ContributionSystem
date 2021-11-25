@@ -3,6 +3,8 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.BusinessLogic.Interfaces;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Authorization;
+using System.Security.Claims;
 
 namespace ContributionSystem.API.Controllers
 {
@@ -37,6 +39,7 @@ namespace ContributionSystem.API.Controllers
         {
             try
             {
+                ClaimsPrincipal currentUser = this.User;
                 var response = await _contributionService.GetHistory(request);
 
                 return Ok(response);

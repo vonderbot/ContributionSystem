@@ -30,9 +30,9 @@ namespace ContributionSystem.UI
             {
                 builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
                 options.ProviderOptions.DefaultAccessTokenScopes.Add("api://ac090f55-725f-4ce0-be8b-d2e5d6b300bf/TestScope");
-            });
-            builder.Services.Configure<IdentityOptions>(options =>
+                builder.Services.Configure<IdentityOptions>(options =>
                 options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
+            });
 
             await builder.Build().RunAsync();
         }
