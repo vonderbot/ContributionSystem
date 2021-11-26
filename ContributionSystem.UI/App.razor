@@ -1,4 +1,4 @@
-@using ContributionSystem.UI.Authentication
+@using ContributionSystem.UI.Redirects
 
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
@@ -8,7 +8,7 @@
                 <NotAuthorized>
                     @if (!context.User.Identity.IsAuthenticated)
                     {
-                        <RedirectToLogin />
+                        <ToLogin />
                     }
                 </NotAuthorized>
             </AuthorizeRouteView>
@@ -17,7 +17,7 @@
             <AuthorizeView>
                 <Authorized>
                     <LayoutView Layout="@typeof(MainLayout)">
-                        <RedirectToMain />
+                        <ToMain />
                     </LayoutView>
                 </Authorized>
                 <NotAuthorized>

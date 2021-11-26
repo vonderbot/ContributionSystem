@@ -113,7 +113,7 @@ namespace ContributionSystem.BusinessLogic.Services
             {
                 throw new Exception("Attempt to skip an invalid amount of contributions");
             }
-            else if (request.UserId == String.Empty)
+            else if (request.UserId == String.Empty || request.UserId == null)
             {
                 throw new Exception("Attempt to get history without user id");
             }

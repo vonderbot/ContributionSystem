@@ -3,8 +3,6 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.BusinessLogic.Interfaces;
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components.Authorization;
-using System.Security.Claims;
 
 namespace ContributionSystem.API.Controllers
 {
