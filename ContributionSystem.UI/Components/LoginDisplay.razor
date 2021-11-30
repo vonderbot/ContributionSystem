@@ -2,12 +2,16 @@
 
 <AuthorizeView>
     <Authorized>
-        Hello, @context.User.Identity.Name!
-        <button class="nav-link btn btn-link" @onclick="BeginLogout">
-            Log out
-        </button>
+        <div class="row px-4">
+            Hello, @context.User.Identity.Name!
+            <button class="nav-link btn btn-link" @onclick="BeginLogout">
+                Log out
+            </button>
+        </div>
     </Authorized>
     <NotAuthorized>
-        <a href="authentication/login">Log in</a>
+        <div class="row px-4">
+            <a href="authentication/login">Log in</a>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
