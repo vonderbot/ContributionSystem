@@ -14,7 +14,7 @@ namespace ContributionSystem.UI.UnitTests.Components
             var page = TestContext.RenderComponent<Navbar>();
             page.Find("#History").Click();
 
-            Assert.Equal("http://localhost" + URLs.History, NavigationManager.Uri);
+            Assert.Equal(URLs.History, NavigationManager.Uri);
         }
 
         [Fact]
@@ -23,7 +23,7 @@ namespace ContributionSystem.UI.UnitTests.Components
             var page = TestContext.RenderComponent<Navbar>();
             page.Find("#Calculations").Click();
 
-            Assert.Equal("http://localhost" + URLs.Calculation, NavigationManager.Uri);
+            Assert.Equal(URLs.Calculation, NavigationManager.Uri);
         }
 
         [Fact]

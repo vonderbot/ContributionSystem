@@ -1,0 +1,10 @@
+﻿@inject NavigationManager Navigation
+
+@using ContributionSystem.UI.Common;
+
+@code {
+    protected override void OnInitialized()
+    {
+        Navigation.NavigateTo($"{URIs.Login}?returnUrl={Uri.EscapeDataString(Navigation.Uri)}");
+    }
+}

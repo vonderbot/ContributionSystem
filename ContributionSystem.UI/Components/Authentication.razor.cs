@@ -1,6 +1,5 @@
 ﻿using ContributionSystem.UI.Common;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 
 namespace ContributionSystem.UI.Components
 {

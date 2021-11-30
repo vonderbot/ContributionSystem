@@ -1,17 +1,18 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
+@using ContributionSystem.UI.Components.Redirects
 
 <AuthorizeView>
     <Authorized>
         <div class="row px-4">
-            Hello, @context.User.Identity.Name!
-            <button class="nav-link btn btn-link" @onclick="BeginLogout">
+            <div id="Username">
+                Hello, @context.User.Identity.Name!
+            </div>
+            <button class="nav-link btn btn-link" @onclick="BeginLogout" id="Logout">
                 Log out
             </button>
         </div>
     </Authorized>
     <NotAuthorized>
-        <div class="row px-4">
-            <a href="authentication/login">Log in</a>
-        </div>
+        <ToLogin />
     </NotAuthorized>
 </AuthorizeView>

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Bunit.TestDoubles;
 using System.Security.Claims;
+using System.Linq;
 
 namespace ContributionSystem.UI.UnitTests.Common
 {
@@ -19,17 +20,22 @@ namespace ContributionSystem.UI.UnitTests.Common
         protected readonly TestContext TestContext;
         protected readonly Mock<IContributionService> ContributionServiceMock;
         protected readonly NavigationManager NavigationManager;
-        protected readonly SignOutSessionStateManager SignOutSessionStateManager;
+        protected TestAuthorizationContext testAuthorizationContext;
 
         protected PageTestsBaseComponent()
         {
             TestContext = new TestContext();
             ContributionServiceMock = new Mock<IContributionService>();
             TestContext.Services.AddSingleton(ContributionServiceMock.Object);
-            var testAuthorizationContext = TestContext.AddTestAuthorization();
+            testAuthorizationContext = TestContext.AddTestAuthorization();
             testAuthorizationContext.SetAuthorized("TEST USER");
             testAuthorizationContext.SetClaims(new Claim("oid", UserId));
             TestContext.Services.AddSingleton(testAuthorizationContext);
+            TestContext.Services.AddSingleton<SignOutSessionStateManager>();
+            TestContext.JSInterop.SetupVoid(
+                "sessionStorage.setItem",
+                inv => string.Equals(inv.Arguments.FirstOrDefault(), "Microsoft.AspNetCore.Components.WebAssembly.Authentication.SignOutState")
+                ).SetVoidResult();
             NavigationManager = TestContext.Services.GetRequiredService<NavigationManager>();
         }
 
