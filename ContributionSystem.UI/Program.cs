@@ -28,6 +28,7 @@ namespace ContributionSystem.UI
             {
                 builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
                 options.ProviderOptions.DefaultAccessTokenScopes.Add("api://ac090f55-725f-4ce0-be8b-d2e5d6b300bf/TestScope");
+                options.ProviderOptions.LoginMode = "redirect";
             });
 
             await builder.Build().RunAsync();
