@@ -10,6 +10,6 @@ namespace ContributionSystem.DataAccess.Interfaces
 
         public Task<List<Contribution>> Get(int take, int skip);
 
-        public Task<List<Contribution>> GetByUserId(int take, int skip, string id);
+        public Task<List<Contribution>> GetByUserId(int take, int skip, string userId);
     }
 }
