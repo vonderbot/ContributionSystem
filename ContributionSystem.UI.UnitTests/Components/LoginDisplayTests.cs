@@ -25,5 +25,24 @@ namespace ContributionSystem.UI.UnitTests.Components
             page.Find("#Username").Should().NotBeNull();
             page.Find("#Logout").Should().NotBeNull();
         }
+
+        [Fact]
+        public void WhenLooutButtonClicked_UserNotAuthorized_RedirectToLogoutPage()
+        {
+            testAuthorizationContext.SetNotAuthorized();
+            var page = TestContext.RenderComponent<LoginDisplay>();
+            page.Find("#Login").Click();
+
+            Assert.Equal(URLs.Login, NavigationManager.Uri);
+        }
+
+        [Fact]
+        public void WhenPageRendered_UserNotAuthorized_ExpectedMarkupRendered()
+        {
+            testAuthorizationContext.SetNotAuthorized();
+            var page = TestContext.RenderComponent<LoginDisplay>();
+
+            page.Find("#Login").Should().NotBeNull();
+        }
     }
 }

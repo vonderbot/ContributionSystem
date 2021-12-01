@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
-@using ContributionSystem.UI.Components.Redirects
 
 <AuthorizeView>
     <Authorized>
@@ -13,6 +12,8 @@
         </div>
     </Authorized>
     <NotAuthorized>
-        <ToLogin />
+        <div class="row px-4">
+            <a  class="nav-link" type="button" @onclick="RedirectToLogin" id="Login">Log in</a>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
