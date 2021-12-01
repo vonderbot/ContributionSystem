@@ -1,9 +1,9 @@
-﻿@using ContributionSystem.UI.Common;
+﻿@using ContributionSystem.UI.Constants;
 
 <div class="p-3">
     <ul class="nav nav-fill w-100">
         <li class="nav-item col-3 p-0">
-            @if (NavigationManager.Uri.Substring(NavigationManager.BaseUri.Length - 1) == URIs.Calculation)
+            @if (navigationManager.Uri.Substring(navigationManager.BaseUri.Length - 1) == URIs.Calculation)
             {
                 <a class="nav-link active border rounded-top" type="button" id="Calculations" @onclick="NavigateToCalculationPage" Match="NavLinkMatch.All">
                     Calculations
@@ -17,7 +17,7 @@
             }
         </li>
         <li class="nav-item col-3 p-0">
-            @if (NavigationManager.Uri.Substring(NavigationManager.BaseUri.Length - 1) == URIs.History)
+            @if (navigationManager.Uri.Substring(navigationManager.BaseUri.Length - 1) == URIs.History)
             {
                 <a class="nav-link active border rounded-top" type="button" @onclick="NavigateToHistoryPage" id="History">
                     History

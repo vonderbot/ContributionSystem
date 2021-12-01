@@ -11,10 +11,10 @@ namespace ContributionSystem.UI.Components
     public partial class ContributionCalculatorForm : ComponentBase
     {
         [Inject]
-        private IContributionService сontributionService { get; set; }
+        private IContributionService ContributionService { get; set; }
 
         [Inject]
-        private  AuthenticationStateProvider authenticationStateProvider { get; set; }
+        private  AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
         private RequestCalculateContributionViewModel _requestCalculateContributionViewModel { get; set; }
 
@@ -40,11 +40,11 @@ namespace ContributionSystem.UI.Components
         {
             try
             {
-                var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+                var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 if (authState.User.Identity.IsAuthenticated)
                 {
                     _requestCalculateContributionViewModel.UserId = authState.User.Claims.FirstOrDefault(c => c.Type == "oid")?.Value;
-                    ResponseCalculateContributionViewModel = await сontributionService.Сalculate(_requestCalculateContributionViewModel);
+                    ResponseCalculateContributionViewModel = await ContributionService.Сalculate(_requestCalculateContributionViewModel);
                     await ResponseCalculateContributionViewModelChanged.InvokeAsync(ResponseCalculateContributionViewModel);
                 }
                 else

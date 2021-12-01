@@ -1,21 +1,21 @@
 ﻿using Microsoft.AspNetCore.Components;
-using ContributionSystem.UI.Common;
+using ContributionSystem.UI.Constants;
 
 namespace ContributionSystem.UI.Components
 {
     public partial class Navbar : ComponentBase
     {
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        private NavigationManager navigationManager { get; set; }
 
         private void NavigateToCalculationPage()
         {
-            NavigationManager.NavigateTo(URIs.Calculation);
+            navigationManager.NavigateTo(URIs.Calculation);
         }
 
         private void NavigateToHistoryPage()
         {
-            NavigationManager.NavigateTo(URIs.History);
+            navigationManager.NavigateTo(URIs.History);
         }
     }
 }

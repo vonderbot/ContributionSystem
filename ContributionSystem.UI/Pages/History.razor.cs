@@ -1,4 +1,4 @@
-﻿using ContributionSystem.UI.Common;
+﻿using ContributionSystem.UI.Constants;
 using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
@@ -13,7 +13,7 @@ namespace ContributionSystem.UI.Pages
     public partial class History : ComponentBase
     {
         [Inject]
-        private IContributionService сontributionService { get; set; }
+        private IContributionService ContributionService { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
@@ -52,7 +52,7 @@ namespace ContributionSystem.UI.Pages
             try
             {
                 _message = "loading...";
-                var response = await сontributionService.GetHistoryByUserId(_take, _skip, _userId);
+                var response = await ContributionService.GetHistoryByUserId(_take, _skip, _userId);
                 _skip = response.Take + response.Skip;
 
                 if (_skip >= response.TotalNumberOfUserRecords && response.TotalNumberOfUserRecords != 0)

@@ -1,6 +1,6 @@
-﻿namespace ContributionSystem.UI.Common
+﻿namespace ContributionSystem.UI.Constants
 {
-    public class URIs
+    public static class URIs
     {
         public const string History = "/History";
         public const string Calculation = "/Main";

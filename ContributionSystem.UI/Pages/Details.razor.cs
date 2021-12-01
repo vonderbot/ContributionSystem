@@ -1,4 +1,4 @@
-﻿using ContributionSystem.UI.Common;
+﻿using ContributionSystem.UI.Constants;
 using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
@@ -10,10 +10,10 @@ namespace ContributionSystem.UI.Pages
     public partial class Details : ComponentBase
     {
         [Inject]
-        private IContributionService сontributionService { get; set; }
+        private IContributionService ContributionService { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        private NavigationManager NavigationManager { get; set; }
 
         [Parameter]
         public int Id { get; set; }
@@ -36,7 +36,7 @@ namespace ContributionSystem.UI.Pages
             try
             {
                 _message = "loading...";
-                _responseGetDetailsByIdContributionViewModel = await сontributionService.GetDetailsById(Id);
+                _responseGetDetailsByIdContributionViewModel = await ContributionService.GetDetailsById(Id);
                 _message = null;
             }
             catch (Exception ex)
