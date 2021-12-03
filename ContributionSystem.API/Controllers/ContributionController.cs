@@ -3,11 +3,13 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.BusinessLogic.Interfaces;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ContributionSystem.API.Controllers
 {
     [ApiController]
     [Route("/api/[controller]/[action]")]
+    [Authorize]
     public class ContributionController : ControllerBase
     {
         private readonly IContributionService _contributionService;
@@ -37,6 +39,8 @@ namespace ContributionSystem.API.Controllers
         {
             try
             {
+                var f = this.User;
+                var d = f.Claims;
                 var response = await _contributionService.GetHistoryByUserId(request);
 
                 return Ok(response);

@@ -2,6 +2,7 @@
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,9 @@ namespace ContributionSystem.UI.Components
 
         [Inject]
         private  AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+        [Inject]
+        IAccessTokenProvider TokenProvider { get; set; }
 
         private RequestCalculateContributionViewModel _requestCalculateContributionViewModel { get; set; }
 
@@ -43,6 +47,9 @@ namespace ContributionSystem.UI.Components
                 var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 if (authState.User.Identity.IsAuthenticated)
                 {
+                    var tokenResult = await TokenProvider.RequestAccessToken();
+                    tokenResult.TryGetToken(out var token);
+                    var g = token.Value;
                     _requestCalculateContributionViewModel.UserId = authState.User.Claims.FirstOrDefault(c => c.Type == "oid")?.Value;
                     ResponseCalculateContributionViewModel = await ContributionService.Сalculate(_requestCalculateContributionViewModel);
                     await ResponseCalculateContributionViewModelChanged.InvokeAsync(ResponseCalculateContributionViewModel);
