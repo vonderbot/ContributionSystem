@@ -39,8 +39,6 @@ namespace ContributionSystem.API.Controllers
         {
             try
             {
-                var f = this.User;
-                var d = f.Claims;
                 var response = await _contributionService.GetHistoryByUserId(request);
 
                 return Ok(response);

@@ -2,7 +2,7 @@
 using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +16,10 @@ namespace ContributionSystem.UI.Pages
         private IContributionService ContributionService { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        private NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        private GraphServiceClient GraphClient { get; set; }
 
         private int _take;
         private int _skip;
@@ -39,8 +39,10 @@ namespace ContributionSystem.UI.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            _userId = authState.User.Claims.FirstOrDefault(c => c.Type == "oid")?.Value;
+            var request = GraphClient.Me.Request();
+            User user = await request.GetAsync();
+            var k = user.Id;
+            _userId = user.Id;
             _take = 8;
             _skip = 0;
             _requestsHistory = new List<ResponseGetHistoryContributionViewModelItem>();

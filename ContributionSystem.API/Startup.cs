@@ -7,9 +7,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
 using ContributionSystem.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Web;
-using Microsoft.Identity.Web.TokenCacheProviders.InMemory;
+using ContributionSystem.API.Extensions;
 
 namespace ContributionSystem.API
 {
@@ -37,14 +35,8 @@ namespace ContributionSystem.API
             services.AddDbContext<ContributionDbContext>(options =>
                 options.UseSqlServer(connection));
 
-            services.Configure<JwtBearerOptions>(
-                JwtBearerDefaults.AuthenticationScheme, options =>
-                {
-                    options.TokenValidationParameters.NameClaimType = "name";
-                });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"));
+            services.AddAzureAdAuthentication(configuration);
 
             services.ConfigureCorsForOrigins(configuration);
         }

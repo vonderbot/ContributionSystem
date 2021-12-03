@@ -2,9 +2,8 @@
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.Graph;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Components
@@ -18,9 +17,7 @@ namespace ContributionSystem.UI.Components
         private  AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
         [Inject]
-        IAccessTokenProvider TokenProvider { get; set; }
-
-        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel { get; set; }
+        private GraphServiceClient GraphClient { get; set; }
 
         [Parameter]
         public ResponseCalculateContributionViewModel ResponseCalculateContributionViewModel { get; set; }
@@ -35,6 +32,8 @@ namespace ContributionSystem.UI.Components
         [Parameter]
         public EventCallback<string> ErrorMessageChanged { get; set; }
 
+        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel { get; set; }
+
         public ContributionCalculatorForm()
         {
             _requestCalculateContributionViewModel = new RequestCalculateContributionViewModel();
@@ -47,10 +46,9 @@ namespace ContributionSystem.UI.Components
                 var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 if (authState.User.Identity.IsAuthenticated)
                 {
-                    var tokenResult = await TokenProvider.RequestAccessToken();
-                    tokenResult.TryGetToken(out var token);
-                    var g = token.Value;
-                    _requestCalculateContributionViewModel.UserId = authState.User.Claims.FirstOrDefault(c => c.Type == "oid")?.Value;
+                    var request = GraphClient.Me.Request();
+                    User user = await request.GetAsync();
+                    _requestCalculateContributionViewModel.UserId = user.Id;
                     ResponseCalculateContributionViewModel = await ContributionService.Сalculate(_requestCalculateContributionViewModel);
                     await ResponseCalculateContributionViewModelChanged.InvokeAsync(ResponseCalculateContributionViewModel);
                 }

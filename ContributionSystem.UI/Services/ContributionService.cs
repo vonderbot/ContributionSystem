@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Net.Http.Json;
 using System.Net;
 using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace ContributionSystem.UI.Services
@@ -17,13 +16,13 @@ namespace ContributionSystem.UI.Services
 
         private readonly HttpClient _http;
 
-        [Inject]
-        IAccessTokenProvider TokenProvider { get; set; }
+        private readonly IAccessTokenProvider _tokenProvider;
 
         public ContributionService(HttpClient httpClient, IAccessTokenProvider tokenProvider)
         {
             _http = httpClient;
-            TokenProvider = tokenProvider;
+            _tokenProvider = tokenProvider;
+            AuthorizationHeaderSetup();
         }
 
         public async Task<ResponseGetDetailsByIdContributionViewModel> GetDetailsById(int id)
@@ -46,12 +45,7 @@ namespace ContributionSystem.UI.Services
         {
             try
             {
-                var tokenResult = await TokenProvider.RequestAccessToken();
-                tokenResult.TryGetToken(out var token);
-                var request = new HttpRequestMessage(HttpMethod.Get, $"{СontrollerName}/GetHistoryByUserId?Take={take}&Skip={skip}&UserId={userId}");
-                request.Headers.Authorization = new AuthenticationHeaderValue(token.Value);
-                var response = await _http.SendAsync(request);
-                //var response = await _http.GetAsync($"{СontrollerName}/GetHistoryByUserId?Take={take}&Skip={skip}&UserId={userId}");
+                var response = await _http.GetAsync($"{СontrollerName}/GetHistoryByUserId?Take={take}&Skip={skip}&UserId={userId}");
                 await CheckResponseStatusCode(response);
                 var details = await response.Content.ReadFromJsonAsync<ResponseGetHistoryByUserIdContributionViewModel>();
 
@@ -76,6 +70,20 @@ namespace ContributionSystem.UI.Services
             catch(Exception ex)
             {
                 throw new Exception($"Exception in service: {ex.Message}");
+            }
+        }
+
+        private async void AuthorizationHeaderSetup()
+        {
+            var tokenResult = await _tokenProvider.RequestAccessToken();
+
+            if(tokenResult.TryGetToken(out var token))
+            {
+                _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+            }
+            else
+            {
+                throw new Exception("Cant get access token");
             }
         }
 
