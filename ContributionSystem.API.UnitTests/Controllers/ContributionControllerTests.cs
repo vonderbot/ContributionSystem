@@ -22,26 +22,27 @@ namespace ContributionSystem.API.UnitTests.Controllers
 
         public ContributionControllerTests()
         {
-            var mock = new Mock<IContributionService>();
-            mock.Setup(repo => repo
+            var mockContributionService = new Mock<IContributionService>();
+            mockContributionService.Setup(repo => repo
                 .Calculate(It.IsAny<RequestCalculateContributionViewModel>()))
                 .ReturnsAsync( new ResponseCalculateContributionViewModel());
-            mock.Setup(repo => repo
+            mockContributionService.Setup(repo => repo
                 .Calculate(null))
                 .ThrowsAsync(new Exception());
-            mock.Setup(repo => repo
+            mockContributionService.Setup(repo => repo
                 .GetHistoryByUserId(It.IsAny<RequestGetHistoryByUserIdContributionViewModel>()))
                 .ReturnsAsync(new ResponseGetHistoryByUserIdContributionViewModel());
-            mock.Setup(repo => repo
+            mockContributionService.Setup(repo => repo
                 .GetHistoryByUserId(null))
                 .ThrowsAsync(new Exception());
-            mock.Setup(repo => repo
+            mockContributionService.Setup(repo => repo
                 .GetDetailsById(It.Is<int>(p => p > 0)))
                 .ReturnsAsync(new ResponseGetDetailsByIdContributionViewModel());
-            mock.Setup(repo => repo
+            mockContributionService.Setup(repo => repo
                 .GetDetailsById(It.Is<int>(p => p <= 0)))
                 .ThrowsAsync(new Exception());
-            _contributionController = new ContributionController(mock.Object)
+            var mockUserService = new Mock<IUserService>();
+            _contributionController = new ContributionController(mockContributionService.Object, mockUserService.Object)
             {
                 ControllerContext = new ControllerContext()
                 {
