@@ -20,7 +20,7 @@ namespace ContributionSystem.UI
             builder.Services.AddScoped(sp =>
             new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:44303/api/")
+                BaseAddress = new Uri(builder.Configuration.GetSection("BaseAddress").Value)
             });
 
             builder.Services.AddScoped<IContributionService, ContributionService>();
@@ -29,7 +29,8 @@ namespace ContributionSystem.UI
                 CustomUserAccount>(options =>
                 {
                 builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
-                options.ProviderOptions.DefaultAccessTokenScopes.Add("api://3dfbce03-4be6-4a68-9d7f-4c1085202995/API.Access");
+                builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
+                options.ProviderOptions.DefaultAccessTokenScopes.Add(builder.Configuration.GetSection("DefaultAccessTokenScopes").Value);
                 options.ProviderOptions.LoginMode = "redirect";
                 })
                 .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, CustomUserAccount, CustomAccountFactory>();

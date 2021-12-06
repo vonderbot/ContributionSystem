@@ -16,6 +16,7 @@ namespace ContributionSystem.API.Extensions
             services.AddTransient<IValidator<RequestCalculateContributionViewModel>, RequestCalculateContributionViewModelValidator>();
             services.AddScoped<IContributionService, ContributionService>();
             services.AddScoped<IContributionRepository, ContributionRepository>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }

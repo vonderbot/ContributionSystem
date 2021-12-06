@@ -1,5 +1,6 @@
 ﻿using ContributionSystem.BusinessLogic.Interfaces;
 using System;
+using System.Linq;
 using System.Security.Claims;
 
 namespace ContributionSystem.BusinessLogic.Services
@@ -8,14 +9,15 @@ namespace ContributionSystem.BusinessLogic.Services
     {
         public string GetUserId(ClaimsPrincipal user)
         {
-            foreach (var item in user.Claims)
+            var Value = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(Value))
             {
-                if (item.Type == ClaimTypes.NameIdentifier)
-                {
-                    return item.Value;
-                }
+                throw new Exception("User have no id");
             }
-            throw new Exception("User have no id");
+            else
+            {
+                return Value;
+            }
         }
     }
 }
