@@ -1,13 +1,13 @@
-﻿using ContributionSystem.Entities.Entities;
-using System;
-using ContributionSystem.ViewModels.Models.Contribution;
-using ContributionSystem.ViewModels.Enums;
+﻿using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.BusinessLogic.Interfaces;
-using System.Collections.Generic;
 using ContributionSystem.DataAccess.Interfaces;
+using ContributionSystem.Entities.Entities;
+using ContributionSystem.ViewModels.Enums;
 using ContributionSystem.Entities.Enums;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using System;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
@@ -161,7 +161,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private void SimpleCalculate(Contribution contribution, List<MonthsInfoContributionViewModelItem> allMonthsInfo)
+        private void SimpleCalculate(Contribution contribution, IList<MonthsInfoContributionViewModelItem> allMonthsInfo)
         {
             var income = contribution.StartValue / Hundred * (contribution.Percent / NumberOfMonthsInAYear);
 
@@ -178,13 +178,12 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private void ComplexCalculate(Contribution contribution, List<MonthsInfoContributionViewModelItem> allMonthsInfo)
+        private void ComplexCalculate(Contribution contribution, IList<MonthsInfoContributionViewModelItem> allMonthsInfo)
         {
             for (var i = 0; i < contribution.Term; i++)
             {
-                var monthInfo = new MonthsInfoContributionViewModelItem();
-                monthInfo.MonthNumber = i + 1;
-                decimal income = ComplexIncomeAndSumCalculating(contribution, monthInfo, ChoosePreviousElement(allMonthsInfo, contribution, i));
+                var monthInfo = new MonthsInfoContributionViewModelItem { MonthNumber = i + 1 };
+                var income = ComplexIncomeAndSumCalculating(contribution, monthInfo, ChoosePreviousElement(allMonthsInfo, contribution, i));
                 RoundingMistakeCheck(monthInfo, income, ChoosePreviousElement(allMonthsInfo, contribution, i));
                 allMonthsInfo.Add(monthInfo);
             }
@@ -194,7 +193,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private decimal ChoosePreviousElement(List<MonthsInfoContributionViewModelItem> allMonthsInfo, Contribution contribution, int index)
+        private decimal ChoosePreviousElement(IList<MonthsInfoContributionViewModelItem> allMonthsInfo, Contribution contribution, int index)
         {
             if (index != 0)
             {

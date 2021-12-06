@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ContributionSystem.API.Setup;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
 using ContributionSystem.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
+using ContributionSystem.API.Extensions;
 
 namespace ContributionSystem.API
 {
@@ -29,9 +29,13 @@ namespace ContributionSystem.API
 
             services.SetInject();
 
-            string connection = configuration.GetConnectionString("DefaultConnection");
+            var connection = configuration.GetConnectionString("DefaultConnection");
+
             services.AddDbContext<ContributionDbContext>(options =>
                 options.UseSqlServer(connection));
+
+
+            services.AddAzureAdAuthentication(configuration);
 
             services.ConfigureCorsForOrigins(configuration);
         }
@@ -48,6 +52,8 @@ namespace ContributionSystem.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

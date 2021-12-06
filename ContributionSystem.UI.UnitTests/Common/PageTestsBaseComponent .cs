@@ -20,7 +20,7 @@ namespace ContributionSystem.UI.UnitTests.Common
         protected readonly TestContext TestContext;
         protected readonly Mock<IContributionService> ContributionServiceMock;
         protected readonly NavigationManager NavigationManager;
-        protected TestAuthorizationContext testAuthorizationContext;
+        protected readonly TestAuthorizationContext testAuthorizationContext;
 
         protected PageTestsBaseComponent()
         {

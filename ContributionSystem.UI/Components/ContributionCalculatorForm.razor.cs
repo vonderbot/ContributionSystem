@@ -3,8 +3,6 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Components
@@ -16,8 +14,6 @@ namespace ContributionSystem.UI.Components
 
         [Inject]
         private  AuthenticationStateProvider AuthenticationStateProvider { get; set; }
-
-        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel { get; set; }
 
         [Parameter]
         public ResponseCalculateContributionViewModel ResponseCalculateContributionViewModel { get; set; }
@@ -32,6 +28,8 @@ namespace ContributionSystem.UI.Components
         [Parameter]
         public EventCallback<string> ErrorMessageChanged { get; set; }
 
+        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel;
+
         public ContributionCalculatorForm()
         {
             _requestCalculateContributionViewModel = new RequestCalculateContributionViewModel();
@@ -42,9 +40,8 @@ namespace ContributionSystem.UI.Components
             try
             {
                 var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                if (authState.User.Identity.IsAuthenticated)
+                if (authState.User.Identity!.IsAuthenticated)
                 {
-                    _requestCalculateContributionViewModel.UserId = authState.User.Claims.FirstOrDefault(c => c.Type == "oid")?.Value;
                     ResponseCalculateContributionViewModel = await ContributionService.Сalculate(_requestCalculateContributionViewModel);
                     await ResponseCalculateContributionViewModelChanged.InvokeAsync(ResponseCalculateContributionViewModel);
                 }

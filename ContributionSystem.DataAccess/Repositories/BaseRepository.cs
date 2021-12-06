@@ -10,47 +10,47 @@ namespace ContributionSystem.DataAccess.Repositories
 {
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        protected readonly ContributionDbContext _contributionDbContext;
-        protected readonly DbSet<T> table;
+        protected readonly ContributionDbContext ContributionDbContext;
+        protected readonly DbSet<T> Table;
 
         protected BaseRepository(ContributionDbContext contributionDbContext)
         {
-            _contributionDbContext = contributionDbContext;
-            table = _contributionDbContext.Set<T>();
+            ContributionDbContext = contributionDbContext;
+            Table = ContributionDbContext.Set<T>();
         }
 
         public async Task<int> GetNumberOfRecords()
         {
-            return await table.CountAsync();
+            return await Table.CountAsync();
         }
 
         public async Task<IEnumerable<T>> GetAll()
         {
-            return await table.ToListAsync();
+            return await Table.ToListAsync();
         }
 
         public virtual async Task<T> GetById(int id)
         {
-            return await table.FindAsync(id);
+            return await Table.FindAsync(id);
         }
 
         public async Task Create(T entity)
         {
-            await table.AddAsync(entity);
+            await Table.AddAsync(entity);
         }
 
         public void Update(T entity)
         {
-            table.Update(entity);
+            Table.Update(entity);
         }
 
         public async Task Delete(int id)
         {
-            T existing = await table.FindAsync(id);
+            var existing = await Table.FindAsync(id);
 
             if (existing != null)
             {
-                table.Remove(existing);
+                Table.Remove(existing);
             }
             else
             {
@@ -60,7 +60,7 @@ namespace ContributionSystem.DataAccess.Repositories
 
         public async Task Save()
         {
-            await _contributionDbContext.SaveChangesAsync();
+            await ContributionDbContext.SaveChangesAsync();
         }
     }
 }
