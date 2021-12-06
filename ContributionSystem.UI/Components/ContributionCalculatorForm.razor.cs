@@ -28,7 +28,7 @@ namespace ContributionSystem.UI.Components
         [Parameter]
         public EventCallback<string> ErrorMessageChanged { get; set; }
 
-        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel { get; set; }
+        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel;
 
         public ContributionCalculatorForm()
         {
