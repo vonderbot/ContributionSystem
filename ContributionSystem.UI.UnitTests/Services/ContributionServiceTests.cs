@@ -49,7 +49,7 @@ namespace ContributionSystem.UI.UnitTests.Services
         public async Task GetDetailsById_NullRequest_ThrowException()
         {
             _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"), _tokenProvider);
-            Func<Task> act = async () => await _contributionService.GetHistoryByUserId(Take, Skip, UserId);
+            Func<Task> act = async () => await _contributionService.GetHistoryByUserId(Take, Skip);
 
             await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
         }
@@ -59,7 +59,7 @@ namespace ContributionSystem.UI.UnitTests.Services
         {
             var jsonResponse = JsonSerializer.Serialize(GetHistoryResponse());
             _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse), _tokenProvider);
-            var moqResponse = await _contributionService.GetHistoryByUserId(Take, Skip, UserId);
+            var moqResponse = await _contributionService.GetHistoryByUserId(Take, Skip);
 
             moqResponse.Should().BeEquivalentTo(GetHistoryResponse());
         }
@@ -68,7 +68,7 @@ namespace ContributionSystem.UI.UnitTests.Services
         public async Task GetHistory_NullRequest_ThrowException()
         {
             _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"), _tokenProvider);
-            Func<Task> act = async () => await _contributionService.GetHistoryByUserId(Take, Skip, UserId);
+            Func<Task> act = async () => await _contributionService.GetHistoryByUserId(Take, Skip);
 
             await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
         }

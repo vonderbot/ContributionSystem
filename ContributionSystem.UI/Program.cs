@@ -34,13 +34,6 @@ namespace ContributionSystem.UI
                 })
                 .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, CustomUserAccount, CustomAccountFactory>();
 
-            //builder.Services.AddAuthorizationCore(options =>
-            //{
-            //    options.AddPolicy("UserAdmin", policy =>
-            //        policy.RequireClaim("directoryRole",
-            //            "fe930be7-5e62-47db-91af-98c3a49a38b1"));
-            //});
-
             builder.Services.AddGraphClient();
 
             await builder.Build().RunAsync();

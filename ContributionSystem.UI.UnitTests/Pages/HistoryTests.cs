@@ -18,7 +18,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_ServiceException_ExpectedMarkupRendered()
         {
-            ContributionServiceMock.Setup(x => x.GetHistoryByUserId(Take, Skip, UserId)).ThrowsAsync(new Exception("Service exception"));
+            ContributionServiceMock.Setup(x => x.GetHistoryByUserId(Take, Skip)).ThrowsAsync(new Exception("Service exception"));
             var page = TestContext.RenderComponent<History>();
 
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("Service exception");
@@ -99,7 +99,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
                 Skip = skip,
                 TotalNumberOfUserRecords = totalNumberOfRecords
             };
-            ContributionServiceMock.Setup(x => x.GetHistoryByUserId(take, skip, userId)).ReturnsAsync(response);
+            ContributionServiceMock.Setup(x => x.GetHistoryByUserId(take, skip)).ReturnsAsync(response);
         }
 
         private List<ResponseGetHistoryContributionViewModelItem> GetEmptyItemList(int numberOfItems)

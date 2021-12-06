@@ -6,8 +6,6 @@ using Moq;
 using System;
 using ContributionSystem.UI.UnitTests.Common;
 using Xunit;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace ContributionSystem.UI.UnitTests.Components
 {

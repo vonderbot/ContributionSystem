@@ -2,10 +2,13 @@ using ContributionSystem.API.Controllers;
 using ContributionSystem.BusinessLogic.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.API.UnitTests.Controllers
@@ -38,7 +41,19 @@ namespace ContributionSystem.API.UnitTests.Controllers
             mock.Setup(repo => repo
                 .GetDetailsById(It.Is<int>(p => p <= 0)))
                 .ThrowsAsync(new Exception());
-            _contributionController = new ContributionController(mock.Object);
+            _contributionController = new ContributionController(mock.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext()
+                }
+            };
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier, "Id"),
+            };
+            var identity = new ClaimsIdentity(claims, "TestAuthType");
+            _contributionController.HttpContext.User = new ClaimsPrincipal(identity);
         }
 
         [Test]

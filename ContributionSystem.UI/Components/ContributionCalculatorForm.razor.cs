@@ -2,7 +2,6 @@
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.Graph;
 using System;
 using System.Threading.Tasks;
 
@@ -15,9 +14,6 @@ namespace ContributionSystem.UI.Components
 
         [Inject]
         private  AuthenticationStateProvider AuthenticationStateProvider { get; set; }
-
-        [Inject]
-        private GraphServiceClient GraphClient { get; set; }
 
         [Parameter]
         public ResponseCalculateContributionViewModel ResponseCalculateContributionViewModel { get; set; }
@@ -44,11 +40,8 @@ namespace ContributionSystem.UI.Components
             try
             {
                 var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                if (authState.User.Identity.IsAuthenticated)
+                if (authState.User.Identity!.IsAuthenticated)
                 {
-                    var request = GraphClient.Me.Request();
-                    User user = await request.GetAsync();
-                    _requestCalculateContributionViewModel.UserId = user.Id;
                     ResponseCalculateContributionViewModel = await ContributionService.Сalculate(_requestCalculateContributionViewModel);
                     await ResponseCalculateContributionViewModelChanged.InvokeAsync(ResponseCalculateContributionViewModel);
                 }

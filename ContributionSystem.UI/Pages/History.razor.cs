@@ -2,7 +2,6 @@
 using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +17,10 @@ namespace ContributionSystem.UI.Pages
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        [Inject]
-        private GraphServiceClient GraphClient { get; set; }
-
         private int _take;
         private int _skip;
         private IEnumerable<ResponseGetHistoryContributionViewModelItem> _requestsHistory;
         private string _message;
-        private string _userId;
 
         public void NavigateToDetailsComponent(int id)
         {
@@ -39,10 +34,6 @@ namespace ContributionSystem.UI.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            var request = GraphClient.Me.Request();
-            User user = await request.GetAsync();
-            var k = user.Id;
-            _userId = user.Id;
             _take = 8;
             _skip = 0;
             _requestsHistory = new List<ResponseGetHistoryContributionViewModelItem>();
@@ -54,7 +45,7 @@ namespace ContributionSystem.UI.Pages
             try
             {
                 _message = "loading...";
-                var response = await ContributionService.GetHistoryByUserId(_take, _skip, _userId);
+                var response = await ContributionService.GetHistoryByUserId(_take, _skip);
                 _skip = response.Take + response.Skip;
 
                 if (_skip >= response.TotalNumberOfUserRecords && response.TotalNumberOfUserRecords != 0)

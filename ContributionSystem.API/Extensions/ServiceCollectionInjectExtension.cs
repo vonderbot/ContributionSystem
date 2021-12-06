@@ -7,7 +7,7 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ContributionSystem.API.Setup
+namespace ContributionSystem.API.Extensions
 {
     public static class ServiceCollectionInjectExtension
     {

@@ -18,12 +18,12 @@ namespace ContributionSystem.DataAccess.Repositories
 
         public async Task<int> GetNumberOfUserRecords(string userId)
         {
-            return await table.Where(c => c.UserId == userId).CountAsync();
+            return await Table.Where(c => c.UserId == userId).CountAsync();
         }
 
         public async Task<List<Contribution>> Get(int take, int skip)
         {
-            var contributions =  await _contributionDbContext.Contribution
+            var contributions =  await ContributionDbContext.Contribution
                 .OrderByDescending(x => x.Id)
                 .Skip(skip)
                 .Take(take)
@@ -34,7 +34,7 @@ namespace ContributionSystem.DataAccess.Repositories
 
         public async Task<List<Contribution>> GetByUserId(int take, int skip, string userId)
         {
-            var contributions = await _contributionDbContext.Contribution
+            var contributions = await ContributionDbContext.Contribution
                 .Include(c => c.Details)
                 .Where(c => c.UserId == userId)
                 .OrderByDescending(x => x.Id)
@@ -47,7 +47,7 @@ namespace ContributionSystem.DataAccess.Repositories
 
         public override async Task<Contribution> GetById(int id)
         {
-            var contribution = await _contributionDbContext.Contribution.Include(c => c.Details).SingleOrDefaultAsync(c => c.Id == id);
+            var contribution = await ContributionDbContext.Contribution.Include(c => c.Details).SingleOrDefaultAsync(c => c.Id == id);
             if (contribution == null)
             {
                 throw new Exception("Can't find contribution");

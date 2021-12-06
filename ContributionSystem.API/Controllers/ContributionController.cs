@@ -4,6 +4,7 @@ using ContributionSystem.BusinessLogic.Interfaces;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace ContributionSystem.API.Controllers
 {
@@ -39,6 +40,7 @@ namespace ContributionSystem.API.Controllers
         {
             try
             {
+                request.UserId = getUserId();
                 var response = await _contributionService.GetHistoryByUserId(request);
 
                 return Ok(response);
@@ -54,6 +56,7 @@ namespace ContributionSystem.API.Controllers
         {
             try
             {
+                request.UserId = getUserId();
                 var response = await _contributionService.Calculate(request);
 
                 return Ok(response);
@@ -62,6 +65,19 @@ namespace ContributionSystem.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        private string getUserId()
+        {
+            var User = ControllerContext.HttpContext.User;
+            foreach (var item in User.Claims)
+            {
+                if (item.Type == ClaimTypes.NameIdentifier)
+                {
+                    return item.Value;
+                }
+            }
+            throw (new Exception("User have no id"));
         }
     }
 }

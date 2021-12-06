@@ -1,7 +1,7 @@
 ﻿using ContributionSystem.UI.Constants;
 using Microsoft.AspNetCore.Components;
 
-namespace ContributionSystem.UI.Components
+namespace ContributionSystem.UI.Pages
 {
     public partial class Authentication : ComponentBase
     {

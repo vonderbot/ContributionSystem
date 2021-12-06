@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ContributionSystem.API.Setup;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
 using ContributionSystem.DataAccess.Contexts;
@@ -30,7 +29,7 @@ namespace ContributionSystem.API
 
             services.SetInject();
 
-            string connection = configuration.GetConnectionString("DefaultConnection");
+            var connection = configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<ContributionDbContext>(options =>
                 options.UseSqlServer(connection));
