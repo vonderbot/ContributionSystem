@@ -1,4 +1,5 @@
-﻿using ContributionSystem.UI.Interfaces;
+﻿using ContributionSystem.UI.Constants;
+using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -11,10 +12,10 @@ namespace ContributionSystem.UI.Pages
     public partial class History : ComponentBase
     {
         [Inject]
-        IContributionService ContributionService { get; set; }
+        private IContributionService ContributionService { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        private NavigationManager NavigationManager { get; set; }
 
         private int _take;
         private int _skip;
@@ -23,7 +24,7 @@ namespace ContributionSystem.UI.Pages
 
         public void NavigateToDetailsComponent(int id)
         {
-            NavigationManager.NavigateTo($"Details/{id}");
+            NavigationManager.NavigateTo($"{URIs.Details}/{id}");
         }
 
         public async Task LoadMore()
@@ -44,14 +45,14 @@ namespace ContributionSystem.UI.Pages
             try
             {
                 _message = "loading...";
-                var response = await ContributionService.GetHistory(_take, _skip);
+                var response = await ContributionService.GetHistoryByUserId(_take, _skip);
                 _skip = response.Take + response.Skip;
 
-                if (_skip >= response.TotalNumberOfRecords && response.TotalNumberOfRecords != 0)
+                if (_skip >= response.TotalNumberOfUserRecords && response.TotalNumberOfUserRecords != 0)
                 {
                     _message = "End of history";
                 }
-                else if(response.TotalNumberOfRecords == 0)
+                else if(response.TotalNumberOfUserRecords == 0)
                 {
                     _message = "History is empty";
                 }

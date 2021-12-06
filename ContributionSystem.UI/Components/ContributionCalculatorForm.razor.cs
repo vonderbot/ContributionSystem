@@ -1,6 +1,7 @@
 ﻿using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Threading.Tasks;
 
@@ -9,9 +10,10 @@ namespace ContributionSystem.UI.Components
     public partial class ContributionCalculatorForm : ComponentBase
     {
         [Inject]
-        IContributionService ContributionService { get; set; }
+        private IContributionService ContributionService { get; set; }
 
-        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel { get; set; }
+        [Inject]
+        private  AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
         [Parameter]
         public ResponseCalculateContributionViewModel ResponseCalculateContributionViewModel { get; set; }
@@ -26,17 +28,27 @@ namespace ContributionSystem.UI.Components
         [Parameter]
         public EventCallback<string> ErrorMessageChanged { get; set; }
 
+        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel;
+
         public ContributionCalculatorForm()
         {
-            _requestCalculateContributionViewModel = new();
+            _requestCalculateContributionViewModel = new RequestCalculateContributionViewModel();
         }
 
         private async Task Calculate()
         {
             try
             {
-                ResponseCalculateContributionViewModel = await ContributionService.Сalculate(_requestCalculateContributionViewModel);
-                await ResponseCalculateContributionViewModelChanged.InvokeAsync(ResponseCalculateContributionViewModel);
+                var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                if (authState.User.Identity!.IsAuthenticated)
+                {
+                    ResponseCalculateContributionViewModel = await ContributionService.Сalculate(_requestCalculateContributionViewModel);
+                    await ResponseCalculateContributionViewModelChanged.InvokeAsync(ResponseCalculateContributionViewModel);
+                }
+                else
+                {
+                    throw new Exception("You must be authorized");
+                }
             }
             catch(Exception ex)
             {

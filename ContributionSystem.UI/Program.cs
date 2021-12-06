@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace ContributionSystem.UI
 {
@@ -18,10 +20,22 @@ namespace ContributionSystem.UI
             builder.Services.AddScoped(sp =>
             new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:44303/api/")
+                BaseAddress = new Uri(builder.Configuration.GetSection("BaseAddress").Value)
             });
 
             builder.Services.AddScoped<IContributionService, ContributionService>();
+
+            builder.Services.AddMsalAuthentication<RemoteAuthenticationState, 
+                CustomUserAccount>(options =>
+                {
+                builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
+                builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
+                options.ProviderOptions.DefaultAccessTokenScopes.Add(builder.Configuration.GetSection("DefaultAccessTokenScopes").Value);
+                options.ProviderOptions.LoginMode = "redirect";
+                })
+                .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, CustomUserAccount, CustomAccountFactory>();
+
+            builder.Services.AddGraphClient();
 
             await builder.Build().RunAsync();
         }

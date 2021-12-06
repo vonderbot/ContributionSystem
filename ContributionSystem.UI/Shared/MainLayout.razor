@@ -1,8 +1,14 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
+@using ContributionSystem.UI.Components
 
+<div class="page">
     <div class="main">
+        <div class="d-flex flex-row-reverse sticky-top">
+            <div class="p-2">
+                <LoginDisplay></LoginDisplay>
+            </div>
+        </div>
         <div class="content px-4">
             @Body
         </div>

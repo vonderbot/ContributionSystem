@@ -16,9 +16,11 @@ namespace ContributionSystem.Entities.Entities
 
         public string Date { get; set; }
 
+        public string UserId { get; set; }
+
         public CalculationMethodEnum CalculationMethod { get; set; }
 
-        public IEnumerable<MonthInfo> Details { get; set; }
+        public virtual IEnumerable<MonthInfo> Details { get; set; }
 
         public Contribution()
         {

@@ -40,6 +40,9 @@ namespace ContributionSystem.DataAccess.Migrations
                     b.Property<int>("Term")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Contribution");

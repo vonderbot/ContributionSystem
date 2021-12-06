@@ -15,6 +15,6 @@ namespace ContributionSystem.Entities.Entities
         [ForeignKey("Contribution")]
         public int ContributionId { get; set; }
 
-        public Contribution Contribution { get; set; }
+        public virtual Contribution Contribution { get; set; }
     }
 }

@@ -1,22 +1,36 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Routing;
+using ContributionSystem.UI.Constants;
 
 namespace ContributionSystem.UI.Components
 {
     public partial class Navbar : ComponentBase
     {
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        private NavigationManager NavigationManager { get; set; }
 
-        public void NavigateToCalculationPage()
+        private string _calculationButtonExtraClasses;
+        private string _historyButtonExtraClasses;
+
+        protected override void OnInitialized()
         {
-            NavigationManager.NavigateTo("/Main");
+            if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == URIs.Calculation)
+            {
+                _calculationButtonExtraClasses += "active ";
+            }
+            else if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == URIs.History)
+            {
+                _historyButtonExtraClasses += "active ";
+            }
         }
 
-        public void NavigateToHistoryPage()
+        private void NavigateToCalculationPage()
         {
-            var b = NavigationManager.Uri;
-            NavigationManager.NavigateTo("/History");
+            NavigationManager.NavigateTo(URIs.Calculation);
+        }
+
+        private void NavigateToHistoryPage()
+        {
+            NavigationManager.NavigateTo(URIs.History);
         }
     }
 }

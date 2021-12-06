@@ -1,0 +1,10 @@
+﻿@inject NavigationManager Navigation
+
+@using ContributionSystem.UI.Constants;
+
+@code {
+    protected override void OnInitialized()
+    {
+        Navigation.NavigateTo(URIs.Calculation);
+    }
+}

@@ -2,10 +2,13 @@ using ContributionSystem.API.Controllers;
 using ContributionSystem.BusinessLogic.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.API.UnitTests.Controllers
@@ -19,26 +22,39 @@ namespace ContributionSystem.API.UnitTests.Controllers
 
         public ContributionControllerTests()
         {
-            var mock = new Mock<IContributionService>();
-            mock.Setup(repo => repo
+            var mockContributionService = new Mock<IContributionService>();
+            mockContributionService.Setup(repo => repo
                 .Calculate(It.IsAny<RequestCalculateContributionViewModel>()))
                 .ReturnsAsync( new ResponseCalculateContributionViewModel());
-            mock.Setup(repo => repo
+            mockContributionService.Setup(repo => repo
                 .Calculate(null))
                 .ThrowsAsync(new Exception());
-            mock.Setup(repo => repo
-                .GetHistory(It.IsAny<RequestGetHistoryContributionViewModel>()))
-                .ReturnsAsync(new ResponseGetHistoryContributionViewModel());
-            mock.Setup(repo => repo
-                .GetHistory(null))
+            mockContributionService.Setup(repo => repo
+                .GetHistoryByUserId(It.IsAny<RequestGetHistoryByUserIdContributionViewModel>()))
+                .ReturnsAsync(new ResponseGetHistoryByUserIdContributionViewModel());
+            mockContributionService.Setup(repo => repo
+                .GetHistoryByUserId(null))
                 .ThrowsAsync(new Exception());
-            mock.Setup(repo => repo
+            mockContributionService.Setup(repo => repo
                 .GetDetailsById(It.Is<int>(p => p > 0)))
                 .ReturnsAsync(new ResponseGetDetailsByIdContributionViewModel());
-            mock.Setup(repo => repo
+            mockContributionService.Setup(repo => repo
                 .GetDetailsById(It.Is<int>(p => p <= 0)))
                 .ThrowsAsync(new Exception());
-            _contributionController = new ContributionController(mock.Object);
+            var mockUserService = new Mock<IUserService>();
+            _contributionController = new ContributionController(mockContributionService.Object, mockUserService.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext()
+                }
+            };
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier, "Id"),
+            };
+            var identity = new ClaimsIdentity(claims, "TestAuthType");
+            _contributionController.HttpContext.User = new ClaimsPrincipal(identity);
         }
 
         [Test]
@@ -64,17 +80,17 @@ namespace ContributionSystem.API.UnitTests.Controllers
         [Test]
         public async Task GetHistory_ValidRequest_The200Result()
         {
-            var response = await _contributionController.GetHistory(new RequestGetHistoryContributionViewModel());
+            var response = await _contributionController.GetHistoryByUserId(new RequestGetHistoryByUserIdContributionViewModel());
             var okObjectResult = response as OkObjectResult;
 
             okObjectResult.Should().NotBeNull();
-            okObjectResult.Value.Should().BeOfType<ResponseGetHistoryContributionViewModel>();
+            okObjectResult.Value.Should().BeOfType<ResponseGetHistoryByUserIdContributionViewModel>();
         }
 
         [Test]
         public async Task GetHistory_NullRequest_The400Result()
         {
-            var response = await _contributionController.GetHistory(null);
+            var response = await _contributionController.GetHistoryByUserId(null);
             var badRequestObjectResult = response as BadRequestObjectResult;
 
             badRequestObjectResult.Should().NotBeNull();

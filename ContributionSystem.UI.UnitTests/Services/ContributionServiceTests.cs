@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Xunit;
 using Moq;
-using ContributionSystem.UI.Services;
 using System.Net.Http;
 using System.Net;
 using Moq.Protected;
@@ -11,8 +9,11 @@ using System.Threading;
 using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.ViewModels.Enums;
-using FluentAssertions;
+using Xunit;
 using System.Text.Json;
+using FluentAssertions;
+using ContributionSystem.UI.Services;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace ContributionSystem.UI.UnitTests.Services
 {
@@ -24,14 +25,21 @@ namespace ContributionSystem.UI.UnitTests.Services
         private const int Take = 1;
         private const int Skip = 0;
         private const int Id = 1;
+        private const string UserId = "23";
 
         private IContributionService _contributionService;
+        private IAccessTokenProvider _tokenProvider;
+
+        public ContributionServiceTests()
+        {
+            _tokenProvider = new Mock<IAccessTokenProvider>().Object;
+        }
 
         [Fact]
         public async Task GetDetailsById_ValidRequest_ValidResponse()
         {
             var jsonResponse = JsonSerializer.Serialize(GetDetailsByIdResponse());
-            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse));
+            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse), _tokenProvider);
             var moqResponse = await _contributionService.GetDetailsById(Id);
 
             moqResponse.Should().BeEquivalentTo(GetDetailsByIdResponse());
@@ -40,8 +48,8 @@ namespace ContributionSystem.UI.UnitTests.Services
         [Fact]
         public async Task GetDetailsById_NullRequest_ThrowException()
         {
-            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"));
-            Func<Task> act = async () => await _contributionService.GetHistory(Take, Skip);
+            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"), _tokenProvider);
+            Func<Task> act = async () => await _contributionService.GetHistoryByUserId(Take, Skip);
 
             await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
         }
@@ -50,8 +58,8 @@ namespace ContributionSystem.UI.UnitTests.Services
         public async Task GetHistory_ValidRequest_ValidResponse()
         {
             var jsonResponse = JsonSerializer.Serialize(GetHistoryResponse());
-            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse));
-            var moqResponse = await _contributionService.GetHistory(Take, Skip);
+            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse), _tokenProvider);
+            var moqResponse = await _contributionService.GetHistoryByUserId(Take, Skip);
 
             moqResponse.Should().BeEquivalentTo(GetHistoryResponse());
         }
@@ -59,8 +67,8 @@ namespace ContributionSystem.UI.UnitTests.Services
         [Fact]
         public async Task GetHistory_NullRequest_ThrowException()
         {
-            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"));
-            Func<Task> act = async () => await _contributionService.GetHistory(Take, Skip);
+            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"), _tokenProvider);
+            Func<Task> act = async () => await _contributionService.GetHistoryByUserId(Take, Skip);
 
             await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
         }
@@ -69,7 +77,7 @@ namespace ContributionSystem.UI.UnitTests.Services
         public async Task Calculate_ValidRequest_ValidResponse()
         {
             var jsonResponse = JsonSerializer.Serialize(GetCalculationResponse());
-            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse));
+            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse), _tokenProvider);
             var moqResponse = await _contributionService.Сalculate(GetCalculationRequest(CorrectSum, CorrectTerm, CorrectPercent));
 
             moqResponse.Should().BeEquivalentTo(GetCalculationResponse());
@@ -78,17 +86,17 @@ namespace ContributionSystem.UI.UnitTests.Services
         [Fact]
         public async Task Calculate_NullRequest_ThrowException()
         {
-            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"));
+            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"), _tokenProvider);
             Func<Task> act = async () => await _contributionService.Сalculate(null);
 
             await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
         }
 
-        private ResponseGetHistoryContributionViewModel GetHistoryResponse()
+        private ResponseGetHistoryByUserIdContributionViewModel GetHistoryResponse()
         {
-            return new ResponseGetHistoryContributionViewModel
+            return new ResponseGetHistoryByUserIdContributionViewModel
             {
-                TotalNumberOfRecords = 1,
+                TotalNumberOfUserRecords = 1,
                 Take = Take,
                 Skip = Skip,
                 Items = new List<ResponseGetHistoryContributionViewModelItem>{

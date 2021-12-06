@@ -1,7 +1,7 @@
 ﻿using ContributionSystem.ViewModels.Models.Contribution;
 using FluentValidation;
 
-namespace ContributionSystem.ViewModels.Validators
+namespace ContributionSystem.API.Validators
 {
     public class RequestCalculateContributionViewModelValidator : AbstractValidator<RequestCalculateContributionViewModel>
     {

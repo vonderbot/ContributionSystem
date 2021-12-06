@@ -18,7 +18,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_ServiceException_ExpectedMarkupRendered()
         {
-            ContributionServiceMock.Setup(x => x.GetHistory(Take, Skip)).ThrowsAsync(new Exception("Service exception"));
+            ContributionServiceMock.Setup(x => x.GetHistoryByUserId(Take, Skip)).ThrowsAsync(new Exception("Service exception"));
             var page = TestContext.RenderComponent<History>();
 
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("Service exception");
@@ -27,7 +27,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenButtonSeeDetailsClicked_DataForOneLoad_Redirect()
         {
-            BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take);
+            BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take, UserId);
             var page = TestContext.RenderComponent<History>();
             page.Find("#SeeDetails").Click();
 
@@ -37,8 +37,8 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenButtonLoadMoreClicked_DataForTwoLoads_ExpectedMarkupRendered()
         {
-            BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take * 2);
-            BaseComponentSetup(GetEmptyItemList(Take), Take, Take + Skip, Take * 2);
+            BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take * 2, UserId);
+            BaseComponentSetup(GetEmptyItemList(Take), Take, Take + Skip, Take * 2, UserId);
             var page = TestContext.RenderComponent<History>();
             page.Find("#LoadMore").Click();
             CheckDataContainers(page, Take * 2);
@@ -50,7 +50,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_DataForTwoLoads_ExpectedMarkupRendered()
         {
-            BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take * 2);
+            BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take * 2, UserId);
             var page = TestContext.RenderComponent<History>();
             CheckDataContainers(page, Take);
 
@@ -61,7 +61,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_DataForOneLoad_ExpectedMarkupRendered()
         {
-            BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take);
+            BaseComponentSetup(GetEmptyItemList(Take), Take, Skip, Take, UserId);
             var page = TestContext.RenderComponent<History>();
             CheckDataContainers(page, Take);
 
@@ -72,7 +72,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_EmptyDataBase_ExpectedMarkupRendered()
         {
-            BaseComponentSetup(new List<ResponseGetHistoryContributionViewModelItem>(), Take, Skip, 0);
+            BaseComponentSetup(new List<ResponseGetHistoryContributionViewModelItem>(), Take, Skip, 0, UserId);
             var page = TestContext.RenderComponent<History>();
             CheckDataContainers(page, 0);
 
@@ -89,16 +89,17 @@ namespace ContributionSystem.UI.UnitTests.Pages
             page.FindAll("#Date").Count.Should().Be(count);
         }
 
-        private void BaseComponentSetup(List<ResponseGetHistoryContributionViewModelItem> items, int take, int skip, int totalNumberOfRecords)
+        private void BaseComponentSetup(List<ResponseGetHistoryContributionViewModelItem> items, int take, int skip, int totalNumberOfRecords, string userId)
         {
-            var response = new ResponseGetHistoryContributionViewModel
+            var response = new ResponseGetHistoryByUserIdContributionViewModel
             {
+                UserId = userId,
                 Items = items,
                 Take = take,
                 Skip = skip,
-                TotalNumberOfRecords = totalNumberOfRecords
+                TotalNumberOfUserRecords = totalNumberOfRecords
             };
-            ContributionServiceMock.Setup(x => x.GetHistory(take, skip)).ReturnsAsync(response);
+            ContributionServiceMock.Setup(x => x.GetHistoryByUserId(take, skip)).ReturnsAsync(response);
         }
 
         private List<ResponseGetHistoryContributionViewModelItem> GetEmptyItemList(int numberOfItems)

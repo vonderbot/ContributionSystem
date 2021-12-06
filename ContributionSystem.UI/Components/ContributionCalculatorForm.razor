@@ -1,4 +1,5 @@
 ﻿@using ContributionSystem.ViewModels.Enums;
+
 <EditForm role="form" class="col-3" OnValidSubmit="@Calculate" Model="@_requestCalculateContributionViewModel">
     <FluentValidationValidator />
     <div class="form-group">
@@ -21,7 +22,7 @@
         </div>
         <br />
         <div class="row">
-            <select class="form-control selectpicker" @bind="_requestCalculateContributionViewModel.CalculationMethod">
+            <select class="form-control" @bind="_requestCalculateContributionViewModel.CalculationMethod">
                 @foreach (var method in Enum.GetValues(typeof(CalculationMethodEnumView)))
                 {
                     <option value="@method">@method</option>

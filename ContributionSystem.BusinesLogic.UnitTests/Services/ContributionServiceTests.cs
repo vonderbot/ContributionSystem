@@ -28,6 +28,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         private const int CorrectPercent = 100;
         private const int ValidId = 1;
         private const int InvalidId = 0;
+        private const string UserId = "23";
 
         public ContributionServiceTests()
         {
@@ -41,14 +42,17 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                 .ThrowsAsync(new Exception("Can't find contribution"));
             var contributionList = new List<Contribution>();
             mock.Setup(repo => repo
-                .Get(It.IsAny<int>(), It.Is<int>(p => p >= TotalNumberOfRecords)))
+                .GetByUserId(It.IsAny<int>(), It.Is<int>(p => p >= TotalNumberOfRecords), It.Is<string>(p => p == UserId)))
                 .ReturnsAsync(contributionList);
             contributionList.Add(contribution);
             mock.Setup(repo => repo
-                .Get(It.Is<int>(p => p >= TotalNumberOfRecords), It.Is<int>(p => p < TotalNumberOfRecords)))
+                .GetByUserId(It.Is<int>(p => p >= TotalNumberOfRecords), It.Is<int>(p => p < TotalNumberOfRecords), It.Is<string>(p => p == UserId)))
                 .ReturnsAsync(contributionList);
             mock.Setup(repo => repo
                 .GetNumberOfRecords())
+                .ReturnsAsync(TotalNumberOfRecords);
+            mock.Setup(repo => repo
+                .GetNumberOfUserRecords(It.Is<string>(p => p == UserId)))
                 .ReturnsAsync(TotalNumberOfRecords);
             _contributionService = new ContributionService(mock.Object);
         }
@@ -56,7 +60,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         [Test]
         public async Task GetHistory_NullRequest_ThrowException()
         {
-            Func<Task> act = async () => await _contributionService.GetHistory(null);
+            Func<Task> act = async () => await _contributionService.GetHistoryByUserId(null);
 
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Null request");
@@ -65,8 +69,8 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         [Test]
         public async Task GetHistory_RequestWithInvalidTake_ThrowException()
         {
-            var request = GetGetHistoryRequest(InvalidTake, Skip);
-            Func<Task> act = async () => await _contributionService.GetHistory(request);
+            var request = GetGetHistoryRequest(InvalidTake, Skip, UserId);
+            Func<Task> act = async () => await _contributionService.GetHistoryByUserId(request);
 
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Attempt to take an invalid amount of contributions");
@@ -75,8 +79,8 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         [Test]
         public async Task GetHistory_RequestWithInvalidSkip_ThrowException()
         {
-            var request = GetGetHistoryRequest(Take, InvalidSkip);
-            Func<Task> act = async () => await _contributionService.GetHistory(request);
+            var request = GetGetHistoryRequest(Take, InvalidSkip, UserId);
+            Func<Task> act = async () => await _contributionService.GetHistoryByUserId(request);
 
             await act.Should().ThrowAsync<Exception>()
                .WithMessage("Attempt to skip an invalid amount of contributions");
@@ -85,7 +89,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         [Test]
         public async Task GetHistory_ValidRequest_ValidResponse()
         {
-            var request = GetGetHistoryRequest(Take, Skip);
+            var request = GetGetHistoryRequest(Take, Skip, UserId);
             var contributionList = new List<Contribution>
             {
                 GetContribution(
@@ -93,7 +97,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                         CorrectPercent), GetSimpleCalculationResponse())
             };
             var correctResponse = GetGetHistoryResponse(request, contributionList);
-            var response = await _contributionService.GetHistory(request);
+            var response = await _contributionService.GetHistoryByUserId(request);
 
             response.Should().NotBeNull();
             response.Should().BeEquivalentTo(correctResponse);
@@ -190,15 +194,16 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             await act.Should().ThrowAsync<Exception>().WithMessage("Null request");
         }
 
-        private RequestGetHistoryContributionViewModel GetGetHistoryRequest(int take, int skip)
+        private RequestGetHistoryByUserIdContributionViewModel GetGetHistoryRequest(int take, int skip, string userId)
         {
-            return new RequestGetHistoryContributionViewModel
+            return new RequestGetHistoryByUserIdContributionViewModel
             {
+                UserId = userId,
                 Take = take,
                 Skip = skip
             };
         }
-        private ResponseGetHistoryContributionViewModel GetGetHistoryResponse(RequestGetHistoryContributionViewModel request, List<Contribution> contributions)
+        private ResponseGetHistoryByUserIdContributionViewModel GetGetHistoryResponse(RequestGetHistoryByUserIdContributionViewModel request, List<Contribution> contributions)
         {
             var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
             {
@@ -208,10 +213,11 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                 Date = u.Date,
                 Id = u.Id
             });
-            var response = new ResponseGetHistoryContributionViewModel
+            var response = new ResponseGetHistoryByUserIdContributionViewModel
             {
+                UserId = request.UserId,
                 Items = items,
-                TotalNumberOfRecords = TotalNumberOfRecords,
+                TotalNumberOfUserRecords = TotalNumberOfRecords,
                 Take = request.Take,
                 Skip = request.Skip
             };

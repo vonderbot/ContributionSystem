@@ -2,17 +2,19 @@
 
 @using ContributionSystem.UI.Components
 @using ContributionSystem.ViewModels.Models.Contribution;
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
 
 <Navbar />
 <div class="row">
     <ContributionCalculatorForm @bind-ResponseCalculateContributionViewModel="_responseCalculateContributionViewModel" @bind-ErrorMessage="_errorMessage" />
     <div class="col-9 text-center ">
-        <ContributionCalculatorTable @bind-ResponseCalculateContributionViewModel="_responseCalculateContributionViewModel" 
-                                     T="ResponseCalculateContributionViewModel" 
-                                     U="MonthsInfoContributionViewModelItem"/>
+        <ContributionCalculatorTable @bind-ResponseCalculateContributionViewModel="_responseCalculateContributionViewModel"
+                                     T="ResponseCalculateContributionViewModel"
+                                     U="MonthsInfoContributionViewModelItem" />
     </div>
 </div>
-
 @if (_errorMessage != null)
 {
     <div class="row justify-content-center">

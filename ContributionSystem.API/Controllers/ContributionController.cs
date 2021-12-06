@@ -3,18 +3,22 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.BusinessLogic.Interfaces;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ContributionSystem.API.Controllers
 {
     [ApiController]
     [Route("/api/[controller]/[action]")]
+    [Authorize]
     public class ContributionController : ControllerBase
     {
         private readonly IContributionService _contributionService;
+        private readonly IUserService _userService;
 
-        public ContributionController(IContributionService сontributionService)
+        public ContributionController(IContributionService сontributionService, IUserService userService)
         {
             _contributionService = сontributionService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -33,11 +37,12 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetHistory([FromQuery]RequestGetHistoryContributionViewModel request)
+        public async Task<IActionResult> GetHistoryByUserId([FromQuery]RequestGetHistoryByUserIdContributionViewModel request)
         {
             try
             {
-                var response = await _contributionService.GetHistory(request);
+                request.UserId = _userService.GetUserId(ControllerContext.HttpContext.User);
+                var response = await _contributionService.GetHistoryByUserId(request);
 
                 return Ok(response);
             }
@@ -52,6 +57,7 @@ namespace ContributionSystem.API.Controllers
         {
             try
             {
+                request.UserId = _userService.GetUserId(ControllerContext.HttpContext.User);
                 var response = await _contributionService.Calculate(request);
 
                 return Ok(response);

@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+
+<AuthorizeView>
+    <Authorized>
+        <div class="row px-4">
+            <div id="Username">
+                Hello, @context.User.Identity!.Name!
+            </div>
+            <button class="nav-link btn btn-link" @onclick="BeginLogout" id="Logout">
+                Log out
+            </button>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="row px-4">
+            <a  class="nav-link" type="button" @onclick="RedirectToLogin" id="Login">Log in</a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

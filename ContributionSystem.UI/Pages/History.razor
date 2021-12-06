@@ -1,5 +1,9 @@
 ﻿@page "/History"
+
 @using ContributionSystem.UI.Components
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
 
 <Navbar />
 @if (_requestsHistory != null)
@@ -61,7 +65,7 @@
 else
 {
     <div class="row justify-content-center">
-        <button class="btn btn-secondary" @onclick="() => LoadMore()" id="LoadMore">Load more</button>
+        <button class="btn btn-secondary" @onclick="LoadMore" id="LoadMore">Load more</button>
     </div>
     <br />
 }

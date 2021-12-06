@@ -1,4 +1,5 @@
-﻿using ContributionSystem.UI.Interfaces;
+﻿using ContributionSystem.UI.Constants;
+using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -9,10 +10,10 @@ namespace ContributionSystem.UI.Pages
     public partial class Details : ComponentBase
     {
         [Inject]
-        IContributionService ContributionService { get; set; }
+        private IContributionService ContributionService { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        private NavigationManager NavigationManager { get; set; }
 
         [Parameter]
         public int Id { get; set; }
@@ -22,7 +23,7 @@ namespace ContributionSystem.UI.Pages
 
         public void NavigateToHistoryComponent()
         {
-            NavigationManager.NavigateTo($"History");
+            NavigationManager.NavigateTo(URIs.History);
         }
 
         protected override async Task OnInitializedAsync()

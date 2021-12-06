@@ -1,13 +1,13 @@
-﻿using ContributionSystem.Entities.Entities;
-using System;
-using ContributionSystem.ViewModels.Models.Contribution;
-using ContributionSystem.ViewModels.Enums;
+﻿using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.BusinessLogic.Interfaces;
-using System.Collections.Generic;
 using ContributionSystem.DataAccess.Interfaces;
+using ContributionSystem.Entities.Entities;
+using ContributionSystem.ViewModels.Enums;
 using ContributionSystem.Entities.Enums;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using System;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
@@ -42,10 +42,10 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
-        public async Task<ResponseGetHistoryContributionViewModel> GetHistory(RequestGetHistoryContributionViewModel request)
+        public async Task<ResponseGetHistoryByUserIdContributionViewModel> GetHistoryByUserId(RequestGetHistoryByUserIdContributionViewModel request)
         {
-            CheckGetHistoryRequest(request);
-            var contributions = await _contributionRepository.Get(request.Take, request.Skip);
+            CheckGetHistoryByUserIdRequest(request);
+            var contributions = await _contributionRepository.GetByUserId(request.Take, request.Skip, request.UserId);
             var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
             {
                 Percent = u.Percent,
@@ -54,10 +54,11 @@ namespace ContributionSystem.BusinessLogic.Services
                 Date = u.Date,
                 Id = u.Id
             });
-            var response = new ResponseGetHistoryContributionViewModel
+            var response = new ResponseGetHistoryByUserIdContributionViewModel
             {
+                UserId = request.UserId,
                 Items = items,
-                TotalNumberOfRecords = await _contributionRepository.GetNumberOfRecords(), 
+                TotalNumberOfUserRecords = await _contributionRepository.GetNumberOfUserRecords(request.UserId), 
                 Take = request.Take,
                 Skip = request.Skip
             };
@@ -98,7 +99,7 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
-        private void CheckGetHistoryRequest(RequestGetHistoryContributionViewModel request)
+        private void CheckGetHistoryByUserIdRequest(RequestGetHistoryByUserIdContributionViewModel request)
         {
             if (request == null)
             {
@@ -112,6 +113,10 @@ namespace ContributionSystem.BusinessLogic.Services
             {
                 throw new Exception("Attempt to skip an invalid amount of contributions");
             }
+            else if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new Exception("Attempt to get history without user id");
+            }
         }
 
         private async Task AddContribution(RequestCalculateContributionViewModel request, IEnumerable<MonthsInfoContributionViewModelItem> responseItems)
@@ -124,6 +129,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }).ToList();
             var contribution = new Contribution()
             {
+                UserId = request.UserId,
                 StartValue = request.StartValue,
                 Term = request.Term,
                 Percent = request.Percent,
@@ -155,7 +161,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private void SimpleCalculate(Contribution contribution, List<MonthsInfoContributionViewModelItem> allMonthsInfo)
+        private void SimpleCalculate(Contribution contribution, IList<MonthsInfoContributionViewModelItem> allMonthsInfo)
         {
             var income = contribution.StartValue / Hundred * (contribution.Percent / NumberOfMonthsInAYear);
 
@@ -172,13 +178,12 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private void ComplexCalculate(Contribution contribution, List<MonthsInfoContributionViewModelItem> allMonthsInfo)
+        private void ComplexCalculate(Contribution contribution, IList<MonthsInfoContributionViewModelItem> allMonthsInfo)
         {
             for (var i = 0; i < contribution.Term; i++)
             {
-                var monthInfo = new MonthsInfoContributionViewModelItem();
-                monthInfo.MonthNumber = i + 1;
-                decimal income = ComplexIncomeAndSumCalculating(contribution, monthInfo, ChoosePreviousElement(allMonthsInfo, contribution, i));
+                var monthInfo = new MonthsInfoContributionViewModelItem { MonthNumber = i + 1 };
+                var income = ComplexIncomeAndSumCalculating(contribution, monthInfo, ChoosePreviousElement(allMonthsInfo, contribution, i));
                 RoundingMistakeCheck(monthInfo, income, ChoosePreviousElement(allMonthsInfo, contribution, i));
                 allMonthsInfo.Add(monthInfo);
             }
@@ -188,7 +193,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private decimal ChoosePreviousElement(List<MonthsInfoContributionViewModelItem> allMonthsInfo, Contribution contribution, int index)
+        private decimal ChoosePreviousElement(IList<MonthsInfoContributionViewModelItem> allMonthsInfo, Contribution contribution, int index)
         {
             if (index != 0)
             {

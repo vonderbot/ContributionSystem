@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ContributionSystem.DataAccess.Contexts
 {
-    public class ContributionDbContext : DbContext
+    public sealed class ContributionDbContext : DbContext
     {
         public DbSet<Contribution> Contribution { get; set; }
 

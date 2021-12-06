@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 
-namespace ContributionSystem.API.Setup
+namespace ContributionSystem.API.Extensions
 {
     public static class ServiceCollectionCorsOriginsExtension
     {
