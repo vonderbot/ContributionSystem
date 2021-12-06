@@ -9,14 +9,14 @@ namespace ContributionSystem.BusinessLogic.Services
     {
         public string GetUserId(ClaimsPrincipal user)
         {
-            var Value = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(Value))
+            var userId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
             {
                 throw new Exception("User have no id");
             }
             else
             {
-                return Value;
+                return userId;
             }
         }
     }
