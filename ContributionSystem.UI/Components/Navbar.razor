@@ -1,6 +1,4 @@
-﻿@using ContributionSystem.UI.Constants;
-
-<div class="p-3">
+﻿<div class="p-3">
     <ul class="nav nav-fill w-100">
         <li class="nav-item col-3 p-0">
             <a class="nav-link border rounded-top @_calculationButtonExtraClasses" type="button" id="Calculations" @onclick="NavigateToCalculationPage" Match="NavLinkMatch.All">
@@ -13,6 +11,11 @@
                 </a>
         </li>
         <li class="nav-item col-3 p-0">
+            <AuthorizeView Roles="UserAdmin">
+                <a class="nav-link border rounded-top" type="button" id="Users">
+                    Пользователи
+                </a>
+            </AuthorizeView>
         </li>
     </ul>
 </div>
