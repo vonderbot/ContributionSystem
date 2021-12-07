@@ -8,6 +8,6 @@ namespace ContributionSystem.BusinessLogic.Interfaces
     {
         public string GetUserId(ClaimsPrincipal user);
 
-        public Task<ResponseGetUsersListContributionViewModel> GetUsersList();
+        public Task<ResponseGetUsersListContributionViewModel> GetUsersList(string accessToken);
     }
 }

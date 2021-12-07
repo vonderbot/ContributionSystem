@@ -4,6 +4,7 @@ using ContributionSystem.BusinessLogic.Interfaces;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace ContributionSystem.API.Controllers
 {
@@ -26,7 +27,9 @@ namespace ContributionSystem.API.Controllers
         {
             try
             {
-                var response = await _userService.GetUsersList();
+                var d = ControllerContext.HttpContext.Request.Headers;
+                var f = ControllerContext.HttpContext.Request.Headers[key: "Authorization"];
+                var response = await _userService.GetUsersList(ControllerContext.HttpContext.Request.Headers[key: "Authorization"]);
 
                 return Ok(response);
             }
