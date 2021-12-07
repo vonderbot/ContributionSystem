@@ -22,6 +22,21 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetUsersList()
+        {
+            try
+            {
+                var response = await _userService.GetUsersList();
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetDetailsById([FromQuery]int id)
         {
             try

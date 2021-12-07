@@ -23,6 +23,11 @@ namespace ContributionSystem.UI.Components
             }
         }
 
+        private void NavigateToUsersList()
+        {
+            NavigationManager.NavigateTo("/Users");
+        }
+
         private void NavigateToCalculationPage()
         {
             NavigationManager.NavigateTo(URIs.Calculation);

@@ -12,7 +12,7 @@
         </li>
         <li class="nav-item col-3 p-0">
             <AuthorizeView Roles="UserAdmin">
-                <a class="nav-link border rounded-top" type="button" id="Users">
+                <a class="nav-link border rounded-top" type="button" @onclick="NavigateToUsersList" id="Users">
                     Пользователи
                 </a>
             </AuthorizeView>

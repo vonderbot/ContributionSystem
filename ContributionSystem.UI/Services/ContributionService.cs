@@ -25,6 +25,22 @@ namespace ContributionSystem.UI.Services
             AuthorizationHeaderSetup();
         }
 
+        public async Task<ResponseGetUsersListContributionViewModel> GetUsersList()
+        {
+            try
+            {
+                var response = await _http.GetAsync($"{СontrollerName}/GetUsersList");
+                await CheckResponseStatusCode(response);
+                var details = await response.Content.ReadFromJsonAsync<ResponseGetUsersListContributionViewModel>();
+
+                return details;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Exception in service: {ex.Message}");
+            }
+        }
+
         public async Task<ResponseGetDetailsByIdContributionViewModel> GetDetailsById(int id)
         {
             try

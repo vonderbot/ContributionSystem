@@ -1,0 +1,54 @@
+﻿@page "/Users"
+
+@using ContributionSystem.UI.Components
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize(Roles = "UserAdmin")]
+
+<Navbar />
+<AuthorizeView Roles="UserAdmin">
+    <Authorized>
+        <div ScrollableTable class="text-center">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="active bg-light">
+                        <th class="col-4" scope="row">
+                            Id
+                        </th>
+                        <th class="col-2">
+                            Name
+                        </th>
+                        <th class="col-3">
+                            Status
+                        </th>
+                    </tr>
+                </thead>
+                @if (_requestsUsers != null)
+                {
+                    <tbody>
+                        @foreach (var item in _requestsUsers)
+                        {
+                            <tr>
+                                <td scope="row">
+                                    @item.Id
+                                </td>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td>
+                                    @item.Status
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+            </table>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="row justify-content-center">
+            <h1>У вас недостаточно прав, для просмотре этой страницы</h1>
+        </div>
+        <br />
+    </NotAuthorized>
+</AuthorizeView>

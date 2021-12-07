@@ -5,12 +5,7 @@
         <div class="row px-4">
             <div id="Username">
                 Hello, @context.User.Identity!.Name!
-                @role
             </div>
-            @*@context.User.Claims.FirstOrDefault(c => c.Type == "appRole")?.Value
-            <button class="nav-link btn btn-link" @onclick="GetRole" id="Logout">
-                ------
-            </button>*@
             <button class="nav-link btn btn-link" @onclick="BeginLogout" id="Logout">
                 Log out
             </button>
