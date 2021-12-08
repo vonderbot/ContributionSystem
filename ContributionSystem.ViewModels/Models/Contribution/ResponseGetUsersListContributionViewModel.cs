@@ -12,6 +12,8 @@ namespace ContributionSystem.ViewModels.Models.Contribution
 
         public string Name { get; set; }
 
-        public bool? Status { get; set; }
+        public string Email { get; set; }
+
+        public bool Status { get; set; }
     }
 }

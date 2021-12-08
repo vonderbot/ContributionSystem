@@ -6,8 +6,10 @@ namespace ContributionSystem.BusinessLogic.Interfaces
 {
     public interface IUserService
     {
+        public Task ChangeUserStatus(RequestChangeUserStatusContributionViewModel request);
+
         public string GetUserId(ClaimsPrincipal user);
 
-        public Task<ResponseGetUsersListContributionViewModel> GetUsersList(string accessToken);
+        public Task<ResponseGetUsersListContributionViewModel> GetUsersList();
     }
 }

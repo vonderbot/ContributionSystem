@@ -4,7 +4,6 @@ using ContributionSystem.BusinessLogic.Interfaces;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using System.Linq;
 
 namespace ContributionSystem.API.Controllers
 {
@@ -22,14 +21,27 @@ namespace ContributionSystem.API.Controllers
             _userService = userService;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
+        {
+            try
+            {
+                await _userService.ChangeUserStatus(request);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetUsersList()
         {
             try
             {
-                var d = ControllerContext.HttpContext.Request.Headers;
-                var f = ControllerContext.HttpContext.Request.Headers[key: "Authorization"];
-                var response = await _userService.GetUsersList(ControllerContext.HttpContext.Request.Headers[key: "Authorization"]);
+                var response = await _userService.GetUsersList();
 
                 return Ok(response);
             }

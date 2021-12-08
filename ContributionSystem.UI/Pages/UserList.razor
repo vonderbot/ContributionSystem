@@ -12,14 +12,17 @@
             <table class="table table-bordered">
                 <thead>
                     <tr class="active bg-light">
-                        <th class="col-4" scope="row">
-                            Id
+                        <th class="col-3" scope="row">
+                            Email
                         </th>
-                        <th class="col-2">
+                        <th class="col-3">
                             Name
                         </th>
                         <th class="col-3">
                             Status
+                        </th>
+                        <th class="col-3">
+                            Change status
                         </th>
                     </tr>
                 </thead>
@@ -29,15 +32,32 @@
                         @foreach (var item in _requestsUsers)
                         {
                             <tr>
-                                <td scope="row">
-                                    @item.Id
-                                </td>
-                                <td>
-                                    @item.Name
-                                </td>
-                                <td>
-                                    @item.Status
-                                </td>
+                                @if (!String.IsNullOrEmpty(item.Email))
+                                {
+                                    <td scope="row">@item.Email</td>
+                                }
+                                else
+                                {
+                                    <td scope="row">Mail not specified</td>
+                                }
+                                @if (!String.IsNullOrEmpty(item.Name))
+                                {
+                                    <td>@item.Name</td>
+                                }
+                                else
+                                {
+                                    <td>Name not specified</td>
+                                }
+                                @if (item.Status)
+                                {
+                                    <td>Enabled</td>
+                                    <td class="w-100" type="button" @onclick="() => DisableUser(item.Id)">Disable</td>
+                                }
+                                else
+                                {
+                                    <td>Disabled</td>
+                                    <td class="w-100" type="button" @onclick="() => DisableUser(item.Id)">Enable</td>
+                                }
                             </tr>
                         }
                     </tbody>
@@ -47,7 +67,7 @@
     </Authorized>
     <NotAuthorized>
         <div class="row justify-content-center">
-            <h1>У вас недостаточно прав, для просмотре этой страницы</h1>
+            <h1>You do not have permissions to view this page.</h1>
         </div>
         <br />
     </NotAuthorized>

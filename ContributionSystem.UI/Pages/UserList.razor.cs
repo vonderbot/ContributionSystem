@@ -19,5 +19,15 @@ namespace ContributionSystem.UI.Pages
             var response = await ContributionService.GetUsersList();
             _requestsUsers = response.Items;
         }
+
+        private async Task DisableUser(string id)
+        {
+            var request = new RequestChangeUserStatusContributionViewModel() 
+            { 
+                Id = id,
+                NewStatus = false
+            };
+            await ContributionService.ChangeUserStatus(request);
+        }
     }
 }
