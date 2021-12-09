@@ -17,8 +17,15 @@ namespace ContributionSystem.UI.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            var response = await ContributionService.GetUsersList();
-            _Users = response.Items;
+            try
+            {
+                var response = await ContributionService.GetUsersList();
+                _Users = response.Items;
+            }
+            catch (Exception ex)
+            {
+                _message = ex.Message;
+            }
         }
 
         private async Task ChangeUserStatus(string id, bool newStatus)
@@ -30,15 +37,12 @@ namespace ContributionSystem.UI.Pages
                     Id = id,
                     NewStatus = newStatus
                 };
-
-                if(await ContributionService.ChangeUserStatus(request))
+                await ContributionService.ChangeUserStatus(request);
+                foreach (var user in _Users)
                 {
-                    foreach (var user in _Users)
+                    if (user.Id == id)
                     {
-                        if (user.Id == id)
-                        {
-                            user.Status = newStatus;
-                        }
+                        user.Status = newStatus;
                     }
                 }
             }

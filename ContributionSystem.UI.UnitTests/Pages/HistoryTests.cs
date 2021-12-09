@@ -72,7 +72,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_EmptyDataBase_ExpectedMarkupRendered()
         {
-            BaseComponentSetup(new List<ResponseGetHistoryContributionViewModelItem>(), Take, Skip, 0, UserId);
+            BaseComponentSetup(new List<ResponseGetUsersListContributionViewModelItems>(), Take, Skip, 0, UserId);
             var page = TestContext.RenderComponent<History>();
             CheckDataContainers(page, 0);
 
@@ -89,7 +89,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
             page.FindAll("#Date").Count.Should().Be(count);
         }
 
-        private void BaseComponentSetup(List<ResponseGetHistoryContributionViewModelItem> items, int take, int skip, int totalNumberOfRecords, string userId)
+        private void BaseComponentSetup(List<ResponseGetUsersListContributionViewModelItems> items, int take, int skip, int totalNumberOfRecords, string userId)
         {
             var response = new ResponseGetHistoryByUserIdContributionViewModel
             {
@@ -102,13 +102,13 @@ namespace ContributionSystem.UI.UnitTests.Pages
             ContributionServiceMock.Setup(x => x.GetHistoryByUserId(take, skip)).ReturnsAsync(response);
         }
 
-        private List<ResponseGetHistoryContributionViewModelItem> GetEmptyItemList(int numberOfItems)
+        private List<ResponseGetUsersListContributionViewModelItems> GetEmptyItemList(int numberOfItems)
         {
-            var itemList = new List<ResponseGetHistoryContributionViewModelItem>();
+            var itemList = new List<ResponseGetUsersListContributionViewModelItems>();
 
             for (var i = 0; i < numberOfItems; i++)
             {
-                itemList.Add(new ResponseGetHistoryContributionViewModelItem());
+                itemList.Add(new ResponseGetUsersListContributionViewModelItems());
             }
 
             return itemList;

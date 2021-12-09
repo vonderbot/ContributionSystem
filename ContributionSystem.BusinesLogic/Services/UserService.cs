@@ -19,16 +19,24 @@ namespace ContributionSystem.BusinessLogic.Services
 
         public async Task ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
         {
-            var user = new User
+            CheckChangeUserStatusRequest(request);
+            try
             {
-                AccountEnabled = request.NewStatus
-            };
-            await _graphClient.Users[request.Id].Request().UpdateAsync(user);
+                var user = new User
+                {
+                    AccountEnabled = request.NewStatus
+                };
+                await _graphClient.Users[request.Id].Request().UpdateAsync(user);
+            }
+            catch
+            {
+                throw new Exception("Can't update user status");
+            }
         }
 
         public async Task<ResponseGetUsersListContributionViewModel> GetUsersList()
         {
-            var users = await _graphClient.Users.Request().GetAsync();
+            var users = await _graphClient.Users.Request().Select("Id,DisplayName,Mail,AccountEnabled").GetAsync();
             var response = new ResponseGetUsersListContributionViewModel()
             {
                 Items = users.Select(u => new ResponseGetUsersListContributionViewModelItem
@@ -36,7 +44,7 @@ namespace ContributionSystem.BusinessLogic.Services
                     Id = u.Id,
                     Name = u.DisplayName,
                     Email = u.Mail,
-                    Status = _graphClient.Users[u.Id].Request().Select(c => c.AccountEnabled).GetAsync().Result.AccountEnabled.GetValueOrDefault()
+                    Status = u.AccountEnabled.GetValueOrDefault()
                 }).ToList()
             };
 
@@ -54,6 +62,18 @@ namespace ContributionSystem.BusinessLogic.Services
             else
             {
                 return userId;
+            }
+        }
+
+        private void CheckChangeUserStatusRequest(RequestChangeUserStatusContributionViewModel request)
+        {
+            if (request == null)
+            {
+                throw new Exception("Null request");
+            }
+            else if (String.IsNullOrEmpty(request.Id))
+            {
+                throw new Exception("User id can`t be null or empty");
             }
         }
     }
