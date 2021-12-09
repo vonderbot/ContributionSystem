@@ -28,9 +28,10 @@ namespace ContributionSystem.API
                 fv.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
 
-            services.SetInject();
+            services.SetInject(configuration);
 
             var connection = configuration.GetConnectionString("DefaultConnection");
+
 
             services.AddDbContext<ContributionDbContext>(options =>
                 options.UseSqlServer(connection));

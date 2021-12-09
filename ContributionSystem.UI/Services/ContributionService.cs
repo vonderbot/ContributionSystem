@@ -25,12 +25,14 @@ namespace ContributionSystem.UI.Services
             AuthorizationHeaderSetup();
         }
 
-        public async Task ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
+        public async Task<bool> ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
         {
             try
             {
                 var response = await _http.PostAsJsonAsync($"{СontrollerName}/changeuserstatus", request);
                 await CheckResponseStatusCode(response);
+
+                return true;
             }
             catch (Exception ex)
             {

@@ -23,7 +23,6 @@ namespace ContributionSystem.BusinessLogic.Services
             {
                 AccountEnabled = request.NewStatus
             };
-
             await _graphClient.Users[request.Id].Request().UpdateAsync(user);
         }
 
@@ -47,6 +46,7 @@ namespace ContributionSystem.BusinessLogic.Services
         public string GetUserId(ClaimsPrincipal user)
         {
             var userId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
             if (string.IsNullOrEmpty(userId))
             {
                 throw new Exception("User have no id");

@@ -4,6 +4,8 @@ using System;
 using ContributionSystem.BusinessLogic.Services;
 using System.Collections.Generic;
 using System.Security.Claims;
+using Moq;
+using Microsoft.Graph;
 
 namespace ContributionSystem.BusinesLogic.UnitTests.Services
 {
@@ -14,7 +16,10 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
 
         public UserServiceTests()
         {
-            _userService = new UserService();
+            var mockAuthProvider = new Mock<IAuthenticationProvider>();
+            var mockHttpProvider = new Mock<IHttpProvider>();
+            var mockGraphClient = new Mock<GraphServiceClient>(mockAuthProvider.Object, mockHttpProvider.Object);
+            _userService = new UserService(mockGraphClient.Object);
         }
 
         [Test]
