@@ -8,7 +8,7 @@
 <Navbar />
 <AuthorizeView Roles="UserAdmin">
     <Authorized>
-        <div ScrollableTable class="text-center">
+        <div class="text-center">
             <table class="table table-bordered">
                 <thead>
                     <tr class="active bg-light">
@@ -26,10 +26,10 @@
                         </th>
                     </tr>
                 </thead>
-                @if (_Users != null)
+                @if (_users != null)
                 {
                     <tbody>
-                        @foreach (var item in _Users)
+                        @foreach (var item in _users)
                         {
                             <tr>
                                 @if (!String.IsNullOrEmpty(item.Email))
@@ -51,12 +51,12 @@
                                 @if (item.Status)
                                 {
                                     <td>Enabled</td>
-                                    <td class="w-100" type="button" @onclick="() => ChangeUserStatus(item.Id, !item.Status)">Disable</td>
+                                    <td class="w-100" type="button" @onclick="() => ChangeUserStatus(item.Id, !item.Status)" id="StatusButton">Disable</td>
                                 }
                                 else
                                 {
                                     <td>Disabled</td>
-                                    <td class="w-100" type="button" @onclick="() => ChangeUserStatus(item.Id, !item.Status)">Enable</td>
+                                    <td class="w-100" type="button" @onclick="() => ChangeUserStatus(item.Id, !item.Status)" id="StatusButton">Enable</td>
                                 }
                             </tr>
                         }

@@ -29,7 +29,7 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenLooutButtonClicked_UserNotAuthorized_RedirectToLogoutPage()
         {
-            testAuthorizationContext.SetNotAuthorized();
+            TestAuthorizationContext.SetNotAuthorized();
             var page = TestContext.RenderComponent<LoginDisplay>();
             page.Find("#Login").Click();
 
@@ -39,7 +39,7 @@ namespace ContributionSystem.UI.UnitTests.Components
         [Fact]
         public void WhenPageRendered_UserNotAuthorized_ExpectedMarkupRendered()
         {
-            testAuthorizationContext.SetNotAuthorized();
+            TestAuthorizationContext.SetNotAuthorized();
             var page = TestContext.RenderComponent<LoginDisplay>();
 
             page.Find("#Login").Should().NotBeNull();

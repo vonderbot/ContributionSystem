@@ -12,7 +12,7 @@ namespace ContributionSystem.UI.Pages
         [Inject]
         private IContributionService ContributionService { get; set; }
 
-        private IEnumerable<ResponseGetUsersListContributionViewModelItem> _Users;
+        private IEnumerable<ResponseGetUsersListContributionViewModelItem> _users;
         private string _message;
 
         protected override async Task OnInitializedAsync()
@@ -20,7 +20,12 @@ namespace ContributionSystem.UI.Pages
             try
             {
                 var response = await ContributionService.GetUsersList();
-                _Users = response.Items;
+                _users = response.Items;
+
+                if (_users == null)
+                {
+                    _message = "Users data is empty";
+                }
             }
             catch (Exception ex)
             {
@@ -38,7 +43,8 @@ namespace ContributionSystem.UI.Pages
                     NewStatus = newStatus
                 };
                 await ContributionService.ChangeUserStatus(request);
-                foreach (var user in _Users)
+
+                foreach (var user in _users)
                 {
                     if (user.Id == id)
                     {
