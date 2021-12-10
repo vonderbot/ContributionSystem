@@ -5,23 +5,17 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
 using System.Net;
-using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace ContributionSystem.UI.Services
 {
-    public class ContributionService : IContributionService
+    public class ContributionService : BaseService, IContributionService
     {
-        private readonly HttpClient _http;
-        private readonly IAccessTokenProvider _tokenProvider;
-
         private const string СontrollerName = "contribution";
 
         public ContributionService(HttpClient httpClient, IAccessTokenProvider tokenProvider)
+            : base(httpClient, tokenProvider)
         {
-            _http = httpClient;
-            _tokenProvider = tokenProvider;
-            AuthorizationHeaderSetup();
         }
 
         public async Task<ResponseGetDetailsByIdContributionViewModel> GetDetailsById(int id)
@@ -69,20 +63,6 @@ namespace ContributionSystem.UI.Services
             catch(Exception ex)
             {
                 throw new Exception($"Exception in service: {ex.Message}");
-            }
-        }
-
-        private async void AuthorizationHeaderSetup()
-        {
-            var tokenResult = await _tokenProvider.RequestAccessToken();
-
-            if(tokenResult.TryGetToken(out var token))
-            {
-                _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
-            }
-            else
-            {
-                throw new Exception("Cant get access token");
             }
         }
 

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using ContributionSystem.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
 using ContributionSystem.API.Extensions;
-using Microsoft.Graph.ExternalConnectors;
 
 namespace ContributionSystem.API
 {

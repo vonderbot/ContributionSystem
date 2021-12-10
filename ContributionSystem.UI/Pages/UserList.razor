@@ -32,32 +32,10 @@
                         @foreach (var item in _users)
                         {
                             <tr>
-                                @if (!String.IsNullOrEmpty(item.Email))
-                                {
-                                    <td scope="row">@item.Email</td>
-                                }
-                                else
-                                {
-                                    <td scope="row">Mail not specified</td>
-                                }
-                                @if (!String.IsNullOrEmpty(item.Name))
-                                {
-                                    <td>@item.Name</td>
-                                }
-                                else
-                                {
-                                    <td>Name not specified</td>
-                                }
-                                @if (item.Status)
-                                {
-                                    <td>Enabled</td>
-                                    <td class="w-100" type="button" @onclick="() => ChangeUserStatus(item.Id, !item.Status)" id="StatusButton">Disable</td>
-                                }
-                                else
-                                {
-                                    <td>Disabled</td>
-                                    <td class="w-100" type="button" @onclick="() => ChangeUserStatus(item.Id, !item.Status)" id="StatusButton">Enable</td>
-                                }
+                                <td scope="row">@(String.IsNullOrEmpty(item.Email) ? "Mail not specified" : item.Email)</td>
+                                <td scope="row">@(String.IsNullOrEmpty(item.Name) ? "Name not specified" : item.Name)</td>
+                                <td scope="row">@(item.Status ? "Enabled" : "Disabled")</td>
+                                <td class="w-100" type="button" @onclick="() => ChangeUserStatus(item.Id, !item.Status)" id="StatusButton">Change Status</td>
                             </tr>
                         }
                     </tbody>

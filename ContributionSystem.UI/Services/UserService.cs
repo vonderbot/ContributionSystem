@@ -10,18 +10,13 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace ContributionSystem.UI.Services
 {
-    public class UserService : IUserService
+    public class UserService : BaseService, IUserService
     {
-        private readonly HttpClient _http;
-        private readonly IAccessTokenProvider _tokenProvider;
-
         private const string СontrollerName = "user";
 
         public UserService(HttpClient httpClient, IAccessTokenProvider tokenProvider)
+            :base(httpClient, tokenProvider)
         {
-            _http = httpClient;
-            _tokenProvider = tokenProvider;
-            AuthorizationHeaderSetup();
         }
 
         public async Task ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
@@ -50,20 +45,6 @@ namespace ContributionSystem.UI.Services
             catch (Exception ex)
             {
                 throw new Exception($"Exception in service: {ex.Message}");
-            }
-        }
-
-        private async void AuthorizationHeaderSetup()
-        {
-            var tokenResult = await _tokenProvider.RequestAccessToken();
-
-            if (tokenResult.TryGetToken(out var token))
-            {
-                _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
-            }
-            else
-            {
-                throw new Exception("Cant get access token");
             }
         }
 

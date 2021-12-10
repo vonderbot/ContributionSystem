@@ -3,6 +3,7 @@ using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Pages
@@ -44,13 +45,7 @@ namespace ContributionSystem.UI.Pages
                 };
                 await UserService.ChangeUserStatus(request);
 
-                foreach (var user in _users)
-                {
-                    if (user.Id == id)
-                    {
-                        user.Status = newStatus;
-                    }
-                }
+                _users.First(user => user.Id.Equals(id)).Status = newStatus;
             }
             catch (Exception ex)
             {

@@ -9,7 +9,7 @@ namespace ContributionSystem.API.Controllers
 {
     [ApiController]
     [Route("/api/[controller]/[action]")]
-    [Authorize]
+    [Authorize(Policy = "UserAdmin")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -20,6 +20,7 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
         {
             try
@@ -39,6 +40,7 @@ namespace ContributionSystem.API.Controllers
         {
             try
             {
+                var g = HttpContext.User.Claims;
                 var response = await _userService.GetUsersList();
 
                 return Ok(response);
