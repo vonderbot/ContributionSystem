@@ -8,16 +8,28 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
+    /// <summary>
+    /// The type UserService. 
+    /// </summary>
     public class UserService : IUserService
     {
         private readonly GraphServiceClient _graphClient;
 
+        /// <summary>
+        /// The UserService constructor.
+        /// </summary>
+        /// <param name="graphClient">GraphServiceClient instance.</param>
         public UserService(GraphServiceClient graphClient)
         {
             _graphClient = graphClient;
         }
 
-        public async Task ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
+
+        /// <summary>
+        /// Sends request to microsoft graph to change user AccountEnabled.
+        /// </summary>
+        /// <returns>Task</returns>
+        public async Task ChangeUserStatus(RequestChangeUserStatusUserViewModel request)
         {
             CheckChangeUserStatusRequest(request);
             var user = new User
@@ -27,10 +39,14 @@ namespace ContributionSystem.BusinessLogic.Services
             await _graphClient.Users[request.Id].Request().UpdateAsync(user);
         }
 
-        public async Task<ResponseGetUsersListContributionViewModel> GetUsersList()
+        /// <summary>
+        /// Send request to microsoft graph to change user AccountEnabled.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ResponseGetUsersListUserViewModel> GetUsersList()
         {
             var users = await _graphClient.Users.Request().Select("Id,DisplayName,Mail,AccountEnabled").GetAsync();
-            var response = new ResponseGetUsersListContributionViewModel()
+            var response = new ResponseGetUsersListUserViewModel()
             {
                 Items = users.Select(u => new ResponseGetUsersListContributionViewModelItem
                 {
@@ -44,6 +60,11 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public string GetUserId(ClaimsPrincipal user)
         {
             var userId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -58,7 +79,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private void CheckChangeUserStatusRequest(RequestChangeUserStatusContributionViewModel request)
+        private void CheckChangeUserStatusRequest(RequestChangeUserStatusUserViewModel request)
         {
             if (request == null)
             {

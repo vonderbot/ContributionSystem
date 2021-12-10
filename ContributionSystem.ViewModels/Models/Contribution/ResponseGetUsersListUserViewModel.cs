@@ -2,7 +2,7 @@
 
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
-    public class ResponseGetUsersListContributionViewModel : CollectionOfItems<ResponseGetUsersListContributionViewModelItem>
+    public class ResponseGetUsersListUserViewModel : CollectionOfItems<ResponseGetUsersListContributionViewModelItem>
     {
     }
 

@@ -32,7 +32,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
             page.Find("#StatusButton").Click();
             cells = page.FindAll("tbody tr td");
 
-            UserServiceMock.Verify(m => m.ChangeUserStatus(It.IsAny<RequestChangeUserStatusContributionViewModel>()), Times.Once());
+            UserServiceMock.Verify(m => m.ChangeUserStatus(It.IsAny<RequestChangeUserStatusUserViewModel>()), Times.Once());
             cells[StatusIndex].TextContent.Should().BeEquivalentTo("Disabled");
         }
 
@@ -57,7 +57,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
-            UserServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(new ResponseGetUsersListContributionViewModel());
+            UserServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(new ResponseGetUsersListUserViewModel());
             var page = TestContext.RenderComponent<UserList>();
 
             page.Find("thead").Should().NotBeNull();
@@ -98,7 +98,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
             page.FindAll("#StatusButton").Count.Should().Be(NumberOfUsers);
         }
 
-        private ResponseGetUsersListContributionViewModel GetUsersListResponse(int NumberOfUsers)
+        private ResponseGetUsersListUserViewModel GetUsersListResponse(int NumberOfUsers)
         {
             var itemList = new List<ResponseGetUsersListContributionViewModelItem>();
 
@@ -113,7 +113,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
                 });
             }
 
-            var response = new ResponseGetUsersListContributionViewModel
+            var response = new ResponseGetUsersListUserViewModel
             {
                 Items = itemList
             };
@@ -121,9 +121,9 @@ namespace ContributionSystem.UI.UnitTests.Pages
             return response;
         }
 
-        private RequestChangeUserStatusContributionViewModel GetChangeUserStatusRequest(string id, bool userStatus)
+        private RequestChangeUserStatusUserViewModel GetChangeUserStatusRequest(string id, bool userStatus)
         {
-            var request = new RequestChangeUserStatusContributionViewModel()
+            var request = new RequestChangeUserStatusUserViewModel()
             {
                 Id = id,
                 AccountEnabled = userStatus

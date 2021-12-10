@@ -5,8 +5,8 @@ namespace ContributionSystem.UI.Interfaces
 {
     public interface IUserService
     {
-        public Task ChangeUserStatus(RequestChangeUserStatusContributionViewModel request);
+        public Task ChangeUserStatus(RequestChangeUserStatusUserViewModel request);
 
-        public Task<ResponseGetUsersListContributionViewModel> GetUsersList();
+        public Task<ResponseGetUsersListUserViewModel> GetUsersList();
     }
 }

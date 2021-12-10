@@ -19,7 +19,7 @@ namespace ContributionSystem.UI.Services
         {
         }
 
-        public async Task ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
+        public async Task ChangeUserStatus(RequestChangeUserStatusUserViewModel request)
         {
             try
             {
@@ -32,13 +32,13 @@ namespace ContributionSystem.UI.Services
             }
         }
 
-        public async Task<ResponseGetUsersListContributionViewModel> GetUsersList()
+        public async Task<ResponseGetUsersListUserViewModel> GetUsersList()
         {
             try
             {
                 var response = await _http.GetAsync($"{СontrollerName}/GetUsersList");
                 await CheckResponseStatusCode(response);
-                var details = await response.Content.ReadFromJsonAsync<ResponseGetUsersListContributionViewModel>();
+                var details = await response.Content.ReadFromJsonAsync<ResponseGetUsersListUserViewModel>();
 
                 return details;
             }
