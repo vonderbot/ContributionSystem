@@ -30,14 +30,10 @@ namespace ContributionSystem.API.Extensions
                         SaveSigninToken = true,
                         ValidateLifetime = true,
                         ValidateAudience = true,
-                        ValidateIssuer = true
+                        ValidateIssuer = true,
+                        RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
                     };
                 });
-
-            services.AddAuthorization(options => {
-                options.AddPolicy("UserAdmin", policy => 
-                policy.RequireClaim("wids", configuration["Wids:UserAdmin"]));
-            });
         }
     }
 }

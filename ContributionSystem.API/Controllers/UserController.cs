@@ -9,7 +9,7 @@ namespace ContributionSystem.API.Controllers
 {
     [ApiController]
     [Route("/api/[controller]/[action]")]
-    [Authorize(Policy = "UserAdmin")]
+    [Authorize(Roles = "UserAdmin")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -40,7 +40,6 @@ namespace ContributionSystem.API.Controllers
         {
             try
             {
-                var g = HttpContext.User.Claims;
                 var response = await _userService.GetUsersList();
 
                 return Ok(response);
