@@ -29,9 +29,9 @@ namespace ContributionSystem.API.UnitTests.Controllers
             var mockUserService = new Mock<IUserService>();
             mockUserService.Setup(repo => repo
                 .GetUsersList())
-                .ReturnsAsync(new ResponseGetUsersListContributionViewModel());
+                .ReturnsAsync(new ResponseGetUsersListUserViewModel());
             mockUserService.Setup(repo => repo
-                .ChangeUserStatus(new RequestChangeUserStatusContributionViewModel()))
+                .ChangeUserStatus(new RequestChangeUserStatusUserViewModel()))
                 .Returns(Task.FromResult(default(object)));
             mockUserService.Setup(repo => repo
                 .ChangeUserStatus(null))
@@ -64,7 +64,7 @@ namespace ContributionSystem.API.UnitTests.Controllers
         [Test]
         public async Task ChangeUserStatus_ValidRequest_The200Result()
         {
-            var response = await _userController.ChangeUserStatus(new RequestChangeUserStatusContributionViewModel());
+            var response = await _userController.ChangeUserStatus(new RequestChangeUserStatusUserViewModel());
             var okResult = response as OkResult;
 
             okResult.StatusCode.Should().Be(200);
@@ -77,7 +77,7 @@ namespace ContributionSystem.API.UnitTests.Controllers
             var okObjectResult = response as OkObjectResult;
 
             okObjectResult.Should().NotBeNull();
-            okObjectResult.Value.Should().BeOfType<ResponseGetUsersListContributionViewModel>();
+            okObjectResult.Value.Should().BeOfType<ResponseGetUsersListUserViewModel>();
         }
     }
 }

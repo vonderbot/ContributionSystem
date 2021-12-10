@@ -104,9 +104,9 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
 
             act.Should().Throw<Exception>().WithMessage("User have no id");
         }
-        private RequestChangeUserStatusContributionViewModel GetChangeUserStatusRequest(string id, bool userStatus)
+        private RequestChangeUserStatusUserViewModel GetChangeUserStatusRequest(string id, bool userStatus)
         {
-            var correctResponse = new RequestChangeUserStatusContributionViewModel() 
+            var correctResponse = new RequestChangeUserStatusUserViewModel() 
             { 
                 Id = id, 
                 AccountEnabled = userStatus
@@ -114,9 +114,9 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             return correctResponse;
         }
 
-        private ResponseGetUsersListContributionViewModel GetGetUsersListRequest()
+        private ResponseGetUsersListUserViewModel GetGetUsersListRequest()
         {
-            var correctResponse = new ResponseGetUsersListContributionViewModel
+            var correctResponse = new ResponseGetUsersListUserViewModel
             { 
                 Items = new List<ResponseGetUsersListContributionViewModelItem>
                 {

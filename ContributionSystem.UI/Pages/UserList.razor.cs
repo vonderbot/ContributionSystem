@@ -38,7 +38,7 @@ namespace ContributionSystem.UI.Pages
         {
             try
             {
-                var request = new RequestChangeUserStatusContributionViewModel()
+                var request = new RequestChangeUserStatusUserViewModel()
                 {
                     Id = id,
                     AccountEnabled = newStatus

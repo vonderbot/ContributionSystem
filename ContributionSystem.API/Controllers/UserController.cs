@@ -20,8 +20,7 @@ namespace ContributionSystem.API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
+        public async Task<IActionResult> ChangeUserStatus(RequestChangeUserStatusUserViewModel request)
         {
             try
             {

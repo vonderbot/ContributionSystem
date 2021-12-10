@@ -68,9 +68,9 @@ namespace ContributionSystem.UI.UnitTests.Services
             moqResponse.Should().BeEquivalentTo(GetUsersListResponse());
         }
 
-        private RequestChangeUserStatusContributionViewModel GetChangeUserStatusRequest(string id, bool userStatus)
+        private RequestChangeUserStatusUserViewModel GetChangeUserStatusRequest(string id, bool userStatus)
         {
-            var correctResponse = new RequestChangeUserStatusContributionViewModel()
+            var correctResponse = new RequestChangeUserStatusUserViewModel()
             {
                 Id = id,
                 AccountEnabled = userStatus
@@ -78,9 +78,9 @@ namespace ContributionSystem.UI.UnitTests.Services
             return correctResponse;
         }
 
-        private ResponseGetUsersListContributionViewModel GetUsersListResponse()
+        private ResponseGetUsersListUserViewModel GetUsersListResponse()
         {
-            var correctResponse = new ResponseGetUsersListContributionViewModel
+            var correctResponse = new ResponseGetUsersListUserViewModel
             {
                 Items = new List<ResponseGetUsersListContributionViewModelItem>
                 {

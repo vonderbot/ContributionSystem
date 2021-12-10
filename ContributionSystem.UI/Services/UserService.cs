@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
 using System.Net;
-using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace ContributionSystem.UI.Services
@@ -19,7 +18,7 @@ namespace ContributionSystem.UI.Services
         {
         }
 
-        public async Task ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
+        public async Task ChangeUserStatus(RequestChangeUserStatusUserViewModel request)
         {
             try
             {
@@ -32,13 +31,13 @@ namespace ContributionSystem.UI.Services
             }
         }
 
-        public async Task<ResponseGetUsersListContributionViewModel> GetUsersList()
+        public async Task<ResponseGetUsersListUserViewModel> GetUsersList()
         {
             try
             {
                 var response = await _http.GetAsync($"{СontrollerName}/GetUsersList");
                 await CheckResponseStatusCode(response);
-                var details = await response.Content.ReadFromJsonAsync<ResponseGetUsersListContributionViewModel>();
+                var details = await response.Content.ReadFromJsonAsync<ResponseGetUsersListUserViewModel>();
 
                 return details;
             }

@@ -17,7 +17,7 @@ namespace ContributionSystem.BusinessLogic.Services
             _graphClient = graphClient;
         }
 
-        public async Task ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
+        public async Task ChangeUserStatus(RequestChangeUserStatusUserViewModel request)
         {
             CheckChangeUserStatusRequest(request);
             var user = new User
@@ -27,10 +27,10 @@ namespace ContributionSystem.BusinessLogic.Services
             await _graphClient.Users[request.Id].Request().UpdateAsync(user);
         }
 
-        public async Task<ResponseGetUsersListContributionViewModel> GetUsersList()
+        public async Task<ResponseGetUsersListUserViewModel> GetUsersList()
         {
             var users = await _graphClient.Users.Request().Select("Id,DisplayName,Mail,AccountEnabled").GetAsync();
-            var response = new ResponseGetUsersListContributionViewModel()
+            var response = new ResponseGetUsersListUserViewModel()
             {
                 Items = users.Select(u => new ResponseGetUsersListContributionViewModelItem
                 {
@@ -58,7 +58,7 @@ namespace ContributionSystem.BusinessLogic.Services
             }
         }
 
-        private void CheckChangeUserStatusRequest(RequestChangeUserStatusContributionViewModel request)
+        private void CheckChangeUserStatusRequest(RequestChangeUserStatusUserViewModel request)
         {
             if (request == null)
             {
