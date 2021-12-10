@@ -11,6 +11,7 @@ namespace ContributionSystem.BusinessLogic.Services
     /// <summary>
     /// The type UserService. 
     /// </summary>
+    /// <inheritdoc/>
     public class UserService : IUserService
     {
         private readonly GraphServiceClient _graphClient;
@@ -24,11 +25,6 @@ namespace ContributionSystem.BusinessLogic.Services
             _graphClient = graphClient;
         }
 
-
-        /// <summary>
-        /// Sends request to microsoft graph to change user AccountEnabled.
-        /// </summary>
-        /// <returns>Task</returns>
         public async Task ChangeUserStatus(RequestChangeUserStatusUserViewModel request)
         {
             CheckChangeUserStatusRequest(request);
@@ -39,10 +35,6 @@ namespace ContributionSystem.BusinessLogic.Services
             await _graphClient.Users[request.Id].Request().UpdateAsync(user);
         }
 
-        /// <summary>
-        /// Send request to microsoft graph to change user AccountEnabled.
-        /// </summary>
-        /// <returns></returns>
         public async Task<ResponseGetUsersListUserViewModel> GetUsersList()
         {
             var users = await _graphClient.Users.Request().Select("Id,DisplayName,Mail,AccountEnabled").GetAsync();
@@ -60,11 +52,6 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
         public string GetUserId(ClaimsPrincipal user)
         {
             var userId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
