@@ -12,11 +12,10 @@ namespace ContributionSystem.UI.Services
 {
     public class ContributionService : IContributionService
     {
-        private const string СontrollerName = "contribution";
-
         private readonly HttpClient _http;
-
         private readonly IAccessTokenProvider _tokenProvider;
+
+        private const string СontrollerName = "contribution";
 
         public ContributionService(HttpClient httpClient, IAccessTokenProvider tokenProvider)
         {

@@ -19,13 +19,21 @@ namespace ContributionSystem.UI.UnitTests.Pages
         private const string UserName = "Name";
         private const string UserEmail = "Email";
         private const bool UserStatus = true;
+        private const int StatusIndex = 2;
 
         [Fact]
-        public void WhenStatusButtonClicked_NoParametersPassed_ExpectedMarkupRendered()
+        public void WhenStatusButtonClicked_OneUser_ChangeUserStatusInvoked()
         {
-            BaseComponentSetup(GetUsersListResponse(NumberOfUsers));
+            ContributionServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(GetUsersListResponse(NumberOfUsers));
+            ContributionServiceMock.Setup(x => x.ChangeUserStatus(GetChangeUserStatusRequest(ValidUserId, !UserStatus))).Returns(Task.FromResult(default(object)));
             var page = TestContext.RenderComponent<UserList>();
+            var cells = page.FindAll("tbody tr td");
+            cells[StatusIndex].TextContent.Should().BeEquivalentTo("Enabled");
             page.Find("#StatusButton").Click();
+            cells = page.FindAll("tbody tr td");
+
+            ContributionServiceMock.Verify(m => m.ChangeUserStatus(It.IsAny<RequestChangeUserStatusContributionViewModel>()), Times.Once());
+            cells[StatusIndex].TextContent.Should().BeEquivalentTo("Disabled");
         }
 
         [Fact]
@@ -49,7 +57,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
-            BaseComponentSetup(new ResponseGetUsersListContributionViewModel());
+            ContributionServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(new ResponseGetUsersListContributionViewModel());
             var page = TestContext.RenderComponent<UserList>();
 
             page.Find("thead").Should().NotBeNull();
@@ -60,7 +68,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_OneUser_ExpectedMarkupRendered()
         {
-            BaseComponentSetup(GetUsersListResponse(NumberOfUsers));
+            ContributionServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(GetUsersListResponse(NumberOfUsers));
             var page = TestContext.RenderComponent<UserList>();
 
             page.Find("thead").Should().NotBeNull();
@@ -69,7 +77,6 @@ namespace ContributionSystem.UI.UnitTests.Pages
 
             var rows = page.FindAll("tbody tr");
             var cells = page.FindAll("tbody tr td");
-            var rowsCounter = 0;
             rows.Count.Should().Be(NumberOfUsers);
 
             for (var i = 0; i < cells.Count; i++)
@@ -84,18 +91,11 @@ namespace ContributionSystem.UI.UnitTests.Pages
                         break;
                     case 2:
                         cells[i].TextContent.Should().BeEquivalentTo("Enabled");
-                        rowsCounter++;
                         break;
                 }
             }
 
             page.FindAll("#StatusButton").Count.Should().Be(NumberOfUsers);
-        }
-
-        private void BaseComponentSetup(ResponseGetUsersListContributionViewModel response)
-        {
-            ContributionServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(response);
-            ContributionServiceMock.Setup(x => x.ChangeUserStatus(GetChangeUserStatusRequest(ValidUserId, !UserStatus))).Returns(Task.FromResult(default(object)));
         }
 
         private ResponseGetUsersListContributionViewModel GetUsersListResponse(int NumberOfUsers)
@@ -123,12 +123,13 @@ namespace ContributionSystem.UI.UnitTests.Pages
 
         private RequestChangeUserStatusContributionViewModel GetChangeUserStatusRequest(string id, bool userStatus)
         {
-            var correctResponse = new RequestChangeUserStatusContributionViewModel()
+            var request = new RequestChangeUserStatusContributionViewModel()
             {
                 Id = id,
                 NewStatus = userStatus
             };
-            return correctResponse;
+
+            return request;
         }
     }
 }

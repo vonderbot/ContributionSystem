@@ -10,7 +10,7 @@ namespace ContributionSystem.BusinessLogic.Services
 {
     public class UserService : IUserService
     {
-        private GraphServiceClient _graphClient;
+        private readonly GraphServiceClient _graphClient;
 
         public UserService(GraphServiceClient graphClient) 
         {
@@ -36,19 +36,26 @@ namespace ContributionSystem.BusinessLogic.Services
 
         public async Task<ResponseGetUsersListContributionViewModel> GetUsersList()
         {
-            var users = await _graphClient.Users.Request().Select("Id,DisplayName,Mail,AccountEnabled").GetAsync();
-            var response = new ResponseGetUsersListContributionViewModel()
+            try
             {
-                Items = users.Select(u => new ResponseGetUsersListContributionViewModelItem
+                var users = await _graphClient.Users.Request().Select("Id,DisplayName,Mail,AccountEnabled").GetAsync();
+                var response = new ResponseGetUsersListContributionViewModel()
                 {
-                    Id = u.Id,
-                    Name = u.DisplayName,
-                    Email = u.Mail,
-                    Status = u.AccountEnabled.GetValueOrDefault()
-                }).ToList()
-            };
+                    Items = users.Select(u => new ResponseGetUsersListContributionViewModelItem
+                    {
+                        Id = u.Id,
+                        Name = u.DisplayName,
+                        Email = u.Mail,
+                        Status = u.AccountEnabled.GetValueOrDefault()
+                    }).ToList()
+                };
 
-            return response;
+                return response;
+            }
+            catch
+            {
+                throw new Exception("Can't get user list");
+            }
         }
 
         public string GetUserId(ClaimsPrincipal user)

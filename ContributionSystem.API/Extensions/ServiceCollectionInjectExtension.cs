@@ -20,6 +20,11 @@ namespace ContributionSystem.API.Extensions
             services.AddScoped<IContributionService, ContributionService>();
             services.AddScoped<IContributionRepository, ContributionRepository>();
             services.AddScoped<IUserService, UserService>();
+            SetGraphServiceClientInject(services, configuration);
+        }
+
+        private static void SetGraphServiceClientInject(IServiceCollection services, IConfiguration configuration)
+        {
             var scopes = new[] { "https://graph.microsoft.com/.default" };
             var tenantId = configuration["AzureAd:TenantId"];
             var clientId = configuration["AzureAd:ClientId"]; ;
