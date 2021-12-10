@@ -12,7 +12,7 @@ namespace ContributionSystem.BusinessLogic.Services
     {
         private readonly GraphServiceClient _graphClient;
 
-        public UserService(GraphServiceClient graphClient) 
+        public UserService(GraphServiceClient graphClient)
         {
             _graphClient = graphClient;
         }
@@ -20,42 +20,28 @@ namespace ContributionSystem.BusinessLogic.Services
         public async Task ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
         {
             CheckChangeUserStatusRequest(request);
-            try
+            var user = new User
             {
-                var user = new User
-                {
-                    AccountEnabled = request.NewStatus
-                };
-                await _graphClient.Users[request.Id].Request().UpdateAsync(user);
-            }
-            catch
-            {
-                throw new Exception("Can't update user status");
-            }
+                AccountEnabled = request.AccountEnabled
+            };
+            await _graphClient.Users[request.Id].Request().UpdateAsync(user);
         }
 
         public async Task<ResponseGetUsersListContributionViewModel> GetUsersList()
         {
-            try
+            var users = await _graphClient.Users.Request().Select("Id,DisplayName,Mail,AccountEnabled").GetAsync();
+            var response = new ResponseGetUsersListContributionViewModel()
             {
-                var users = await _graphClient.Users.Request().Select("Id,DisplayName,Mail,AccountEnabled").GetAsync();
-                var response = new ResponseGetUsersListContributionViewModel()
+                Items = users.Select(u => new ResponseGetUsersListContributionViewModelItem
                 {
-                    Items = users.Select(u => new ResponseGetUsersListContributionViewModelItem
-                    {
-                        Id = u.Id,
-                        Name = u.DisplayName,
-                        Email = u.Mail,
-                        Status = u.AccountEnabled.GetValueOrDefault()
-                    }).ToList()
-                };
+                    Id = u.Id,
+                    Name = u.DisplayName,
+                    Email = u.Mail,
+                    Status = u.AccountEnabled.GetValueOrDefault()
+                }).ToList()
+            };
 
-                return response;
-            }
-            catch
-            {
-                throw new Exception("Can't get user list");
-            }
+            return response;
         }
 
         public string GetUserId(ClaimsPrincipal user)

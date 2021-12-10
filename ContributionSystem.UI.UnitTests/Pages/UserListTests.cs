@@ -24,15 +24,15 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenStatusButtonClicked_OneUser_ChangeUserStatusInvoked()
         {
-            ContributionServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(GetUsersListResponse(NumberOfUsers));
-            ContributionServiceMock.Setup(x => x.ChangeUserStatus(GetChangeUserStatusRequest(ValidUserId, !UserStatus))).Returns(Task.FromResult(default(object)));
+            UserServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(GetUsersListResponse(NumberOfUsers));
+            UserServiceMock.Setup(x => x.ChangeUserStatus(GetChangeUserStatusRequest(ValidUserId, !UserStatus))).Returns(Task.FromResult(default(object)));
             var page = TestContext.RenderComponent<UserList>();
             var cells = page.FindAll("tbody tr td");
             cells[StatusIndex].TextContent.Should().BeEquivalentTo("Enabled");
             page.Find("#StatusButton").Click();
             cells = page.FindAll("tbody tr td");
 
-            ContributionServiceMock.Verify(m => m.ChangeUserStatus(It.IsAny<RequestChangeUserStatusContributionViewModel>()), Times.Once());
+            UserServiceMock.Verify(m => m.ChangeUserStatus(It.IsAny<RequestChangeUserStatusContributionViewModel>()), Times.Once());
             cells[StatusIndex].TextContent.Should().BeEquivalentTo("Disabled");
         }
 
@@ -48,7 +48,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_ServiceException_ExpectedMarkupRendered()
         {
-            ContributionServiceMock.Setup(x => x.GetUsersList()).ThrowsAsync(new Exception("Service exception"));
+            UserServiceMock.Setup(x => x.GetUsersList()).ThrowsAsync(new Exception("Service exception"));
             var page = TestContext.RenderComponent<UserList>();
 
             page.Find("div h1").InnerHtml.Should().BeEquivalentTo("Service exception");
@@ -57,7 +57,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_NoParametersPassed_ExpectedMarkupRendered()
         {
-            ContributionServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(new ResponseGetUsersListContributionViewModel());
+            UserServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(new ResponseGetUsersListContributionViewModel());
             var page = TestContext.RenderComponent<UserList>();
 
             page.Find("thead").Should().NotBeNull();
@@ -68,7 +68,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_OneUser_ExpectedMarkupRendered()
         {
-            ContributionServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(GetUsersListResponse(NumberOfUsers));
+            UserServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(GetUsersListResponse(NumberOfUsers));
             var page = TestContext.RenderComponent<UserList>();
 
             page.Find("thead").Should().NotBeNull();
@@ -126,7 +126,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
             var request = new RequestChangeUserStatusContributionViewModel()
             {
                 Id = id,
-                NewStatus = userStatus
+                AccountEnabled = userStatus
             };
 
             return request;

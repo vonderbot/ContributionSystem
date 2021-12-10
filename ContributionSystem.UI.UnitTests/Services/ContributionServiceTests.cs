@@ -25,10 +25,6 @@ namespace ContributionSystem.UI.UnitTests.Services
         private const int Take = 1;
         private const int Skip = 0;
         private const int Id = 1;
-        private const string ValidUserId = "23";
-        private const string UserName = "Name";
-        private const string UserEmail = "Email";
-        private const bool UserStatus = true;
 
         private IContributionService _contributionService;
         private IAccessTokenProvider _tokenProvider;
@@ -36,43 +32,6 @@ namespace ContributionSystem.UI.UnitTests.Services
         public ContributionServiceTests()
         {
             _tokenProvider = new Mock<IAccessTokenProvider>().Object;
-        }
-
-        [Fact]
-        public async Task ChangeUserStatus_NullRequest_ThrowException()
-        {
-            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"), _tokenProvider);
-            Func<Task> act = async () => await _contributionService.ChangeUserStatus(null);
-
-            await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
-        }
-
-        [Fact]
-        public async Task ChangeUserStatus_ValidRequest_ValidResponse()
-        {
-            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, null), _tokenProvider);
-            Func<Task> act = async () => await _contributionService.ChangeUserStatus(GetChangeUserStatusRequest(ValidUserId, UserStatus));
-
-            await act.Should().NotThrowAsync<Exception>();
-        }
-
-        [Fact]
-        public async Task GetUsersList_InvalidServerResponse_ThrowException()
-        {
-            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.BadRequest, "Server response is incorrect"), _tokenProvider);
-            Func<Task> act = async () => await _contributionService.GetUsersList();
-
-            await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
-        }
-
-        [Fact]
-        public async Task GetUsersList_ValidServerResponse_ValidResponse()
-        {
-            var jsonResponse = JsonSerializer.Serialize(GetUsersListResponse());
-            _contributionService = new ContributionService(MoqHttpClientSetup(HttpStatusCode.OK, jsonResponse), _tokenProvider);
-            var moqResponse = await _contributionService.GetUsersList();
-
-            moqResponse.Should().BeEquivalentTo(GetUsersListResponse());
         }
 
         [Fact]
@@ -130,34 +89,6 @@ namespace ContributionSystem.UI.UnitTests.Services
             Func<Task> act = async () => await _contributionService.Сalculate(null);
 
             await act.Should().ThrowAsync<Exception>().WithMessage("Exception in service: Server response is incorrect");
-        }
-
-        private RequestChangeUserStatusContributionViewModel GetChangeUserStatusRequest(string id, bool userStatus)
-        {
-            var correctResponse = new RequestChangeUserStatusContributionViewModel()
-            {
-                Id = id,
-                NewStatus = userStatus
-            };
-            return correctResponse;
-        }
-
-        private ResponseGetUsersListContributionViewModel GetUsersListResponse()
-        {
-            var correctResponse = new ResponseGetUsersListContributionViewModel
-            {
-                Items = new List<ResponseGetUsersListContributionViewModelItem>
-                {
-                    new ResponseGetUsersListContributionViewModelItem
-                    {
-                        Id = ValidUserId,
-                        Email = UserEmail,
-                        Name = UserName,
-                        Status = UserStatus
-                    }
-                }
-            };
-            return correctResponse;
         }
 
         private ResponseGetHistoryByUserIdContributionViewModel GetHistoryResponse()

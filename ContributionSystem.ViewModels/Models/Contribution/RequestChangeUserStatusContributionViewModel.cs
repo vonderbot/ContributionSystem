@@ -2,7 +2,7 @@
 {
     public class RequestChangeUserStatusContributionViewModel
     {
-        public bool NewStatus { get; set; }
+        public bool AccountEnabled { get; set; }
         public string Id { get; set; }
     }
 }

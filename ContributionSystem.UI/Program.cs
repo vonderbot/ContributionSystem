@@ -24,6 +24,7 @@ namespace ContributionSystem.UI
             });
 
             builder.Services.AddScoped<IContributionService, ContributionService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddMsalAuthentication<RemoteAuthenticationState, 
                 CustomUserAccount>(options =>

@@ -19,6 +19,7 @@ namespace ContributionSystem.UI.UnitTests.Common
 
         protected readonly TestContext TestContext;
         protected readonly Mock<IContributionService> ContributionServiceMock;
+        protected readonly Mock<IUserService> UserServiceMock;
         protected readonly NavigationManager NavigationManager;
         protected TestAuthorizationContext TestAuthorizationContext;
 
@@ -27,6 +28,8 @@ namespace ContributionSystem.UI.UnitTests.Common
             TestContext = new TestContext();
             ContributionServiceMock = new Mock<IContributionService>();
             TestContext.Services.AddSingleton(ContributionServiceMock.Object);
+            UserServiceMock = new Mock<IUserService>();
+            TestContext.Services.AddSingleton(UserServiceMock.Object);
             TestAuthorizationContext = TestContext.AddTestAuthorization();
             TestAuthorizationContext.SetAuthorized("TEST USER");
             TestAuthorizationContext.SetClaims(new Claim("oid", UserId));

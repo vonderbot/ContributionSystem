@@ -21,36 +21,6 @@ namespace ContributionSystem.API.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ChangeUserStatus(RequestChangeUserStatusContributionViewModel request)
-        {
-            try
-            {
-                await _userService.ChangeUserStatus(request);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetUsersList()
-        {
-            try
-            {
-                var response = await _userService.GetUsersList();
-
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetDetailsById([FromQuery]int id)
         {
@@ -96,6 +66,11 @@ namespace ContributionSystem.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        public Task ChangeUserStatus(object p)
+        {
+            throw new NotImplementedException();
         }
     }
 }

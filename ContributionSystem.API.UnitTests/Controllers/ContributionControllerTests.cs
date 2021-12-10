@@ -44,15 +44,6 @@ namespace ContributionSystem.API.UnitTests.Controllers
                 .GetDetailsById(It.Is<int>(p => p <= 0)))
                 .ThrowsAsync(new Exception());
             var mockUserService = new Mock<IUserService>();
-            mockUserService.Setup(repo => repo
-                .GetUsersList())
-                .ReturnsAsync(new ResponseGetUsersListContributionViewModel());
-            mockUserService.Setup(repo => repo
-                .ChangeUserStatus(new RequestChangeUserStatusContributionViewModel()))
-                .Returns(Task.FromResult(default(object)));
-            mockUserService.Setup(repo => repo
-                .ChangeUserStatus(null))
-                .ThrowsAsync(new Exception());
             _contributionController = new ContributionController(mockContributionService.Object, mockUserService.Object)
             {
                 ControllerContext = new ControllerContext()
@@ -66,35 +57,6 @@ namespace ContributionSystem.API.UnitTests.Controllers
             };
             var identity = new ClaimsIdentity(claims, "TestAuthType");
             _contributionController.HttpContext.User = new ClaimsPrincipal(identity);
-        }
-
-        [Test]
-        public async Task ChangeUserStatus_NullRequest_The400Result()
-        {
-            var response = await _contributionController.ChangeUserStatus(null);
-            var badRequestObjectResult = response as BadRequestObjectResult;
-
-            badRequestObjectResult.Should().NotBeNull();
-            badRequestObjectResult.StatusCode.Value.Should().Be(400);
-        }
-
-        [Test]
-        public async Task ChangeUserStatus_ValidRequest_The200Result()
-        {
-            var response = await _contributionController.ChangeUserStatus(new RequestChangeUserStatusContributionViewModel());
-            var okResult = response as OkResult;
-
-            okResult.StatusCode.Should().Be(200);
-        }
-
-        [Test]
-        public async Task GetUsersList_NoParametersPassed_The200Result()
-        {
-            var response = await _contributionController.GetUsersList();
-            var okObjectResult = response as OkObjectResult;
-
-            okObjectResult.Should().NotBeNull();
-            okObjectResult.Value.Should().BeOfType<ResponseGetUsersListContributionViewModel>();
         }
 
         [Test]

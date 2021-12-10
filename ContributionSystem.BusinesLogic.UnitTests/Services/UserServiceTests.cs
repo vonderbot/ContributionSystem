@@ -71,7 +71,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         {
             Func<Task> act = async () => await _userService.ChangeUserStatus(GetChangeUserStatusRequest(InvalidUserId, UserStatus));
 
-            await act.Should().ThrowAsync<Exception>().WithMessage("Can't update user status");
+            await act.Should().ThrowAsync<Exception>();
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         {
             Func<Task> act = async () => await _userService.ChangeUserStatus(GetChangeUserStatusRequest(ValidUserId, UserStatus));
 
-            var g = await act.Should().NotThrowAsync<Exception>();
+            await act.Should().NotThrowAsync<Exception>();
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
             var correctResponse = new RequestChangeUserStatusContributionViewModel() 
             { 
                 Id = id, 
-                NewStatus = userStatus
+                AccountEnabled = userStatus
             };
             return correctResponse;
         }

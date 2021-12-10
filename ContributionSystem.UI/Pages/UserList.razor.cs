@@ -10,7 +10,7 @@ namespace ContributionSystem.UI.Pages
     public partial class UserList : ComponentBase
     {
         [Inject]
-        private IContributionService ContributionService { get; set; }
+        private IUserService UserService { get; set; }
 
         private IEnumerable<ResponseGetUsersListContributionViewModelItem> _users;
         private string _message;
@@ -19,7 +19,7 @@ namespace ContributionSystem.UI.Pages
         {
             try
             {
-                var response = await ContributionService.GetUsersList();
+                var response = await UserService.GetUsersList();
                 _users = response.Items;
 
                 if (_users == null)
@@ -40,9 +40,9 @@ namespace ContributionSystem.UI.Pages
                 var request = new RequestChangeUserStatusContributionViewModel()
                 {
                     Id = id,
-                    NewStatus = newStatus
+                    AccountEnabled = newStatus
                 };
-                await ContributionService.ChangeUserStatus(request);
+                await UserService.ChangeUserStatus(request);
 
                 foreach (var user in _users)
                 {
