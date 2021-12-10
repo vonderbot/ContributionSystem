@@ -1,5 +1,5 @@
 ﻿using ContributionSystem.BusinessLogic.Interfaces;
-using ContributionSystem.ViewModels.Models.Contribution;
+using ContributionSystem.ViewModels.Models.User;
 using Microsoft.Graph;
 using System;
 using System.Linq;

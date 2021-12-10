@@ -1,4 +1,4 @@
-﻿namespace ContributionSystem.ViewModels.Models.Contribution
+﻿namespace ContributionSystem.ViewModels.Models.User
 {
     public class RequestChangeUserStatusUserViewModel
     {

@@ -7,12 +7,12 @@ using System.Net;
 using Moq.Protected;
 using System.Threading;
 using ContributionSystem.UI.Interfaces;
-using ContributionSystem.ViewModels.Models.Contribution;
 using Xunit;
 using System.Text.Json;
 using FluentAssertions;
 using ContributionSystem.UI.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using ContributionSystem.ViewModels.Models.User;
 
 namespace ContributionSystem.UI.UnitTests.Services
 {

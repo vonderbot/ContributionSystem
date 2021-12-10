@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.BusinessLogic.Interfaces;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using ContributionSystem.ViewModels.Models.User;
 
 namespace ContributionSystem.API.Controllers
 {

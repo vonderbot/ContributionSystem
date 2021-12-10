@@ -1,6 +1,7 @@
 ﻿using ContributionSystem.API.Controllers;
 using ContributionSystem.BusinessLogic.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
+using ContributionSystem.ViewModels.Models.User;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

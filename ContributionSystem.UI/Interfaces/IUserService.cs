@@ -1,4 +1,4 @@
-﻿using ContributionSystem.ViewModels.Models.Contribution;
+﻿using ContributionSystem.ViewModels.Models.User;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Interfaces

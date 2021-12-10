@@ -1,5 +1,6 @@
 ﻿using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
+using ContributionSystem.ViewModels.Models.User;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,8 @@ namespace ContributionSystem.UI.Pages
                 };
                 await UserService.ChangeUserStatus(request);
 
-                _users.First(user => user.Id.Equals(id)).Status = newStatus;
+                var response = await UserService.GetUsersList();
+                _users = response.Items;
             }
             catch (Exception ex)
             {

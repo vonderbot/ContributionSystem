@@ -7,8 +7,8 @@ using System.Security.Claims;
 using Moq;
 using Microsoft.Graph;
 using System.Threading.Tasks;
-using ContributionSystem.ViewModels.Models.Contribution;
 using System.Threading;
+using ContributionSystem.ViewModels.Models.User;
 
 namespace ContributionSystem.BusinesLogic.UnitTests.Services
 {

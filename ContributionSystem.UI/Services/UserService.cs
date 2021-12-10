@@ -1,11 +1,11 @@
 ﻿using ContributionSystem.UI.Interfaces;
-using ContributionSystem.ViewModels.Models.Contribution;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
 using System.Net;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using ContributionSystem.ViewModels.Models.User;
 
 namespace ContributionSystem.UI.Services
 {
