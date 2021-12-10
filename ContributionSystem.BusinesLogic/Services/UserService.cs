@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class UserService : IUserService
     {
         private readonly GraphServiceClient _graphClient;
