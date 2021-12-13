@@ -33,7 +33,7 @@ namespace ContributionSystem.UI.UnitTests.Common
             TestAuthorizationContext = TestContext.AddTestAuthorization();
             TestAuthorizationContext.SetAuthorized("TEST USER");
             TestAuthorizationContext.SetClaims(new Claim("oid", UserId));
-            TestAuthorizationContext.SetRoles(new string[]{"UserAdmin"});
+            TestAuthorizationContext.SetRoles(new string[] { "UserAdmin" });
             TestContext.Services.AddSingleton(TestAuthorizationContext);
             TestContext.Services.AddSingleton<SignOutSessionStateManager>();
             TestContext.JSInterop.SetupVoid(

@@ -24,9 +24,10 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenStatusButtonClicked_OneUser_ChangeUserStatusInvoked()
         {
-            UserServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(GetUsersListResponse(NumberOfUsers));
+            UserServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(GetUsersListResponse(NumberOfUsers, UserStatus));
             UserServiceMock.Setup(x => x.ChangeUserStatus(GetChangeUserStatusRequest(ValidUserId, !UserStatus))).Returns(Task.FromResult(default(object)));
             var page = TestContext.RenderComponent<UserList>();
+            UserServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(GetUsersListResponse(NumberOfUsers, !UserStatus));
             var cells = page.FindAll("tbody tr td");
             cells[StatusIndex].TextContent.Should().BeEquivalentTo("Enabled");
             page.Find("#StatusButton").Click();
@@ -68,7 +69,7 @@ namespace ContributionSystem.UI.UnitTests.Pages
         [Fact]
         public void WhenPageRendered_OneUser_ExpectedMarkupRendered()
         {
-            UserServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(GetUsersListResponse(NumberOfUsers));
+            UserServiceMock.Setup(x => x.GetUsersList()).ReturnsAsync(GetUsersListResponse(NumberOfUsers, UserStatus));
             var page = TestContext.RenderComponent<UserList>();
 
             page.Find("thead").Should().NotBeNull();
@@ -98,18 +99,18 @@ namespace ContributionSystem.UI.UnitTests.Pages
             page.FindAll("#StatusButton").Count.Should().Be(NumberOfUsers);
         }
 
-        private ResponseGetUsersListUserViewModel GetUsersListResponse(int NumberOfUsers)
+        private ResponseGetUsersListUserViewModel GetUsersListResponse(int numberOfUsers, bool userStatus)
         {
             var itemList = new List<ResponseGetUsersListContributionViewModelItem>();
 
-            for (var i = 0; i < NumberOfUsers; i++)
+            for (var i = 0; i < numberOfUsers; i++)
             {
                 itemList.Add(new ResponseGetUsersListContributionViewModelItem()
                 {
                     Id = ValidUserId,
                     Email = UserEmail,
                     Name = UserName,
-                    Status = UserStatus
+                    Status = userStatus
                 });
             }
 
