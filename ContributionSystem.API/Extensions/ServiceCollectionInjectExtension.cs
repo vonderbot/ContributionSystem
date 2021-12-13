@@ -12,8 +12,16 @@ using Microsoft.Graph;
 
 namespace ContributionSystem.API.Extensions
 {
+    /// <summary>
+    /// Provides methods for setting injects.
+    /// </summary>
     public static class ServiceCollectionInjectExtension
     {
+        /// <summary>
+        /// Sets dependency injection.
+        /// </summary>
+        /// <param name="services">IServiceCollection instance.</param>
+        /// <param name="configuration">IConfiguration instance.</param>
         public static void SetInject(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IValidator<RequestCalculateContributionViewModel>, RequestCalculateContributionViewModelValidator>();

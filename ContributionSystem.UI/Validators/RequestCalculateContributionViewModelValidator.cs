@@ -3,8 +3,14 @@ using FluentValidation;
 
 namespace ContributionSystem.UI.Validators
 {
+    /// <summary>
+    /// Validate objects of RequestCalculateContributionViewModel.
+    /// </summary>
     public class RequestCalculateContributionViewModelValidator : AbstractValidator<RequestCalculateContributionViewModel>
     {
+        /// <summary>
+        /// RequestCalculateContributionViewModelValidator constructor.
+        /// </summary>
         public RequestCalculateContributionViewModelValidator()
         {
             RuleFor(t => t.StartValue)

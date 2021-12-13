@@ -9,15 +9,22 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace ContributionSystem.UI.Services
 {
+    /// <inheritdoc/>
     public class ContributionService : BaseService, IContributionService
     {
         private const string СontrollerName = "contribution";
 
+        /// <summary>
+        /// ContributionService constructor.
+        /// </summary>
+        /// <param name="httpClient">HttpClient instance.</param>
+        /// <param name="tokenProvider">IAccessTokenProvider instance.</param>
         public ContributionService(HttpClient httpClient, IAccessTokenProvider tokenProvider)
             : base(httpClient, tokenProvider)
         {
         }
 
+        /// <inheritdoc/>
         public async Task<ResponseGetDetailsByIdContributionViewModel> GetDetailsById(int id)
         {
             try
@@ -34,6 +41,7 @@ namespace ContributionSystem.UI.Services
             }
         }
 
+        /// <inheritdoc/>
         public async Task<ResponseGetHistoryByUserIdContributionViewModel> GetHistoryByUserId(int take, int skip)
         {
             try
@@ -50,6 +58,7 @@ namespace ContributionSystem.UI.Services
             }
         }
 
+        /// <inheritdoc/>
         public async Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request)
         {
             try

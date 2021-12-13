@@ -14,7 +14,7 @@ namespace ContributionSystem.BusinessLogic.Services
         private readonly GraphServiceClient _graphClient;
 
         /// <summary>
-        /// The UserService constructor.
+        /// UserService constructor.
         /// </summary>
         /// <param name="graphClient">GraphServiceClient instance.</param>
         public UserService(GraphServiceClient graphClient)

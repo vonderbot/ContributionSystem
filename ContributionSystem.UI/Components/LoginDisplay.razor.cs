@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace ContributionSystem.UI.Components
 {
+    /// <summary>
+    /// LoginDisplay component code behind.
+    /// </summary>
     public partial class LoginDisplay : ComponentBase
     {
         [Inject]

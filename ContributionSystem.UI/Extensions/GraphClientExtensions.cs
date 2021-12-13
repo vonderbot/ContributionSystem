@@ -8,8 +8,17 @@ using Microsoft.Authentication.WebAssembly.Msal.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
 
+/// <summary>
+/// Provides methods to add GraphClient.
+/// </summary>
 internal static class GraphClientExtensions
 {
+    /// <summary>
+    /// Addes GraphClient.
+    /// </summary>
+    /// <param name="services">IServiceCollection instance.</param>
+    /// <param name="scopes">API permissions.</param>
+    /// <returns>IServiceCollection</returns>
     public static IServiceCollection AddGraphClient(
         this IServiceCollection services, params string[] scopes)
     {

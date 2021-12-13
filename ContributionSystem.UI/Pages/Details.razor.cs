@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Pages
 {
+    /// <summary>
+    /// Details page code behind.
+    /// </summary>
     public partial class Details : ComponentBase
     {
         [Inject]
@@ -15,13 +18,16 @@ namespace ContributionSystem.UI.Pages
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
+        /// <summary>
+        /// Contribution id.
+        /// </summary>
         [Parameter]
         public int Id { get; set; }
 
         private ResponseGetDetailsByIdContributionViewModel _responseGetDetailsByIdContributionViewModel { get; set; }
         private string _message;
 
-        public void NavigateToHistoryComponent()
+        protected void NavigateToHistoryComponent()
         {
             NavigationManager.NavigateTo(URIs.History);
         }
@@ -31,7 +37,7 @@ namespace ContributionSystem.UI.Pages
             await LoadData();
         }
 
-        public async Task LoadData()
+        protected async Task LoadData()
         {
             try
             {

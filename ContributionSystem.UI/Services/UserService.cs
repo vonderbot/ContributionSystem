@@ -9,15 +9,22 @@ using ContributionSystem.ViewModels.Models.User;
 
 namespace ContributionSystem.UI.Services
 {
+    /// <inheritdoc/>
     public class UserService : BaseService, IUserService
     {
         private const string СontrollerName = "user";
 
+        /// <summary>
+        /// UserService constructor.
+        /// </summary>
+        /// <param name="httpClient">HttpClient instance.</param>
+        /// <param name="tokenProvider">IAccessTokenProvider instance.</param>
         public UserService(HttpClient httpClient, IAccessTokenProvider tokenProvider)
             :base(httpClient, tokenProvider)
         {
         }
 
+        /// <inheritdoc/>
         public async Task ChangeUserStatus(RequestChangeUserStatusUserViewModel request)
         {
             try
@@ -31,6 +38,7 @@ namespace ContributionSystem.UI.Services
             }
         }
 
+        /// <inheritdoc/>
         public async Task<ResponseGetUsersListUserViewModel> GetUsersList()
         {
             try

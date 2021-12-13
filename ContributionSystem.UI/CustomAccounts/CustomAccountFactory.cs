@@ -7,12 +7,21 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
 
+/// <summary>
+/// Provides methods for setting up a user.
+/// </summary>
 public class CustomAccountFactory
     : AccountClaimsPrincipalFactory<CustomUserAccount>
 {
     private readonly ILogger<CustomAccountFactory> logger;
     private readonly IServiceProvider serviceProvider;
 
+    /// <summary>
+    /// CustomAccountFactory constructor.
+    /// </summary>
+    /// <param name="accessor">IAccessTokenProviderAccessor instance.</param>
+    /// <param name="serviceProvider">IServiceProvider instance.</param>
+    /// <param name="logger">ILogger instance.</param>
     public CustomAccountFactory(IAccessTokenProviderAccessor accessor,
         IServiceProvider serviceProvider,
         ILogger<CustomAccountFactory> logger)
@@ -21,6 +30,13 @@ public class CustomAccountFactory
         this.serviceProvider = serviceProvider;
         this.logger = logger;
     }
+
+    /// <summary>
+    /// creates user.
+    /// </summary>
+    /// <param name="account">CustomUserAccount instance.</param>
+    /// <param name="options">RemoteAuthenticationUserOptions instance.</param>
+    /// <returns>New user with claims.</returns>
     public override async ValueTask<ClaimsPrincipal> CreateUserAsync(
         CustomUserAccount account,
         RemoteAuthenticationUserOptions options)

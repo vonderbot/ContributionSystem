@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Pages
 {
+    /// <summary>
+    /// History page code behind.
+    /// </summary>
     public partial class History : ComponentBase
     {
         [Inject]
@@ -22,12 +25,12 @@ namespace ContributionSystem.UI.Pages
         private IEnumerable<ResponseGetUsersListContributionViewModelItems> _requestsHistory;
         private string _message;
 
-        public void NavigateToDetailsComponent(int id)
+        protected void NavigateToDetailsComponent(int id)
         {
             NavigationManager.NavigateTo($"{URIs.Details}/{id}");
         }
 
-        public async Task LoadMore()
+        protected async Task LoadMore()
         {
             await LoadData();
         }

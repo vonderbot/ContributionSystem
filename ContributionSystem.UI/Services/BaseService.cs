@@ -5,12 +5,15 @@ using System.Net.Http.Headers;
 
 namespace ContributionSystem.UI.Services
 {
+    /// <summary>
+    /// Provides base instances for services.
+    /// </summary>
     public class BaseService
     {
-        public readonly HttpClient _http;
-        public readonly IAccessTokenProvider _tokenProvider;
+        protected readonly HttpClient _http;
+        protected readonly IAccessTokenProvider _tokenProvider;
 
-        public BaseService(HttpClient httpClient, IAccessTokenProvider tokenProvider)
+        protected BaseService(HttpClient httpClient, IAccessTokenProvider tokenProvider)
         {
             _http = httpClient;
             _tokenProvider = tokenProvider;

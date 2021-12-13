@@ -3,6 +3,9 @@ using ContributionSystem.UI.Constants;
 
 namespace ContributionSystem.UI.Components
 {
+    /// <summary>
+    /// Navbar component code behind.
+    /// </summary>
     public partial class Navbar : ComponentBase
     {
         [Inject]

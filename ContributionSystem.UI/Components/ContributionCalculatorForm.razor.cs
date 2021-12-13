@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Components
 {
+    /// <summary>
+    /// ContributionCalculatorForm component code behind.
+    /// </summary>
     public partial class ContributionCalculatorForm : ComponentBase
     {
         [Inject]
@@ -15,21 +18,35 @@ namespace ContributionSystem.UI.Components
         [Inject]
         private  AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
+        /// <summary>
+        /// Response model with calculation result.
+        /// </summary>
         [Parameter]
         public ResponseCalculateContributionViewModel ResponseCalculateContributionViewModel { get; set; }
 
-
+        /// <summary>
+        /// EventCallback for ResponseCalculateContributionViewModel.
+        /// </summary>
         [Parameter]
         public EventCallback<ResponseCalculateContributionViewModel> ResponseCalculateContributionViewModelChanged { get; set; }
 
+        /// <summary>
+        /// Error message
+        /// </summary>
         [Parameter]
         public string ErrorMessage { get; set; }
 
+        /// <summary>
+        /// EventCallback for ErrorMessage.
+        /// </summary>
         [Parameter]
         public EventCallback<string> ErrorMessageChanged { get; set; }
 
         private RequestCalculateContributionViewModel _requestCalculateContributionViewModel;
 
+        /// <summary>
+        /// ContributionCalculatorForm constructor.
+        /// </summary>
         public ContributionCalculatorForm()
         {
             _requestCalculateContributionViewModel = new RequestCalculateContributionViewModel();

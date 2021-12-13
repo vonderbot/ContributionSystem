@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Pages
 {
+    /// <summary>
+    /// UserList page code behind.
+    /// </summary>
     public partial class UserList : ComponentBase
     {
         [Inject]
