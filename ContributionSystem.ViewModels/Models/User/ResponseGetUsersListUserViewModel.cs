@@ -1,6 +1,6 @@
 ﻿using ContributionSystem.ViewModels.Common;
 
-namespace ContributionSystem.ViewModels.Models.Contribution
+namespace ContributionSystem.ViewModels.Models.User
 {
     public class ResponseGetUsersListUserViewModel : CollectionOfItems<ResponseGetUsersListContributionViewModelItem>
     {

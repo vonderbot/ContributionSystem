@@ -1,7 +1,7 @@
 ﻿using Bunit;
 using ContributionSystem.UI.Pages;
 using ContributionSystem.UI.UnitTests.Common;
-using ContributionSystem.ViewModels.Models.Contribution;
+using ContributionSystem.ViewModels.Models.User;
 using FluentAssertions;
 using Moq;
 using System;
