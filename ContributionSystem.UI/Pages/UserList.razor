@@ -1,0 +1,59 @@
+﻿@page "/Users"
+
+@using ContributionSystem.UI.Components
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize(Roles = "UserAdmin")]
+
+<Navbar />
+<AuthorizeView Roles="UserAdmin">
+    <Authorized>
+        <div class="text-center">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="active bg-light">
+                        <th class="col-3" scope="row">
+                            Email
+                        </th>
+                        <th class="col-3">
+                            Name
+                        </th>
+                        <th class="col-3">
+                            Status
+                        </th>
+                        <th class="col-3">
+                            Change status
+                        </th>
+                    </tr>
+                </thead>
+                @if (_users != null)
+                {
+                    <tbody>
+                        @foreach (var item in _users)
+                        {
+                            <tr>
+                                <td scope="row">@(String.IsNullOrEmpty(item.Email) ? "Mail not specified" : item.Email)</td>
+                                <td scope="row">@(String.IsNullOrEmpty(item.Name) ? "Name not specified" : item.Name)</td>
+                                <td scope="row">@(item.Status ? "Enabled" : "Disabled")</td>
+                                <td class="w-100" type="button" @onclick="() => ChangeUserStatus(item.Id, !item.Status)" id="StatusButton">Change Status</td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+            </table>
+        </div>
+        @if (_message != null)
+        {
+            <div class="row justify-content-center">
+                <h1>@_message</h1>
+            </div>
+            <br />
+        }
+    </Authorized>
+    <NotAuthorized>
+        <div class="row justify-content-center">
+            <h1>You do not have permissions to view this page.</h1>
+        </div>
+        <br />
+    </NotAuthorized>
+</AuthorizeView>

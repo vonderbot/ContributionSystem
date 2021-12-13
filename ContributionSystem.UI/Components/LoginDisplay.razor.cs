@@ -1,8 +1,10 @@
 ﻿using ContributionSystem.UI.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.Graph;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ContributionSystem.UI.Components
 {

@@ -19,13 +19,15 @@ namespace ContributionSystem.API.UnitTests.Controllers
 
         private const int ValidId = 1;
         private const int InvalidId = 0;
+        private const string ValidUserId = "23";
+        private const bool UserStatus = true;
 
         public ContributionControllerTests()
         {
             var mockContributionService = new Mock<IContributionService>();
             mockContributionService.Setup(repo => repo
                 .Calculate(It.IsAny<RequestCalculateContributionViewModel>()))
-                .ReturnsAsync( new ResponseCalculateContributionViewModel());
+                .ReturnsAsync(new ResponseCalculateContributionViewModel());
             mockContributionService.Setup(repo => repo
                 .Calculate(null))
                 .ThrowsAsync(new Exception());

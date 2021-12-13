@@ -67,5 +67,10 @@ namespace ContributionSystem.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        public Task ChangeUserStatus(object p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

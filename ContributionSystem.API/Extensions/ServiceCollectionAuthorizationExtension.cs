@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ContributionSystem.API.Extensions
@@ -29,7 +30,7 @@ namespace ContributionSystem.API.Extensions
                         SaveSigninToken = true,
                         ValidateLifetime = true,
                         ValidateAudience = true,
-                        ValidateIssuer = true
+                        ValidateIssuer = true,
                     };
                 });
         }

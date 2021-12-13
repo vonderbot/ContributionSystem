@@ -2,7 +2,7 @@
 
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
-    public class ResponseGetHistoryByUserIdContributionViewModel : CollectionOfItems<ResponseGetHistoryContributionViewModelItem>
+    public class ResponseGetHistoryByUserIdContributionViewModel : CollectionOfItems<ResponseGetUsersListContributionViewModelItems>
     {
         public int TotalNumberOfUserRecords { get; set; }
 
@@ -13,7 +13,7 @@ namespace ContributionSystem.ViewModels.Models.Contribution
         public string UserId { get; set; }
     }
     
-    public class ResponseGetHistoryContributionViewModelItem
+    public class ResponseGetUsersListContributionViewModelItems
     {
         public decimal Percent { get; set; }
 

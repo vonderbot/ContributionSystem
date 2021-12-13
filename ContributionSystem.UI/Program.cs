@@ -24,14 +24,15 @@ namespace ContributionSystem.UI
             });
 
             builder.Services.AddScoped<IContributionService, ContributionService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddMsalAuthentication<RemoteAuthenticationState, 
                 CustomUserAccount>(options =>
                 {
                 builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
-                builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
                 options.ProviderOptions.DefaultAccessTokenScopes.Add(builder.Configuration.GetSection("DefaultAccessTokenScopes").Value);
                 options.ProviderOptions.LoginMode = "redirect";
+                options.UserOptions.RoleClaim = "appRole";
                 })
                 .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, CustomUserAccount, CustomAccountFactory>();
 

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Graph" Version="4.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ContributionSystem.DataAccess\ContributionSystem.DataAccess.csproj" />
     <ProjectReference Include="..\ContributionSystem.Entities\ContributionSystem.Entities.csproj" />
     <ProjectReference Include="..\ContributionSystem.ViewModels\ContributionSystem.ViewModels.csproj" />

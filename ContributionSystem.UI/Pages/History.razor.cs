@@ -19,7 +19,7 @@ namespace ContributionSystem.UI.Pages
 
         private int _take;
         private int _skip;
-        private IEnumerable<ResponseGetHistoryContributionViewModelItem> _requestsHistory;
+        private IEnumerable<ResponseGetUsersListContributionViewModelItems> _requestsHistory;
         private string _message;
 
         public void NavigateToDetailsComponent(int id)
@@ -36,7 +36,7 @@ namespace ContributionSystem.UI.Pages
         {
             _take = 8;
             _skip = 0;
-            _requestsHistory = new List<ResponseGetHistoryContributionViewModelItem>();
+            _requestsHistory = new List<ResponseGetUsersListContributionViewModelItems>();
             await LoadData();
         }
 

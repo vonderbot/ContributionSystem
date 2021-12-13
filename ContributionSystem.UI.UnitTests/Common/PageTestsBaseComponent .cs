@@ -19,18 +19,22 @@ namespace ContributionSystem.UI.UnitTests.Common
 
         protected readonly TestContext TestContext;
         protected readonly Mock<IContributionService> ContributionServiceMock;
+        protected readonly Mock<IUserService> UserServiceMock;
         protected readonly NavigationManager NavigationManager;
-        protected readonly TestAuthorizationContext testAuthorizationContext;
+        protected TestAuthorizationContext TestAuthorizationContext;
 
         protected PageTestsBaseComponent()
         {
             TestContext = new TestContext();
             ContributionServiceMock = new Mock<IContributionService>();
             TestContext.Services.AddSingleton(ContributionServiceMock.Object);
-            testAuthorizationContext = TestContext.AddTestAuthorization();
-            testAuthorizationContext.SetAuthorized("TEST USER");
-            testAuthorizationContext.SetClaims(new Claim("oid", UserId));
-            TestContext.Services.AddSingleton(testAuthorizationContext);
+            UserServiceMock = new Mock<IUserService>();
+            TestContext.Services.AddSingleton(UserServiceMock.Object);
+            TestAuthorizationContext = TestContext.AddTestAuthorization();
+            TestAuthorizationContext.SetAuthorized("TEST USER");
+            TestAuthorizationContext.SetClaims(new Claim("oid", UserId));
+            TestAuthorizationContext.SetRoles(new string[]{"UserAdmin"});
+            TestContext.Services.AddSingleton(TestAuthorizationContext);
             TestContext.Services.AddSingleton<SignOutSessionStateManager>();
             TestContext.JSInterop.SetupVoid(
                 "sessionStorage.setItem",

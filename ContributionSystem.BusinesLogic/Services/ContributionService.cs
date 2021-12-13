@@ -46,7 +46,7 @@ namespace ContributionSystem.BusinessLogic.Services
         {
             CheckGetHistoryByUserIdRequest(request);
             var contributions = await _contributionRepository.GetByUserId(request.Take, request.Skip, request.UserId);
-            var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
+            var items = contributions.Select(u => new ResponseGetUsersListContributionViewModelItems
             {
                 Percent = u.Percent,
                 Term = u.Term,

@@ -10,6 +10,7 @@ namespace ContributionSystem.UI.Components
 
         private string _calculationButtonExtraClasses;
         private string _historyButtonExtraClasses;
+        private string _usersButtonExtraClasses;
 
         protected override void OnInitialized()
         {
@@ -21,6 +22,15 @@ namespace ContributionSystem.UI.Components
             {
                 _historyButtonExtraClasses += "active ";
             }
+            else if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == URIs.Users)
+            {
+                _usersButtonExtraClasses += "active ";
+            }
+        }
+
+        private void NavigateToUsersList()
+        {
+            NavigationManager.NavigateTo(URIs.Users);
         }
 
         private void NavigateToCalculationPage()

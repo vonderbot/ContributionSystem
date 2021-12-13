@@ -205,7 +205,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         }
         private ResponseGetHistoryByUserIdContributionViewModel GetGetHistoryResponse(RequestGetHistoryByUserIdContributionViewModel request, List<Contribution> contributions)
         {
-            var items = contributions.Select(u => new ResponseGetHistoryContributionViewModelItem
+            var items = contributions.Select(u => new ResponseGetUsersListContributionViewModelItems
             {
                 Percent = u.Percent,
                 Term = u.Term,

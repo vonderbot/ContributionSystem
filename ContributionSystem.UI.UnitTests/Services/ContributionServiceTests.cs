@@ -25,7 +25,6 @@ namespace ContributionSystem.UI.UnitTests.Services
         private const int Take = 1;
         private const int Skip = 0;
         private const int Id = 1;
-        private const string UserId = "23";
 
         private IContributionService _contributionService;
         private IAccessTokenProvider _tokenProvider;
@@ -99,8 +98,8 @@ namespace ContributionSystem.UI.UnitTests.Services
                 TotalNumberOfUserRecords = 1,
                 Take = Take,
                 Skip = Skip,
-                Items = new List<ResponseGetHistoryContributionViewModelItem>{
-                    new ResponseGetHistoryContributionViewModelItem{
+                Items = new List<ResponseGetUsersListContributionViewModelItems>{
+                    new ResponseGetUsersListContributionViewModelItems{
                         Percent =1,
                         Term =1,
                         Sum =1,
