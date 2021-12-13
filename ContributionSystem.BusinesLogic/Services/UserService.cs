@@ -8,9 +8,6 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
-    /// <summary>
-    /// The type UserService. 
-    /// </summary>
     /// <inheritdoc/>
     public class UserService : IUserService
     {
@@ -25,6 +22,7 @@ namespace ContributionSystem.BusinessLogic.Services
             _graphClient = graphClient;
         }
 
+        /// <inheritdoc/>
         public async Task ChangeUserStatus(RequestChangeUserStatusUserViewModel request)
         {
             CheckChangeUserStatusRequest(request);
@@ -35,6 +33,7 @@ namespace ContributionSystem.BusinessLogic.Services
             await _graphClient.Users[request.Id].Request().UpdateAsync(user);
         }
 
+        /// <inheritdoc/>
         public async Task<ResponseGetUsersListUserViewModel> GetUsersList()
         {
             var users = await _graphClient.Users.Request().Select("Id,DisplayName,Mail,AccountEnabled").GetAsync();
@@ -52,6 +51,7 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
+        /// <inheritdoc/>
         public string GetUserId(ClaimsPrincipal user)
         {
             var userId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
