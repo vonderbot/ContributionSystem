@@ -26,7 +26,7 @@ namespace ContributionSystem.UI.Interfaces
         /// <summary>
         /// Calculates new contribution.
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="request">Request model with info for calculation.</param>
         /// <returns>Response model with calculation result.</returns>
         public Task<ResponseCalculateContributionViewModel> Сalculate(RequestCalculateContributionViewModel request);
     }
