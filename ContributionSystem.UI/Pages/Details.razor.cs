@@ -12,17 +12,17 @@ namespace ContributionSystem.UI.Pages
     /// </summary>
     public partial class Details : ComponentBase
     {
-        [Inject]
-        private IContributionService ContributionService { get; set; }
-
-        [Inject]
-        private NavigationManager NavigationManager { get; set; }
-
         /// <summary>
         /// Contribution id.
         /// </summary>
         [Parameter]
         public int Id { get; set; }
+
+        [Inject]
+        private IContributionService ContributionService { get; set; }
+
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
 
         private ResponseGetDetailsByIdContributionViewModel _responseGetDetailsByIdContributionViewModel { get; set; }
         private string _message;
