@@ -30,11 +30,6 @@ namespace ContributionSystem.UI.Pages
             NavigationManager.NavigateTo($"{URIs.Details}/{id}");
         }
 
-        protected async Task LoadMore()
-        {
-            await LoadData();
-        }
-
         protected override async Task OnInitializedAsync()
         {
             _take = 8;

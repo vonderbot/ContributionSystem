@@ -1,10 +1,8 @@
 ﻿using ContributionSystem.UI.Interfaces;
-using ContributionSystem.ViewModels.Models.Contribution;
 using ContributionSystem.ViewModels.Models.User;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Pages
@@ -48,7 +46,6 @@ namespace ContributionSystem.UI.Pages
                     AccountEnabled = newStatus
                 };
                 await UserService.ChangeUserStatus(request);
-
                 var response = await UserService.GetUsersList();
                 _users = response.Items;
             }

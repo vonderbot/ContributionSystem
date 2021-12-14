@@ -30,7 +30,7 @@ namespace ContributionSystem.API.Controllers
         /// Сhanges user status.
         /// </summary>
         /// <param name="request">Request model with user info.</param>
-        /// <returns>OkObjectResult with responce model.</returns>
+        /// <returns>OkObjectResult</returns>
         [HttpPost]
         public async Task<IActionResult> ChangeUserStatus(RequestChangeUserStatusUserViewModel request)
         {
