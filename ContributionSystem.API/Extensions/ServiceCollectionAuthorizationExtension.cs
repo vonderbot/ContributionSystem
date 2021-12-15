@@ -14,8 +14,8 @@ namespace ContributionSystem.API.Extensions
         /// <summary>
         /// Provides azure active directory authentification.
         /// </summary>
-        /// <param name="services">IServiceCollection instance.</param>
-        /// <param name="configuration">IConfiguration instance.</param>
+        /// <param name="services"><see cref="IServiceCollection" /> instance.</param>
+        /// <param name="configuration"><see cref="IConfiguration" /> instance.</param>
         public static void AddAzureAdAuthentication(this IServiceCollection services,
                                                          IConfiguration configuration)
         {

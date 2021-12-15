@@ -7,86 +7,86 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
 
-/// <summary>
-/// Provides methods for setting up a user.
-/// </summary>
-public class CustomAccountFactory
-    : AccountClaimsPrincipalFactory<CustomUserAccount>
+namespace ContributionSystem.UI.CustomAccounts
 {
-    private readonly ILogger<CustomAccountFactory> logger;
-    private readonly IServiceProvider serviceProvider;
-
     /// <summary>
-    /// CustomAccountFactory constructor.
+    /// Provides methods for setting up a user.
     /// </summary>
-    /// <param name="accessor">IAccessTokenProviderAccessor instance.</param>
-    /// <param name="serviceProvider">IServiceProvider instance.</param>
-    /// <param name="logger">ILogger instance.</param>
-    public CustomAccountFactory(IAccessTokenProviderAccessor accessor,
-        IServiceProvider serviceProvider,
-        ILogger<CustomAccountFactory> logger)
-        : base(accessor)
+    public class CustomAccountFactory
+    : AccountClaimsPrincipalFactory<CustomUserAccount>
     {
-        this.serviceProvider = serviceProvider;
-        this.logger = logger;
-    }
+        private readonly ILogger<CustomAccountFactory> _logger;
+        private readonly IServiceProvider _serviceProvider;
 
-    /// <summary>
-    /// creates user.
-    /// </summary>
-    /// <param name="account">CustomUserAccount instance.</param>
-    /// <param name="options">RemoteAuthenticationUserOptions instance.</param>
-    /// <returns>New user with claims.</returns>
-    public override async ValueTask<ClaimsPrincipal> CreateUserAsync(
-        CustomUserAccount account,
-        RemoteAuthenticationUserOptions options)
-    {
-        var initialUser = await base.CreateUserAsync(account, options);
-
-        if (initialUser.Identity.IsAuthenticated)
+        /// <summary>
+        /// Creates a new instance of <see cref="CustomAccountFactory" />.
+        /// </summary>
+        /// <param name="accessor"><see cref="IAccessTokenProviderAccessor" /> instance.</param>
+        /// <param name="serviceProvider"><see cref="IServiceProvider" /> instance.</param>
+        /// <param name="logger"><see cref="ILogger" /> instance.</param>
+        public CustomAccountFactory(IAccessTokenProviderAccessor accessor,
+            IServiceProvider serviceProvider,
+            ILogger<CustomAccountFactory> logger)
+            : base(accessor)
         {
-            var userIdentity = (ClaimsIdentity)initialUser.Identity;
+            this._serviceProvider = serviceProvider;
+            this._logger = logger;
+        }
 
-            foreach (var role in account.Roles)
+        /// <summary>
+        /// Сreates user.
+        /// </summary>
+        /// <param name="account"><see cref="CustomUserAccount" /> instance.</param>
+        /// <param name="options"><see cref="RemoteAuthenticationUserOptions" /> instance.</param>
+        /// <returns>New user with claims.</returns>
+        public override async ValueTask<ClaimsPrincipal> CreateUserAsync(
+            CustomUserAccount account,
+            RemoteAuthenticationUserOptions options)
+        {
+            var initialUser = await base.CreateUserAsync(account, options);
+
+            if (initialUser.Identity.IsAuthenticated)
             {
-                userIdentity.AddClaim(new Claim("appRole", role));
-            }
+                var userIdentity = (ClaimsIdentity)initialUser.Identity;
 
-            foreach (var wid in account.Wids)
-            {
-                userIdentity.AddClaim(new Claim("directoryRole", wid));
-            }
-
-            try
-            {
-                var graphClient = ActivatorUtilities
-                    .CreateInstance<GraphServiceClient>(serviceProvider);
-
-                var requestMe = graphClient.Me.Request();
-                var user = await requestMe.GetAsync();
-
-                var requestMemberOf = graphClient.Users[account.Oid].MemberOf;
-                var memberships = await requestMemberOf.Request().GetAsync();
-
-                if (memberships != null)
+                foreach (var role in account.Roles)
                 {
-                    foreach (var entry in memberships)
+                    userIdentity.AddClaim(new Claim("roles", role));
+                }
+
+                foreach (var wid in account.Wids)
+                {
+                    userIdentity.AddClaim(new Claim("directoryRole", wid));
+                }
+
+                try
+                {
+                    var graphClient = ActivatorUtilities
+                        .CreateInstance<GraphServiceClient>(_serviceProvider);
+
+                    var requestMemberOf = graphClient.Users[account.Oid].MemberOf;
+                    var memberships = await requestMemberOf.Request().GetAsync();
+
+                    if (memberships != null)
                     {
-                        if (entry.ODataType == "#microsoft.graph.group")
+                        foreach (var entry in memberships)
                         {
-                            userIdentity.AddClaim(
-                                new Claim("directoryGroup", entry.Id));
+                            if (entry.ODataType == "#microsoft.graph.group")
+                            {
+                                userIdentity.AddClaim(
+                                    new Claim("directoryGroup", entry.Id));
+                            }
                         }
                     }
                 }
+                catch (ServiceException exception)
+                {
+                    _logger.LogError("Graph API service failure: {Message}",
+                        exception.Message);
+                }
             }
-            catch (ServiceException exception)
-            {
-                logger.LogError("Graph API service failure: {Message}",
-                    exception.Message);
-            }
-        }
 
-        return initialUser;
+            return initialUser;
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace ContributionSystem.UI.Pages
 
         private void RedirectToMain()
         {
-            NavigationManager.NavigateTo(URIs.Calculation);
+            NavigationManager.NavigateTo(UriConstants.Calculation);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ContributionSystem.UI.Validators
     public class RequestCalculateContributionViewModelValidator : AbstractValidator<RequestCalculateContributionViewModel>
     {
         /// <summary>
-        /// RequestCalculateContributionViewModelValidator constructor.
+        /// Creates a new instance of <see cref="RequestCalculateContributionViewModelValidator" />.
         /// </summary>
         public RequestCalculateContributionViewModelValidator()
         {

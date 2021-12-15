@@ -11,7 +11,7 @@
         public bool AccountEnabled { get; set; }
 
         /// <summary>
-        /// User id.
+        /// User identifier.
         /// </summary>
         public string Id { get; set; }
     }

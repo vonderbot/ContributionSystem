@@ -1,7 +1,7 @@
 ﻿namespace ContributionSystem.ViewModels.Models.Contribution
 {
     /// <summary>
-    /// Calculation info per month.
+    /// Calculation information per month.
     /// </summary>
     public class MonthsInfoContributionViewModelItem
     {

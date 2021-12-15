@@ -12,8 +12,8 @@ namespace ContributionSystem.API.Extensions
         /// <summary>
         /// Provides cors configuration.
         /// </summary>
-        /// <param name="services">IServiceCollection instance.</param>
-        /// <param name="configuration">IConfiguration instance.</param>
+        /// <param name="services"><see cref="IServiceCollection" /> instance.</param>
+        /// <param name="configuration"><see cref="IConfiguration" /> instance.</param>
         public static void ConfigureCorsForOrigins(this IServiceCollection services, IConfiguration configuration)
         {
             var hosts = configuration.GetSection("CorsOrigin:Links").Get<List<string>>().ToArray();

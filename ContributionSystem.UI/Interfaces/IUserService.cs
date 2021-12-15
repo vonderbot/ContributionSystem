@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 namespace ContributionSystem.UI.Interfaces
 {
     /// <summary>
-    /// Provides methods to communicate with api.
+    /// Provides methods to communicate with API.
     /// </summary>
     public interface IUserService
     {
         /// <summary>
         /// Сhanges user status.
         /// </summary>
-        /// <param name="request">Request model with user info.</param>
+        /// <param name="request">Request model with user information.</param>
         /// <returns>Task</returns>
         public Task ChangeUserStatus(RequestChangeUserStatusUserViewModel request);
 

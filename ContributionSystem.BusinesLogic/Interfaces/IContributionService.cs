@@ -9,24 +9,24 @@ namespace ContributionSystem.BusinessLogic.Interfaces
     public interface IContributionService
     {
         /// <summary>
-        /// Gets months info for contributions.
+        /// Gets months information for contributions.
         /// </summary>
-        /// <param name="id">Contribution id.</param>
-        /// <returns>Response model with list of months info.</returns>
+        /// <param name="id">Contribution identifier.</param>
+        /// <returns>Response model with list of months information.</returns>
         public Task<ResponseGetDetailsByIdContributionViewModel> GetDetailsById(int id);
 
         /// <summary>
         /// Calculates new request and adds it to db.
         /// </summary>
-        /// <param name="request">Request model with info for calculation.</param>
+        /// <param name="request">Request model with information for calculation.</param>
         /// <returns>Response model with calculation result.</returns>
         public Task<ResponseCalculateContributionViewModel> Calculate(RequestCalculateContributionViewModel request);
 
         /// <summary>
         /// Gets user calculations history.
         /// </summary>
-        /// <param name="request">Request model with info to get a piece of data.</param>
-        /// <returns>Response model with list of general calculations info.</returns>
+        /// <param name="request">Request model with information to get a piece of data.</param>
+        /// <returns>Response model with list of general calculations information.</returns>
         public Task<ResponseGetHistoryByUserIdContributionViewModel> GetHistoryByUserId(RequestGetHistoryByUserIdContributionViewModel request);
     }
 }

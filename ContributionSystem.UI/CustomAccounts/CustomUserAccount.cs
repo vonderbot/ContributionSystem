@@ -2,26 +2,33 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
-/// <summary>
-/// User claims.
-/// </summary>
-public class CustomUserAccount : RemoteUserAccount
+namespace ContributionSystem.UI.CustomAccounts
 {
     /// <summary>
-    /// User app roles.
+    /// User claims.
     /// </summary>
-    [JsonPropertyName("roles")]
-    public string[] Roles { get; set; } = Array.Empty<string>();
+    public class CustomUserAccount : RemoteUserAccount
+    {
+        private const string RolesName = "roles";
+        private const string WidsName = "wids";
+        private const string OidName = "oid";
 
-    /// <summary>
-    /// User tenant roles.
-    /// </summary>
-    [JsonPropertyName("wids")]
-    public string[] Wids { get; set; } = Array.Empty<string>();
+        /// <summary>
+        /// User app roles.
+        /// </summary>
+        [JsonPropertyName(RolesName)]
+        public string[] Roles { get; set; } = Array.Empty<string>();
 
-    /// <summary>
-    /// User id.
-    /// </summary>
-    [JsonPropertyName("oid")]
-    public string Oid { get; set; }
+        /// <summary>
+        /// User tenant roles.
+        /// </summary>
+        [JsonPropertyName(WidsName)]
+        public string[] Wids { get; set; } = Array.Empty<string>();
+
+        /// <summary>
+        /// User identifier.
+        /// </summary>
+        [JsonPropertyName(OidName)]
+        public string Oid { get; set; }
+    }
 }

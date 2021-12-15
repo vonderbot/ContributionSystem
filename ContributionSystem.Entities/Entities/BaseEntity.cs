@@ -3,7 +3,7 @@
 namespace ContributionSystem.Entities.Entities
 {
     /// <summary>
-    /// Primary key to entity.
+    /// Base class for all entities.
     /// </summary>
     public abstract class BaseEntity
     {

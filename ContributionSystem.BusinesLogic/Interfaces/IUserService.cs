@@ -12,8 +12,8 @@ namespace ContributionSystem.BusinessLogic.Interfaces
         /// <summary>
         /// Сhanges user status.
         /// </summary>
-        /// <param name="request">Request model with user info.</param>
-        /// <returns>Task</returns>
+        /// <param name="request">Request model with user information.</param>
+        /// <returns><see cref="Task" /></returns>
         public Task ChangeUserStatus(RequestChangeUserStatusUserViewModel request);
 
         /// <summary>

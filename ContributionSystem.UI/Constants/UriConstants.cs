@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides URIs to different pages.
     /// </summary>
-    public static class URIs
+    public static class UriConstants
     {
         /// <summary>
         /// History page.

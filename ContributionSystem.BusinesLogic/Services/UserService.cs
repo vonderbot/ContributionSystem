@@ -14,9 +14,9 @@ namespace ContributionSystem.BusinessLogic.Services
         private readonly GraphServiceClient _graphClient;
 
         /// <summary>
-        /// UserService constructor.
+        /// Creates a new instance of <see cref="UserService" />.
         /// </summary>
-        /// <param name="graphClient">GraphServiceClient instance.</param>
+        /// <param name="graphClient"><see cref="GraphServiceClient" /> instance.</param>
         public UserService(GraphServiceClient graphClient)
         {
             _graphClient = graphClient;

@@ -27,7 +27,7 @@ namespace ContributionSystem.UI.Components
 
         private void RedirectToLogin()
         {
-            NavigationManager.NavigateTo($"{URIs.Login}?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}");
+            NavigationManager.NavigateTo($"{UriConstants.Login}?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}");
         }
     }
 }

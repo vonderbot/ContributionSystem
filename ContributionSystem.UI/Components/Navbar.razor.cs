@@ -17,15 +17,15 @@ namespace ContributionSystem.UI.Components
 
         protected override void OnInitialized()
         {
-            if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == URIs.Calculation)
+            if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == UriConstants.Calculation)
             {
                 _calculationButtonExtraClasses += "active ";
             }
-            else if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == URIs.History)
+            else if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == UriConstants.History)
             {
                 _historyButtonExtraClasses += "active ";
             }
-            else if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == URIs.Users)
+            else if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == UriConstants.Users)
             {
                 _usersButtonExtraClasses += "active ";
             }
@@ -33,17 +33,17 @@ namespace ContributionSystem.UI.Components
 
         private void NavigateToUsersList()
         {
-            NavigationManager.NavigateTo(URIs.Users);
+            NavigationManager.NavigateTo(UriConstants.Users);
         }
 
         private void NavigateToCalculationPage()
         {
-            NavigationManager.NavigateTo(URIs.Calculation);
+            NavigationManager.NavigateTo(UriConstants.Calculation);
         }
 
         private void NavigateToHistoryPage()
         {
-            NavigationManager.NavigateTo(URIs.History);
+            NavigationManager.NavigateTo(UriConstants.History);
         }
     }
 }

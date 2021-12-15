@@ -3,7 +3,7 @@
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
     /// <summary>
-    /// Request model with info for calculation.
+    /// Request model with information for calculation.
     /// </summary>
     public class RequestCalculateContributionViewModel
     {

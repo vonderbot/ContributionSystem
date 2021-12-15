@@ -27,9 +27,10 @@ namespace ContributionSystem.UI.Pages
 
         protected void NavigateToDetailsComponent(int id)
         {
-            NavigationManager.NavigateTo($"{URIs.Details}/{id}");
+            NavigationManager.NavigateTo($"{UriConstants.Details}/{id}");
         }
 
+        /// <inheritdoc /> 
         protected override async Task OnInitializedAsync()
         {
             _take = 8;

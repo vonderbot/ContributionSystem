@@ -18,6 +18,7 @@ namespace ContributionSystem.UI.Pages
         private IEnumerable<ResponseGetUsersListContributionViewModelItem> _users;
         private string _message;
 
+        /// <inheritdoc /> 
         protected override async Task OnInitializedAsync()
         {
             try

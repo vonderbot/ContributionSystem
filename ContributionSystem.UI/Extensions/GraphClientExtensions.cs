@@ -1,102 +1,110 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.Authentication.WebAssembly.Msal.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
 
-/// <summary>
-/// Provides methods to add GraphClient.
-/// </summary>
-internal static class GraphClientExtensions
+namespace ContributionSystem.UI.Extensions
 {
     /// <summary>
-    /// Addes GraphClient.
+    /// Provides methods to add GraphClient.
     /// </summary>
-    /// <param name="services">IServiceCollection instance.</param>
-    /// <param name="scopes">API permissions.</param>
-    /// <returns>IServiceCollection</returns>
-    public static IServiceCollection AddGraphClient(
-        this IServiceCollection services, params string[] scopes)
+    public static class GraphClientExtensions
     {
-        services.Configure<RemoteAuthenticationOptions<MsalProviderOptions>>(
-            options =>
-            {
-                foreach (var scope in scopes)
+        /// <summary>
+        /// Addes GraphClient.
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection" /> instance.</param>
+        /// <param name="scopes">API permissions.</param>
+        /// <returns>IServiceCollection</returns>
+        public static IServiceCollection AddGraphClient(
+            this IServiceCollection services, params string[] scopes)
+        {
+            services.Configure<RemoteAuthenticationOptions<MsalProviderOptions>>(
+                options =>
                 {
-                    options.ProviderOptions.AdditionalScopesToConsent.Add(scope);
-                }
-            });
-
-        services.AddScoped<IAuthenticationProvider,
-            NoOpGraphAuthenticationProvider>();
-        services.AddScoped<IHttpProvider, HttpClientHttpProvider>(sp =>
-            new HttpClientHttpProvider(new HttpClient()));
-        services.AddScoped(sp =>
-        {
-            return new GraphServiceClient(
-                sp.GetRequiredService<IAuthenticationProvider>(),
-                sp.GetRequiredService<IHttpProvider>());
-        });
-
-        return services;
-    }
-
-    private class NoOpGraphAuthenticationProvider : IAuthenticationProvider
-    {
-        public NoOpGraphAuthenticationProvider(IAccessTokenProvider tokenProvider)
-        {
-            TokenProvider = tokenProvider;
-        }
-
-        public IAccessTokenProvider TokenProvider { get; }
-
-        public async Task AuthenticateRequestAsync(HttpRequestMessage request)
-        {
-            var result = await TokenProvider.RequestAccessToken(
-                new AccessTokenRequestOptions()
-                {
-                    Scopes = new[] { "https://graph.microsoft.com/User.Read", "https://graph.microsoft.com/User.Read.All", "https://graph.microsoft.com/profile", "https://graph.microsoft.com/openid"}
+                    foreach (var scope in scopes)
+                    {
+                        options.ProviderOptions.AdditionalScopesToConsent.Add(scope);
+                    }
                 });
 
-            if (result.TryGetToken(out var token))
+            services.AddScoped<IAuthenticationProvider,
+                NoOpGraphAuthenticationProvider>();
+            services.AddScoped<IHttpProvider, HttpClientHttpProvider>(sp =>
+                new HttpClientHttpProvider(new HttpClient()));
+            services.AddScoped(sp => new GraphServiceClient(
+                sp.GetRequiredService<IAuthenticationProvider>(),
+                sp.GetRequiredService<IHttpProvider>()));
+
+            return services;
+        }
+
+        private class NoOpGraphAuthenticationProvider : IAuthenticationProvider
+        {
+            private const string ScopesSectionName = "Scopes";
+            private const string HeaderScheme = "Bearer";
+
+            private readonly IConfiguration _configuration;
+
+            public NoOpGraphAuthenticationProvider(IAccessTokenProvider tokenProvider, IConfiguration configuration)
             {
-                request.Headers.Authorization ??= new AuthenticationHeaderValue(
-                    "Bearer", token.Value);
+                TokenProvider = tokenProvider;
+                _configuration = configuration;
+            }
+
+            public IAccessTokenProvider TokenProvider { get; }
+
+            public async Task AuthenticateRequestAsync(HttpRequestMessage request)
+            {
+                var result = await TokenProvider.RequestAccessToken(
+                    new AccessTokenRequestOptions()
+                    {
+                        Scopes = _configuration.GetSection(ScopesSectionName).Get<string[]>()
+                    });
+
+                if (result.TryGetToken(out var token))
+                {
+                    request.Headers.Authorization ??= new AuthenticationHeaderValue(
+                        HeaderScheme, token.Value);
+                }
             }
         }
-    }
 
-    private class HttpClientHttpProvider : IHttpProvider
-    {
-        private readonly HttpClient http;
-
-        public HttpClientHttpProvider(HttpClient http)
+        private class HttpClientHttpProvider : IHttpProvider
         {
-            this.http = http;
-        }
+            private readonly HttpClient _http;
 
-        public ISerializer Serializer { get; } = new Serializer();
+            public HttpClientHttpProvider(HttpClient http)
+            {
+                this._http = http;
+            }
 
-        public TimeSpan OverallTimeout { get; set; } = TimeSpan.FromSeconds(300);
+            public ISerializer Serializer { get; } = new Serializer();
 
-        public void Dispose()
-        {
-        }
+            public TimeSpan OverallTimeout { get; set; } = TimeSpan.FromSeconds(300);
 
-        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
-        {
-            return http.SendAsync(request);
-        }
+            public void Dispose()
+            {
+            }
 
-        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
-            HttpCompletionOption completionOption,
-            CancellationToken cancellationToken)
-        {
-            return http.SendAsync(request, completionOption, cancellationToken);
+            public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
+            {
+                return _http.SendAsync(request);
+            }
+
+            public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+                HttpCompletionOption completionOption,
+                CancellationToken cancellationToken)
+            {
+                return _http.SendAsync(request, completionOption, cancellationToken);
+            }
         }
     }
 }

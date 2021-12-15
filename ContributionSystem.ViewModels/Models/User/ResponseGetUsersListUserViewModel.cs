@@ -3,7 +3,7 @@
 namespace ContributionSystem.ViewModels.Models.User
 {
     /// <summary>
-    /// Responce with list of users information.
+    /// Response with list of users information.
     /// </summary>
     public class ResponseGetUsersListUserViewModel : CollectionOfItems<ResponseGetUsersListContributionViewModelItem>
     {
@@ -15,7 +15,7 @@ namespace ContributionSystem.ViewModels.Models.User
     public class ResponseGetUsersListContributionViewModelItem
     {
         /// <summary>
-        /// User id.
+        /// User identifier.
         /// </summary>
         public string Id { get; set; }
 

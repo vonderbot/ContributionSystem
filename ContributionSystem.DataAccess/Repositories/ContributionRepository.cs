@@ -13,9 +13,9 @@ namespace ContributionSystem.DataAccess.Repositories
     public class ContributionRepository : BaseRepository<Contribution>, IContributionRepository
     {
         /// <summary>
-        /// ContributionRepository constructor.
+        /// Creates a new instance of <see cref="ContributionRepository" />.
         /// </summary>
-        /// <param name="contributionDbContext">ContributionDbContext instance.</param>
+        /// <param name="contributionDbContext"><see cref="ContributionDbContext" /> instance.</param>
         public ContributionRepository(ContributionDbContext contributionDbContext)
             : base(contributionDbContext)
         {

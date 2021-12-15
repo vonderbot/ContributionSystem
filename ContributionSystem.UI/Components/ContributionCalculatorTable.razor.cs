@@ -7,8 +7,8 @@ namespace ContributionSystem.UI.Components
     /// <summary>
     /// ContributionCalculatorTable component code behind.
     /// </summary>
-    /// <typeparam name="T">CollectionOfItems<U></typeparam>
-    /// <typeparam name="U">Inherits MonthsInfoContributionViewModelItem</typeparam>
+    /// <typeparam name="T">Collection of U type items.</typeparam>
+    /// <typeparam name="U">Inherits MonthsInfoContributionViewModelItem.</typeparam>
     public partial class ContributionCalculatorTable<T, U> : ComponentBase where T : CollectionOfItems<U> where U : MonthsInfoContributionViewModelItem
     {
         /// <summary>

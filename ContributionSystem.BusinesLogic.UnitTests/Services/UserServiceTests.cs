@@ -43,7 +43,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         }
 
         [Test]
-        public async Task GetUsersList_NoParametersPassed_ValidResponce()
+        public async Task GetUsersList_NoParametersPassed_ValidResponse()
         {
             var response = await _userService.GetUsersList();
 

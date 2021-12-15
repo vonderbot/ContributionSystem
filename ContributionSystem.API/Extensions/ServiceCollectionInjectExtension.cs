@@ -20,8 +20,8 @@ namespace ContributionSystem.API.Extensions
         /// <summary>
         /// Sets dependency injection.
         /// </summary>
-        /// <param name="services">IServiceCollection instance.</param>
-        /// <param name="configuration">IConfiguration instance.</param>
+        /// <param name="services"><see cref="IServiceCollection" /> instance.</param>
+        /// <param name="configuration"><see cref="IConfiguration" /> instance.</param>
         public static void SetInject(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IValidator<RequestCalculateContributionViewModel>, RequestCalculateContributionViewModelValidator>();

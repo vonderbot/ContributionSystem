@@ -6,7 +6,7 @@ namespace ContributionSystem.DataAccess.Interfaces
     /// <summary>
     /// Provides method for base work with db.
     /// </summary>
-    /// <typeparam name="T">Class with id.</typeparam>
+    /// <typeparam name="T">Class with identifier.</typeparam>
     public interface IBaseRepository<T> where T : class
     {
         /// <summary>
@@ -22,9 +22,9 @@ namespace ContributionSystem.DataAccess.Interfaces
         public Task<IEnumerable<T>> GetAll();
 
         /// <summary>
-        /// Gets record by id.
+        /// Gets record by identifier.
         /// </summary>
-        /// <param name="id">Record id.</param>
+        /// <param name="id">Record identifier.</param>
         /// <returns>Record model.</returns>
         public Task<T> GetById(int id);
 
@@ -32,7 +32,7 @@ namespace ContributionSystem.DataAccess.Interfaces
         /// Creates a new record.
         /// </summary>
         /// <param name="entity">Record model.</param>
-        /// <returns>Task</returns>
+        /// <returns><see cref="Task" /></returns>
         public Task Create(T entity);
 
         /// <summary>
@@ -44,14 +44,14 @@ namespace ContributionSystem.DataAccess.Interfaces
         /// <summary>
         /// Delete record.
         /// </summary>
-        /// <param name="id">Record id.</param>
-        /// <returns>Task</returns>
+        /// <param name="id">Record identifier.</param>
+        /// <returns><see cref="Task" /></returns>
         public Task Delete(int id);
 
         /// <summary>
         /// Save all changes in db.
         /// </summary>
-        /// <returns>Task</returns>
+        /// <returns><see cref="Task" /></returns>
         public Task Save();
     }
 }

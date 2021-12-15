@@ -3,7 +3,7 @@
 namespace ContributionSystem.Entities.Entities
 {
     /// <summary>
-    /// Calculation info per month.
+    /// Calculation information per month.
     /// </summary>
     public class MonthInfo : BaseEntity
     {
@@ -25,13 +25,13 @@ namespace ContributionSystem.Entities.Entities
         public decimal Sum { get; set; }
 
         /// <summary>
-        /// Contribution id.
+        /// Contribution identifier.
         /// </summary>
         [ForeignKey("Contribution")]
         public int ContributionId { get; set; }
 
         /// <summary>
-        /// Contribution instance.
+        /// <see cref="Entities.Contribution" /> instance.
         /// </summary>
         public virtual Contribution Contribution { get; set; }
     }

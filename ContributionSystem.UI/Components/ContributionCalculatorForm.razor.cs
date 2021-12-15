@@ -31,7 +31,7 @@ namespace ContributionSystem.UI.Components
         public EventCallback<ResponseCalculateContributionViewModel> ResponseCalculateContributionViewModelChanged { get; set; }
 
         /// <summary>
-        /// Error message
+        /// Error message.
         /// </summary>
         [Parameter]
         public string ErrorMessage { get; set; }
@@ -45,7 +45,7 @@ namespace ContributionSystem.UI.Components
         private RequestCalculateContributionViewModel _requestCalculateContributionViewModel;
 
         /// <summary>
-        /// ContributionCalculatorForm constructor.
+        /// Creates a new instance of <see cref="ContributionCalculatorForm" />.
         /// </summary>
         public ContributionCalculatorForm()
         {

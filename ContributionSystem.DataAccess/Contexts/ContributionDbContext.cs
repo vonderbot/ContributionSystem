@@ -4,24 +4,24 @@ using Microsoft.EntityFrameworkCore;
 namespace ContributionSystem.DataAccess.Contexts
 {
     /// <summary>
-    /// Contribution db.
+    /// Contribution database context.
     /// </summary>
     public sealed class ContributionDbContext : DbContext
     {
         /// <summary>
-        /// Contribution general info.
+        /// Contribution data set.
         /// </summary>
         public DbSet<Contribution> Contribution { get; set; }
 
         /// <summary>
-        /// Contribution info per month.
+        /// Contribution calculation data set per month.
         /// </summary>
         public DbSet<MonthInfo> MonthInfo { get; set; }
 
         /// <summary>
-        /// ContributionDbContext constructor.
+        /// Creates a new instance of <see cref="ContributionDbContext" />.
         /// </summary>
-        /// <param name="options">DbContextOptions instance.</param>
+        /// <param name="options"><see cref="DbContextOptions" /> instance.</param>
         public ContributionDbContext(DbContextOptions<ContributionDbContext> options)
             : base(options)
         {

@@ -12,7 +12,7 @@ namespace ContributionSystem.DataAccess.Interfaces
         /// <summary>
         /// Gets number of user records.
         /// </summary>
-        /// <param name="userId">User id.</param>
+        /// <param name="userId">User identifier.</param>
         /// <returns>Number of user records</returns>
         public Task<int> GetNumberOfUserRecords(string userId);
 
@@ -29,7 +29,7 @@ namespace ContributionSystem.DataAccess.Interfaces
         /// </summary>
         /// <param name="take">Number of records to take.</param>
         /// <param name="skip">Number of records to skip.</param>
-        /// <param name="userId">User id.</param>
+        /// <param name="userId">User identifier.</param>
         /// <returns>List of contributions.</returns>
         public Task<List<Contribution>> GetByUserId(int take, int skip, string userId);
     }

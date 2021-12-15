@@ -9,16 +9,16 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace ContributionSystem.UI.Services
 {
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IContributionService" />
     public class ContributionService : BaseService, IContributionService
     {
         private const string СontrollerName = "contribution";
 
         /// <summary>
-        /// ContributionService constructor.
+        /// Creates a new instance of <see cref="ContributionService" />.
         /// </summary>
-        /// <param name="httpClient">HttpClient instance.</param>
-        /// <param name="tokenProvider">IAccessTokenProvider instance.</param>
+        /// <param name="httpClient"><see cref="HttpClient" /> instance.</param>
+        /// <param name="tokenProvider"><see cref="IAccessTokenProvider" /> instance.</param>
         public ContributionService(HttpClient httpClient, IAccessTokenProvider tokenProvider)
             : base(httpClient, tokenProvider)
         {
@@ -29,7 +29,7 @@ namespace ContributionSystem.UI.Services
         {
             try
             {
-                var response = await _http.GetAsync($"{СontrollerName}/GetDetailsById?id={id}");
+                var response = await Http.GetAsync($"{СontrollerName}/GetDetailsById?id={id}");
                 await CheckResponseStatusCode(response);
                 var details = await response.Content.ReadFromJsonAsync<ResponseGetDetailsByIdContributionViewModel>();
 
@@ -46,7 +46,7 @@ namespace ContributionSystem.UI.Services
         {
             try
             {
-                var response = await _http.GetAsync($"{СontrollerName}/GetHistoryByUserId?Take={take}&Skip={skip}");
+                var response = await Http.GetAsync($"{СontrollerName}/GetHistoryByUserId?Take={take}&Skip={skip}");
                 await CheckResponseStatusCode(response);
                 var details = await response.Content.ReadFromJsonAsync<ResponseGetHistoryByUserIdContributionViewModel>();
 
@@ -63,7 +63,7 @@ namespace ContributionSystem.UI.Services
         {
             try
             {
-                var response = await _http.PostAsJsonAsync($"{СontrollerName}/calculate", request);
+                var response = await Http.PostAsJsonAsync($"{СontrollerName}/calculate", request);
                 await CheckResponseStatusCode(response);
                 var details = await response.Content.ReadFromJsonAsync<ResponseCalculateContributionViewModel>();
 

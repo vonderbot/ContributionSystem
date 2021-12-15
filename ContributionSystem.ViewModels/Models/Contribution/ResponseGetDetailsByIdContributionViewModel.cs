@@ -3,23 +3,23 @@
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
     /// <summary>
-    /// Response model with calculation info per months.
+    /// Response model with calculation information per months.
     /// </summary>
     public class ResponseGetDetailsByIdContributionViewModel : CollectionOfItems<ResponseGetDetailsByIdContributionViewModelItem>
     {
         /// <summary>
-        /// Contribution id
+        /// Contribution identifyer
         /// </summary>
         public int ContributionId { get; set; }
     }
 
     /// <summary>
-    /// Calculation info per month.
+    /// Calculation information per month.
     /// </summary>
     public class ResponseGetDetailsByIdContributionViewModelItem : MonthsInfoContributionViewModelItem
     {
         /// <summary>
-        /// Month info id.
+        /// Month information identifier.
         /// </summary>
         public int Id { get; set; }
     }

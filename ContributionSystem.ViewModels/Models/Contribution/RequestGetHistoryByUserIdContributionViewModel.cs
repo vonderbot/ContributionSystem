@@ -1,7 +1,7 @@
 ﻿namespace ContributionSystem.ViewModels.Models.Contribution
 {
     /// <summary>
-    /// Request model with info to get a part of records.
+    /// Request model with information to get a part of records.
     /// </summary>
     public class RequestGetHistoryByUserIdContributionViewModel
     {
@@ -16,7 +16,7 @@
         public int Skip { get; set; }
 
         /// <summary>
-        /// User id.
+        /// User identifier.
         /// </summary>
         public string UserId { get; set; }
     }

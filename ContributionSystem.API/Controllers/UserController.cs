@@ -8,7 +8,7 @@ using ContributionSystem.ViewModels.Models.User;
 namespace ContributionSystem.API.Controllers
 {
     /// <summary>
-    /// Provides methods for work with request to UserService.
+    /// Provides endpoints to work with User.
     /// </summary>
     [ApiController]
     [Route("/api/[controller]/[action]")]
@@ -18,9 +18,9 @@ namespace ContributionSystem.API.Controllers
         private readonly IUserService _userService;
 
         /// <summary>
-        /// UserController constructor.
+        /// Creates a new instance of <see cref="UserController" />.
         /// </summary>
-        /// <param name="userService">IUserService instance.</param>
+        /// <param name="userService"><see cref="IUserService" /> instance.</param>
         public UserController(IUserService userService)
         {
             _userService = userService;
@@ -29,8 +29,8 @@ namespace ContributionSystem.API.Controllers
         /// <summary>
         /// Сhanges user status.
         /// </summary>
-        /// <param name="request">Request model with user info.</param>
-        /// <returns>OkObjectResult</returns>
+        /// <param name="request">Request model with user information.</param>
+        /// <returns><see cref="OkObjectResult" /></returns>
         [HttpPost]
         public async Task<IActionResult> ChangeUserStatus(RequestChangeUserStatusUserViewModel request)
         {
@@ -49,7 +49,7 @@ namespace ContributionSystem.API.Controllers
         /// <summary>
         /// Gets all users.
         /// </summary>
-        /// <returns>OkObjectResult with responce model.</returns>
+        /// <returns><see cref="OkObjectResult" /> with response model, wich provides a list of users.</returns>
         [HttpGet]
         public async Task<IActionResult> GetUsersList()
         {

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace ContributionSystem.API.Controllers
 {
     /// <summary>
-    /// Provides methods for work with request to ContributionService.
+    /// Provides endpoints to work with Contribution.
     /// </summary>
     [ApiController]
     [Route("/api/[controller]/[action]")]
@@ -19,10 +19,10 @@ namespace ContributionSystem.API.Controllers
         private readonly IUserService _userService;
 
         /// <summary>
-        /// ContributionController constructor.
+        /// Creates a new instance of <see cref="ContributionController" />.
         /// </summary>
-        /// <param name="сontributionService">IContributionService instance.</param>
-        /// <param name="userService">IUserService instance.</param>
+        /// <param name="сontributionService"><see cref="IContributionService" /> instance.</param>
+        /// <param name="userService"><see cref="IUserService" /> instance.</param>
         public ContributionController(IContributionService сontributionService, IUserService userService)
         {
             _contributionService = сontributionService;
@@ -30,10 +30,10 @@ namespace ContributionSystem.API.Controllers
         }
 
         /// <summary>
-        /// Gets months info for contributions.
+        /// Gets months information for contribution by specified identifier.
         /// </summary>
-        /// <param name="id">Contribution id.</param>
-        /// <returns>OkObjectResult with responce model.</returns>
+        /// <param name="id">Contribution identifier.</param>
+        /// <returns><see cref="OkObjectResult" /> with response model, wich provides calculation information per months.</returns>
         [HttpGet]
         public async Task<IActionResult> GetDetailsById([FromQuery]int id)
         {
@@ -52,8 +52,8 @@ namespace ContributionSystem.API.Controllers
         /// <summary>
         /// Gets user calculations history.
         /// </summary>
-        /// <param name="request">Request model with info to get a part of records.</param>
-        /// <returns>OkObjectResult with responce model.</returns>
+        /// <param name="request">Request model with specified parameters to retriev calculation history.</param>
+        /// <returns><see cref="OkObjectResult" /> with response model, wich provides a list of records.</returns>
         [HttpGet]
         public async Task<IActionResult> GetHistoryByUserId([FromQuery]RequestGetHistoryByUserIdContributionViewModel request)
         {
@@ -71,10 +71,10 @@ namespace ContributionSystem.API.Controllers
         }
 
         /// <summary>
-        /// Calculates new contribution and adds it to db.
+        /// Calculates new contribution and saves it to the system.
         /// </summary>
-        /// <param name="request">Request model with info for calculation.</param>
-        /// <returns>OkObjectResult with responce model.</returns>
+        /// <param name="request">Request model with information for calculation.</param>
+        /// <returns><see cref="OkObjectResult" /> with response model, wich provides calculation result.</returns>
         [HttpPost]
         public async Task<IActionResult> Calculate(RequestCalculateContributionViewModel request)
         {

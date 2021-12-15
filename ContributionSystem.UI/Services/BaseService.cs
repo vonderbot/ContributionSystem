@@ -10,23 +10,30 @@ namespace ContributionSystem.UI.Services
     /// </summary>
     public class BaseService
     {
-        protected readonly HttpClient _http;
-        protected readonly IAccessTokenProvider _tokenProvider;
+        private const string HeaderScheme = "Bearer";
 
+        protected readonly HttpClient Http;
+        protected readonly IAccessTokenProvider TokenProvider;
+
+        /// <summary>
+        /// Creates a new instance of <see cref="BaseService" />.
+        /// </summary>
+        /// <param name="httpClient"><see cref="HttpClient" /> instance.</param>
+        /// <param name="tokenProvider"><see cref="IAccessTokenProvider" /> instance.</param>
         protected BaseService(HttpClient httpClient, IAccessTokenProvider tokenProvider)
         {
-            _http = httpClient;
-            _tokenProvider = tokenProvider;
+            Http = httpClient;
+            TokenProvider = tokenProvider;
             AuthorizationHeaderSetup();
         }
 
         private async void AuthorizationHeaderSetup()
         {
-            var tokenResult = await _tokenProvider.RequestAccessToken();
+            var tokenResult = await TokenProvider.RequestAccessToken();
 
             if (tokenResult.TryGetToken(out var token))
             {
-                _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+                Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(HeaderScheme, token.Value);
             }
             else
             {

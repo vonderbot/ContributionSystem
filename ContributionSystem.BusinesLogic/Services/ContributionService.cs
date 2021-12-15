@@ -21,9 +21,9 @@ namespace ContributionSystem.BusinessLogic.Services
         private readonly IContributionRepository _contributionRepository;
 
         /// <summary>
-        /// ContributionService constructor.
+        /// Creates a new instance of <see cref="ContributionService" />.
         /// </summary>
-        /// <param name="contributionRepository">IContributionRepository instance.</param>
+        /// <param name="contributionRepository"><see cref="IContributionRepository" /> instance.</param>
         public ContributionService(IContributionRepository contributionRepository)
         {
             _contributionRepository = contributionRepository;

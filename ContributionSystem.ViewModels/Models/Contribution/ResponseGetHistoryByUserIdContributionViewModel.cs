@@ -3,7 +3,7 @@
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
     /// <summary>
-    /// Response model with info to get a part of records.
+    /// Response model with a list of records.
     /// </summary>
     public class ResponseGetHistoryByUserIdContributionViewModel : CollectionOfItems<ResponseGetUsersListContributionViewModelItems>
     {
@@ -23,13 +23,13 @@ namespace ContributionSystem.ViewModels.Models.Contribution
         public int Skip { get; set; }
 
         /// <summary>
-        /// User id.
+        /// User identifier.
         /// </summary>
         public string UserId { get; set; }
     }
-    
+
     /// <summary>
-    /// User calculation general info.
+    /// User calculation general information.
     /// </summary>
     public class ResponseGetUsersListContributionViewModelItems
     {
@@ -54,7 +54,7 @@ namespace ContributionSystem.ViewModels.Models.Contribution
         public string Date { get; set; }
 
         /// <summary>
-        /// Contribution id.
+        /// Contribution identifier.
         /// </summary>
         public int Id { get; set; }
     }

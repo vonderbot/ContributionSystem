@@ -10,7 +10,7 @@ namespace ContributionSystem.Entities.Entities
     public class Contribution : BaseEntity
     {
         /// <summary>
-        /// Contribution constructor.
+        /// Creates a new instance of <see cref="Contribution" />.
         /// </summary>
         public Contribution()
         {
@@ -40,7 +40,7 @@ namespace ContributionSystem.Entities.Entities
         public string Date { get; set; }
 
         /// <summary>
-        /// Id of user, who made calculation.
+        /// Identifyer of user, who made calculation.
         /// </summary>
         public string UserId { get; set; }
 
@@ -50,7 +50,7 @@ namespace ContributionSystem.Entities.Entities
         public CalculationMethodEnum CalculationMethod { get; set; }
 
         /// <summary>
-        /// Months info for Calculation.
+        /// Months information for Calculation.
         /// </summary>
         public virtual IEnumerable<MonthInfo> Details { get; set; }
     }
