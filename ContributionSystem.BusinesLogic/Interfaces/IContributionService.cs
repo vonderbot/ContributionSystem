@@ -16,7 +16,7 @@ namespace ContributionSystem.BusinessLogic.Interfaces
         public Task<ResponseGetDetailsByIdContributionViewModel> GetDetailsById(int id);
 
         /// <summary>
-        /// Calculates new request and adds it to db.
+        /// Calculates new request and adds it to the system..
         /// </summary>
         /// <param name="request">Request model with information for calculation.</param>
         /// <returns>Response model with calculation result.</returns>
