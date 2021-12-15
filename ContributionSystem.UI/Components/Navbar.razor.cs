@@ -15,6 +15,7 @@ namespace ContributionSystem.UI.Components
         private string _historyButtonExtraClasses;
         private string _usersButtonExtraClasses;
 
+        /// <inheritdoc /> 
         protected override void OnInitialized()
         {
             if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == UriConstants.Calculation)
