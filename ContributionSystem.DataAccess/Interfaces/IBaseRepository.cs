@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace ContributionSystem.DataAccess.Interfaces
 {
     /// <summary>
-    /// Provides method for base work with db.
+    /// Provides method for base work with database.
     /// </summary>
     /// <typeparam name="T">Class with identifier.</typeparam>
     public interface IBaseRepository<T> where T : class
@@ -49,7 +49,7 @@ namespace ContributionSystem.DataAccess.Interfaces
         public Task Delete(int id);
 
         /// <summary>
-        /// Save all changes in db.
+        /// Save all changes in database.
         /// </summary>
         /// <returns><see cref="Task" /></returns>
         public Task Save();
