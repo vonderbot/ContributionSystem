@@ -203,6 +203,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                 Skip = skip
             };
         }
+
         private ResponseGetHistoryByUserIdContributionViewModel GetGetHistoryResponse(RequestGetHistoryByUserIdContributionViewModel request, List<Contribution> contributions)
         {
             var items = contributions.Select(u => new ResponseGetUsersListContributionViewModelItems

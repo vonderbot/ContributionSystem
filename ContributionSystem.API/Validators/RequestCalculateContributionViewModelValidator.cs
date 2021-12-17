@@ -4,7 +4,7 @@ using FluentValidation;
 namespace ContributionSystem.API.Validators
 {
     /// <summary>
-    /// Validate objects of <see cref="RequestCalculateContributionViewModel"/>.
+    /// <see cref="RequestCalculateContributionViewModel"/> class custom validator.
     /// </summary>
     public class RequestCalculateContributionViewModelValidator : AbstractValidator<RequestCalculateContributionViewModel>
     {

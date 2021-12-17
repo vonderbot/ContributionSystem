@@ -43,9 +43,9 @@ namespace ContributionSystem.API.Extensions
             };
             var clientSecretCredential = new ClientSecretCredential(
                 tenantId, clientId, clientSecret, options);
-            services.AddScoped<GraphServiceClient>(sp => {
-                return new GraphServiceClient(clientSecretCredential, scopes);
-            });
+            services.AddScoped<GraphServiceClient>(sp => 
+            new GraphServiceClient(clientSecretCredential, scopes)
+            );
         }
     }
 }
