@@ -12,6 +12,9 @@ namespace ContributionSystem.UI.Components
     /// </summary>
     public partial class ContributionCalculatorForm : ComponentBase
     {
+
+        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel;
+
         [Inject]
         private IContributionService ContributionService { get; set; }
 
@@ -41,8 +44,6 @@ namespace ContributionSystem.UI.Components
         /// </summary>
         [Parameter]
         public EventCallback<string> ErrorMessageChanged { get; set; }
-
-        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel;
 
         /// <summary>
         /// Creates a new instance of <see cref="ContributionCalculatorForm" />.

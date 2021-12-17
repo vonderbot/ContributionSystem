@@ -43,7 +43,7 @@ namespace ContributionSystem.UI.Services
         {
             try
             {
-                var response = await Http.GetAsync($"{СontrollerName}/GetUsersList");
+                var response = await Http.GetAsync($"{СontrollerName}/getuserslist");
                 await CheckResponseStatusCode(response);
                 var details = await response.Content.ReadFromJsonAsync<ResponseGetUsersListUserViewModel>();
 

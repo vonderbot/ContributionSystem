@@ -40,7 +40,7 @@ namespace ContributionSystem.Entities.Entities
         public string Date { get; set; }
 
         /// <summary>
-        /// Identifyer of user, who made calculation.
+        /// identifier of user, who made calculation.
         /// </summary>
         public string UserId { get; set; }
 

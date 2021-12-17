@@ -1,14 +1,13 @@
-using ContributionSystem.UI.CustomAccounts;
 using ContributionSystem.UI.Extensions;
 using ContributionSystem.UI.Interfaces;
+using ContributionSystem.UI.Models;
 using ContributionSystem.UI.Services;
+using ContributionSystem.UI.UserFactories;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -26,8 +25,7 @@ namespace ContributionSystem.UI
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped( _ =>
-            new HttpClient
+            builder.Services.AddScoped(_ => new HttpClient
             {
                 BaseAddress = new Uri(builder.Configuration.GetSection("BaseAddress").Value)
             });
@@ -35,15 +33,15 @@ namespace ContributionSystem.UI
             builder.Services.AddScoped<IContributionService, ContributionService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
-            builder.Services.AddMsalAuthentication<RemoteAuthenticationState, 
-                CustomUserAccount>(options =>
+            builder.Services.AddMsalAuthentication<RemoteAuthenticationState, UserAccountModel>
+                (options =>
                 {
-                builder.Configuration.Bind(AuthenticationOptionSectionName, options.ProviderOptions.Authentication);
-                options.ProviderOptions.DefaultAccessTokenScopes.Add(builder.Configuration.GetSection(AccessTokenScopeSectionName).Value);
-                options.ProviderOptions.LoginMode = LoginMode;
-                options.UserOptions.RoleClaim = RoleClaim;
+                    builder.Configuration.Bind(AuthenticationOptionSectionName, options.ProviderOptions.Authentication);
+                    options.ProviderOptions.DefaultAccessTokenScopes.Add(builder.Configuration.GetSection(AccessTokenScopeSectionName).Value);
+                    options.ProviderOptions.LoginMode = LoginMode;
+                    options.UserOptions.RoleClaim = RoleClaim;
                 })
-                .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, CustomUserAccount, CustomAccountFactory>();
+                .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, UserAccountModel, UserFactory>();
 
             builder.Services.AddGraphClient();
 

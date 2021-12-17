@@ -22,7 +22,7 @@ namespace ContributionSystem.UI.Components
         private async Task BeginLogout()
         {
             await SignOutManager.SetSignOutState();
-            NavigationManager.NavigateTo("authentication/logout");
+            NavigationManager.NavigateTo(UriConstants.Logout);
         }
 
         private void RedirectToLogin()

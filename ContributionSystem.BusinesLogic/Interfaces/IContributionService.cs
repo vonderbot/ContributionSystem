@@ -9,10 +9,10 @@ namespace ContributionSystem.BusinessLogic.Interfaces
     public interface IContributionService
     {
         /// <summary>
-        /// Gets months information for contributions.
+        /// Gets months information for contributions by specified identifier.
         /// </summary>
         /// <param name="id">Contribution identifier.</param>
-        /// <returns>Response model with list of months information.</returns>
+        /// <returns>Response model with list of months information for a сontribution with a specified identifier.</returns>
         public Task<ResponseGetDetailsByIdContributionViewModel> GetDetailsById(int id);
 
         /// <summary>

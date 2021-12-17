@@ -8,7 +8,7 @@ namespace ContributionSystem.ViewModels.Models.Contribution
     public class ResponseGetDetailsByIdContributionViewModel : CollectionOfItems<ResponseGetDetailsByIdContributionViewModelItem>
     {
         /// <summary>
-        /// Contribution identifyer
+        /// Contribution identifier.
         /// </summary>
         public int ContributionId { get; set; }
     }

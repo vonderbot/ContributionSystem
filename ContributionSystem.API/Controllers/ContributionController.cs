@@ -52,7 +52,7 @@ namespace ContributionSystem.API.Controllers
         /// <summary>
         /// Gets user calculations history.
         /// </summary>
-        /// <param name="request">Request model with specified parameters to retriev calculation history.</param>
+        /// <param name="request">Request model with specified parameters to retrieve calculation history.</param>
         /// <returns><see cref="OkObjectResult" /> with response model, wich provides a list of records.</returns>
         [HttpGet]
         public async Task<IActionResult> GetHistoryByUserId([FromQuery]RequestGetHistoryByUserIdContributionViewModel request)

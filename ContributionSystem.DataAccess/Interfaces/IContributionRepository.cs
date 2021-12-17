@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace ContributionSystem.DataAccess.Interfaces
 {
     /// <summary>
-    /// Provides method for work "Contribution" table.
+    /// Provides method for operations with "Contribution" table.
     /// </summary>
     public interface IContributionRepository : IBaseRepository<Contribution>
     {
@@ -13,7 +13,7 @@ namespace ContributionSystem.DataAccess.Interfaces
         /// Gets number of user records.
         /// </summary>
         /// <param name="userId">User identifier.</param>
-        /// <returns>Number of user records</returns>
+        /// <returns>Number of user records.</returns>
         public Task<int> GetNumberOfUserRecords(string userId);
 
         /// <summary>

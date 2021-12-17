@@ -12,11 +12,11 @@ namespace ContributionSystem.UI.Pages
     /// </summary>
     public partial class UserList : ComponentBase
     {
-        [Inject]
-        private IUserService UserService { get; set; }
-
         private IEnumerable<ResponseGetUsersListContributionViewModelItem> _users;
         private string _message;
+
+        [Inject]
+        private IUserService UserService { get; set; }
 
         /// <inheritdoc /> 
         protected override async Task OnInitializedAsync()

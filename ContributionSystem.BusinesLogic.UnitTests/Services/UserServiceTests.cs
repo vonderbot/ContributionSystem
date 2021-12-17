@@ -104,6 +104,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
 
             act.Should().Throw<Exception>().WithMessage("User have no id");
         }
+
         private RequestChangeUserStatusUserViewModel GetChangeUserStatusRequest(string id, bool userStatus)
         {
             var correctResponse = new RequestChangeUserStatusUserViewModel() 
@@ -111,6 +112,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                 Id = id, 
                 AccountEnabled = userStatus
             };
+
             return correctResponse;
         }
 
@@ -129,6 +131,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                     }
                 }
             };
+
             return correctResponse;
         }
 
@@ -142,6 +145,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                 Mail = UserEmail,
                 AccountEnabled = UserStatus
             });
+
             return correctResponse;
         }
     }

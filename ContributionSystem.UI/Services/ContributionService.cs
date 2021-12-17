@@ -29,7 +29,7 @@ namespace ContributionSystem.UI.Services
         {
             try
             {
-                var response = await Http.GetAsync($"{СontrollerName}/GetDetailsById?id={id}");
+                var response = await Http.GetAsync($"{СontrollerName}/getdetailsbyid?id={id}");
                 await CheckResponseStatusCode(response);
                 var details = await response.Content.ReadFromJsonAsync<ResponseGetDetailsByIdContributionViewModel>();
 
@@ -46,7 +46,7 @@ namespace ContributionSystem.UI.Services
         {
             try
             {
-                var response = await Http.GetAsync($"{СontrollerName}/GetHistoryByUserId?Take={take}&Skip={skip}");
+                var response = await Http.GetAsync($"{СontrollerName}/gethistorybyuserid?Take={take}&Skip={skip}");
                 await CheckResponseStatusCode(response);
                 var details = await response.Content.ReadFromJsonAsync<ResponseGetHistoryByUserIdContributionViewModel>();
 

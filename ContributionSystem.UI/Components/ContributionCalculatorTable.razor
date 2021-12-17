@@ -19,7 +19,7 @@
         @if (ResponseCalculateContributionViewModel != null)
         {
             <tbody>
-                @foreach (var item in ResponseCalculateContributionViewModel.Items)
+                @foreach (var item in ResponseCalculateContributionViewModel.Items.ToArray())
                 {
                     <tr>
                         <td scope="row">

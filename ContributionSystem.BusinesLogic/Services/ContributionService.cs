@@ -42,7 +42,7 @@ namespace ContributionSystem.BusinessLogic.Services
                     MonthNumber = u.MonthNumber,
                     Income = u.Income,
                     Sum = u.Sum
-                }).ToList()
+                }).OrderBy(u => u.MonthNumber).ToList()
             };
 
             return response;

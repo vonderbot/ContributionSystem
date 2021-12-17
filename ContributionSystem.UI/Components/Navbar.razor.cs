@@ -8,27 +8,32 @@ namespace ContributionSystem.UI.Components
     /// </summary>
     public partial class Navbar : ComponentBase
     {
+        private const string Active = "active";
+
+        private string _calculationButtonIsActive;
+        private string _historyButtonIsActive;
+        private string _usersButtonIsActive;
+
         [Inject]
         private NavigationManager NavigationManager { get; set; }
-
-        private string _calculationButtonExtraClasses;
-        private string _historyButtonExtraClasses;
-        private string _usersButtonExtraClasses;
 
         /// <inheritdoc /> 
         protected override void OnInitialized()
         {
-            if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == UriConstants.Calculation)
+            CheckCurrentUri(out _calculationButtonIsActive, UriConstants.Calculation);
+            CheckCurrentUri(out _historyButtonIsActive, UriConstants.History);
+            CheckCurrentUri(out _usersButtonIsActive, UriConstants.Users);
+        }
+
+        private void CheckCurrentUri(out string buttonIsActive, string URI)
+        {
+            if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..].Equals(URI))
             {
-                _calculationButtonExtraClasses += "active ";
+                buttonIsActive = Active;
             }
-            else if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == UriConstants.History)
+            else
             {
-                _historyButtonExtraClasses += "active ";
-            }
-            else if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == UriConstants.Users)
-            {
-                _usersButtonExtraClasses += "active ";
+                buttonIsActive = "";
             }
         }
 

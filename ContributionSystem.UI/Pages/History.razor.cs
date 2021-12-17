@@ -2,6 +2,7 @@
 using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,18 +15,21 @@ namespace ContributionSystem.UI.Pages
     /// </summary>
     public partial class History : ComponentBase
     {
+        private int _take;
+        private int _skip;
+        private IEnumerable<ResponseGetUsersListContributionViewModelItems> _requestsHistory;
+        private string _message;
+
         [Inject]
         private IContributionService ContributionService { get; set; }
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        private int _take;
-        private int _skip;
-        private IEnumerable<ResponseGetUsersListContributionViewModelItems> _requestsHistory;
-        private string _message;
+        [Inject]
+        private IConfiguration _configuration { get; set; }
 
-        protected void NavigateToDetailsComponent(int id)
+        private void NavigateToDetailsComponent(int id)
         {
             NavigationManager.NavigateTo($"{UriConstants.Details}/{id}");
         }
@@ -33,8 +37,7 @@ namespace ContributionSystem.UI.Pages
         /// <inheritdoc /> 
         protected override async Task OnInitializedAsync()
         {
-            _take = 8;
-            _skip = 0;
+            _take = Int32.Parse(_configuration.GetSection("Take").Value);
             _requestsHistory = new List<ResponseGetUsersListContributionViewModelItems>();
             await LoadData();
         }

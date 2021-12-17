@@ -29,13 +29,13 @@
                 @if (_users != null)
                 {
                     <tbody>
-                        @foreach (var item in _users)
+                        @foreach (var user in _users.ToArray())
                         {
                             <tr>
-                                <td scope="row">@(String.IsNullOrEmpty(item.Email) ? "Mail not specified" : item.Email)</td>
-                                <td scope="row">@(String.IsNullOrEmpty(item.Name) ? "Name not specified" : item.Name)</td>
-                                <td scope="row">@(item.Status ? "Enabled" : "Disabled")</td>
-                                <td class="w-100" type="button" @onclick="() => ChangeUserStatus(item.Id, !item.Status)" id="StatusButton">Change Status</td>
+                                <td scope="row">@(String.IsNullOrEmpty(user.Email) ? "Mail not specified" : user.Email)</td>
+                                <td scope="row">@(String.IsNullOrEmpty(user.Name) ? "Name not specified" : user.Name)</td>
+                                <td scope="row">@(user.Status ? "Enabled" : "Disabled")</td>
+                                <td class="w-100" type="button" @onclick="() => ChangeUserStatus(user.Id, !user.Status)" id="StatusButton">Change Status</td>
                             </tr>
                         }
                     </tbody>

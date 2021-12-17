@@ -2,12 +2,12 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
-namespace ContributionSystem.UI.CustomAccounts
+namespace ContributionSystem.UI.Models
 {
     /// <summary>
     /// User claims.
     /// </summary>
-    public class CustomUserAccount : RemoteUserAccount
+    public class UserAccountModel : RemoteUserAccount
     {
         private const string RolesName = "roles";
         private const string WidsName = "wids";

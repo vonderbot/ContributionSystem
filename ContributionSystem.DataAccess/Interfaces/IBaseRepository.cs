@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace ContributionSystem.DataAccess.Interfaces
 {
     /// <summary>
-    /// Provides method for base work with database.
+    /// Provides methods for base operations with database.
     /// </summary>
     /// <typeparam name="T">Class with identifier.</typeparam>
     public interface IBaseRepository<T> where T : class
@@ -32,7 +32,7 @@ namespace ContributionSystem.DataAccess.Interfaces
         /// Creates a new record.
         /// </summary>
         /// <param name="entity">Record model.</param>
-        /// <returns><see cref="Task" /></returns>
+        /// <returns><see cref="Task" /> with asynchronous creation operation.</returns>
         public Task Create(T entity);
 
         /// <summary>
@@ -45,13 +45,13 @@ namespace ContributionSystem.DataAccess.Interfaces
         /// Delete record.
         /// </summary>
         /// <param name="id">Record identifier.</param>
-        /// <returns><see cref="Task" /></returns>
+        /// <returns><see cref="Task" /> with asynchronous delete operation.</returns>
         public Task Delete(int id);
 
         /// <summary>
         /// Save all changes in database.
         /// </summary>
-        /// <returns><see cref="Task" /></returns>
+        /// <returns><see cref="Task" /> with asynchronous saving operation.</returns>
         public Task Save();
     }
 }

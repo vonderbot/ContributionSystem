@@ -8,22 +8,26 @@
         /// <summary>
         /// History page.
         /// </summary>
-        public const string History = "/History";
+        public const string History = "/history";
         /// <summary>
         /// ContributionCalculator page.
         /// </summary>
-        public const string Calculation = "/Main";
+        public const string Calculation = "/main";
         /// <summary>
         /// Details page.
         /// </summary>
-        public const string Details = "/Details";
+        public const string Details = "/details";
         /// <summary>
         /// UserList page.
         /// </summary>
-        public const string Users = "/Users";
+        public const string Users = "/users";
         /// <summary>
-        /// Authentication page.
+        /// Authentication page with "login" action.
         /// </summary>
-        public const string Login = "authentication/login";
+        public const string Login = "/authentication/login";
+        /// <summary>
+        /// Authentication page with "logout" action.
+        /// </summary>
+        public const string Logout = "/authentication/logout";
     }
 }
