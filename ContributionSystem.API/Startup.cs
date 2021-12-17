@@ -27,7 +27,7 @@ namespace ContributionSystem.API
         }
 
         /// <summary>
-        /// Configurs services that are used by application.
+        /// Configures services that are used by application.
         /// </summary>
         /// <param name="services"><see cref="IServiceCollection" /> instance.</param>
         public void ConfigureServices(IServiceCollection services)
