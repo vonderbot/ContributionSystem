@@ -52,7 +52,7 @@ namespace ContributionSystem.API
         }
 
         /// <summary>
-        ///  Specify how the application will respond to individual HTTP requests.
+        /// Specifies how the application will respond to individual HTTP requests.
         /// </summary>
         /// <param name="app"><see cref="IApplicationBuilder" /> instance.</param>
         /// <param name="env"><see cref="IWebHostEnvironment" /> instance.</param>
