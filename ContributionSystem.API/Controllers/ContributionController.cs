@@ -11,7 +11,7 @@ namespace ContributionSystem.API.Controllers
     /// Provides endpoints to work with Contribution.
     /// </summary>
     [ApiController]
-    [Route("/api/[controller]/[action]")]
+    [Route("/api/[controller]/")]
     [Authorize]
     public class ContributionController : ControllerBase
     {
@@ -35,6 +35,7 @@ namespace ContributionSystem.API.Controllers
         /// <param name="id">Contribution identifier.</param>
         /// <returns><see cref="OkObjectResult" /> with response model, wich provides calculation information per months.</returns>
         [HttpGet]
+        [Route("get-details-by-id")]
         public async Task<IActionResult> GetDetailsById([FromQuery]int id)
         {
             try
@@ -55,6 +56,7 @@ namespace ContributionSystem.API.Controllers
         /// <param name="request">Request model with specified parameters to retrieve calculation history.</param>
         /// <returns><see cref="OkObjectResult" /> with response model, wich provides a list of records.</returns>
         [HttpGet]
+        [Route("get-history-by-user-id")]
         public async Task<IActionResult> GetHistoryByUserId([FromQuery]RequestGetHistoryByUserIdContributionViewModel request)
         {
             try

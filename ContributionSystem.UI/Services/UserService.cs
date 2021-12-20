@@ -29,7 +29,7 @@ namespace ContributionSystem.UI.Services
         {
             try
             {
-                var response = await Http.PostAsJsonAsync($"{СontrollerName}/changeuserstatus", request);
+                var response = await Http.PostAsJsonAsync($"{СontrollerName}/change-user-status", request);
                 await CheckResponseStatusCode(response);
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace ContributionSystem.UI.Services
         {
             try
             {
-                var response = await Http.GetAsync($"{СontrollerName}/getuserslist");
+                var response = await Http.GetAsync($"{СontrollerName}/get-users-list");
                 await CheckResponseStatusCode(response);
                 var details = await response.Content.ReadFromJsonAsync<ResponseGetUsersListUserViewModel>();
 

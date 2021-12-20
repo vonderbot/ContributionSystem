@@ -3,7 +3,7 @@
 namespace ContributionSystem.ViewModels.Models.Contribution
 {
     /// <summary>
-    /// Response model for the user`s cpntribution history.
+    /// Response model for the user`s contribution history.
     /// </summary>
     public class ResponseGetHistoryByUserIdContributionViewModel : CollectionOfItems<ResponseGetUsersListContributionViewModelItems>
     {
