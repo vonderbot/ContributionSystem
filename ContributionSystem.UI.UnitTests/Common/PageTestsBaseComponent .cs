@@ -50,14 +50,6 @@ namespace ContributionSystem.UI.UnitTests.Common
                 .Build();
             TestContext.Services.AddSingleton(configuration);
             NavigationManager = TestContext.Services.GetRequiredService<NavigationManager>();
-
-            //var mockConfSection = new Mock<IConfigurationSection>();
-            //mockConfSection.SetupGet(m => m[It.Is<string>(s => s == "Take")]).Returns("8");
-
-            //var mockConfiguration = new Mock<IConfiguration>();
-            //mockConfiguration.Setup(a => a.GetSection(It.Is<string>(s => s == "Take"))).Returns(mockConfSection.Object);
-            //Arrange
-            
         }
 
         protected ResponseCalculateContributionViewModel GetCalculationResponse()
