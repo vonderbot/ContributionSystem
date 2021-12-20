@@ -11,6 +11,12 @@ namespace ContributionSystem.UI.Providers
     /// </summary>
     public class CustomHttpProvider : IHttpProvider
     {
+        /// <inheritdoc/>
+        public ISerializer Serializer { get; }
+
+        /// <inheritdoc/>
+        public TimeSpan OverallTimeout { get; set; }
+
         private readonly HttpClient _http;
 
         /// <summary>
@@ -19,14 +25,10 @@ namespace ContributionSystem.UI.Providers
         /// <param name="http"><see cref="HttpClient" /> instance.</param>
         public CustomHttpProvider(HttpClient http)
         {
-            this._http = http;
+            Serializer = new Serializer();
+            _http = http;
+            OverallTimeout = TimeSpan.FromSeconds(300);
         }
-
-        /// <inheritdoc/>
-        public ISerializer Serializer { get; } = new Serializer();
-
-        /// <inheritdoc/>
-        public TimeSpan OverallTimeout { get; set; } = TimeSpan.FromSeconds(300);
 
         /// <inheritdoc/>
         public void Dispose()
