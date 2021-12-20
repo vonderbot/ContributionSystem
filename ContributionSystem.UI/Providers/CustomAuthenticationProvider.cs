@@ -5,7 +5,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace ContributionSystem.UI.Providers {
+namespace ContributionSystem.UI.Providers 
+{
     /// <summary>
     /// Provides methods for authenticating requests.
     /// </summary>
@@ -15,7 +16,7 @@ namespace ContributionSystem.UI.Providers {
         private const string HeaderScheme = "Bearer";
 
         private readonly IConfiguration _configuration;
-        private readonly IAccessTokenProvider TokenProvider;
+        private readonly IAccessTokenProvider _tokenProvider;
 
         /// <summary>
         /// Creates a new instance of <see cref="CustomAuthenticationProvider" />.
@@ -24,14 +25,14 @@ namespace ContributionSystem.UI.Providers {
         /// <param name="configuration"><see cref="IConfiguration" /> instance.</param>
         public CustomAuthenticationProvider(IAccessTokenProvider tokenProvider, IConfiguration configuration)
         {
-            TokenProvider = tokenProvider;
+            _tokenProvider = tokenProvider;
             _configuration = configuration;
         }
 
         /// <inheritdoc/>
         public async Task AuthenticateRequestAsync(HttpRequestMessage request)
         {
-            var result = await TokenProvider.RequestAccessToken(
+            var result = await _tokenProvider.RequestAccessToken(
                 new AccessTokenRequestOptions()
                 {
                     Scopes = _configuration.GetSection(ScopesSectionName).Get<string[]>()

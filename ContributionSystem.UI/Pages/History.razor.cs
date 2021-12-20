@@ -27,7 +27,7 @@ namespace ContributionSystem.UI.Pages
         private NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        private IConfiguration _configuration { get; set; }
+        private IConfiguration Configuration { get; set; }
 
         private void NavigateToDetailsComponent(int id)
         {
@@ -37,7 +37,7 @@ namespace ContributionSystem.UI.Pages
         /// <inheritdoc /> 
         protected override async Task OnInitializedAsync()
         {
-            _take = Int32.Parse(_configuration.GetSection("Take").Value);
+            _take = Configuration.GetValue<int>("Take");
             _requestsHistory = new List<ResponseGetUsersListContributionViewModelItems>();
             await LoadData();
         }

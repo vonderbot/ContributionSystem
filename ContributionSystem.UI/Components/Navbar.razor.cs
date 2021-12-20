@@ -25,15 +25,15 @@ namespace ContributionSystem.UI.Components
             CheckCurrentUri(out _usersButtonIsActive, UriConstants.Users);
         }
 
-        private void CheckCurrentUri(out string buttonIsActive, string URI)
+        private void CheckCurrentUri(out string buttonIsActive, string uri)
         {
-            if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..].Equals(URI))
+            if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..].Equals(uri))
             {
                 buttonIsActive = Active;
             }
             else
             {
-                buttonIsActive = "";
+                buttonIsActive = string.Empty;
             }
         }
 

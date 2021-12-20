@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Bunit.TestDoubles;
 using System.Security.Claims;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace ContributionSystem.UI.UnitTests.Common
 {
@@ -40,7 +41,23 @@ namespace ContributionSystem.UI.UnitTests.Common
                 "sessionStorage.setItem",
                 inv => string.Equals(inv.Arguments.FirstOrDefault(), "Microsoft.AspNetCore.Components.WebAssembly.Authentication.SignOutState")
                 ).SetVoidResult();
+            var inMemorySettings = new Dictionary<string, string> {
+                {"Take", "8"},
+            };
+
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(inMemorySettings)
+                .Build();
+            TestContext.Services.AddSingleton(configuration);
             NavigationManager = TestContext.Services.GetRequiredService<NavigationManager>();
+
+            //var mockConfSection = new Mock<IConfigurationSection>();
+            //mockConfSection.SetupGet(m => m[It.Is<string>(s => s == "Take")]).Returns("8");
+
+            //var mockConfiguration = new Mock<IConfiguration>();
+            //mockConfiguration.Setup(a => a.GetSection(It.Is<string>(s => s == "Take"))).Returns(mockConfSection.Object);
+            //Arrange
+            
         }
 
         protected ResponseCalculateContributionViewModel GetCalculationResponse()
