@@ -78,6 +78,7 @@ namespace ContributionSystem.API.Controllers
         /// <param name="request">Request model with information for calculation.</param>
         /// <returns><see cref="OkObjectResult" /> with response model, wich provides calculation result.</returns>
         [HttpPost]
+        [Route("calculate")]
         public async Task<IActionResult> Calculate(RequestCalculateContributionViewModel request)
         {
             try
