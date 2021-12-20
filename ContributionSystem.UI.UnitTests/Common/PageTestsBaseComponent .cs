@@ -44,7 +44,6 @@ namespace ContributionSystem.UI.UnitTests.Common
             var inMemorySettings = new Dictionary<string, string> {
                 {"Take", "8"},
             };
-
             IConfiguration configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(inMemorySettings)
                 .Build();
