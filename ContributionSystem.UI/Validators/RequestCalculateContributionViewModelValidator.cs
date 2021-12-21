@@ -3,8 +3,14 @@ using FluentValidation;
 
 namespace ContributionSystem.UI.Validators
 {
+    /// <summary>
+    /// <see cref="RequestCalculateContributionViewModel"/> class custom validator.
+    /// </summary>
     public class RequestCalculateContributionViewModelValidator : AbstractValidator<RequestCalculateContributionViewModel>
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="RequestCalculateContributionViewModelValidator" />.
+        /// </summary>
         public RequestCalculateContributionViewModelValidator()
         {
             RuleFor(t => t.StartValue)

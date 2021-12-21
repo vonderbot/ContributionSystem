@@ -1,93 +1,41 @@
-﻿using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
+using ContributionSystem.UI.Providers;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.Authentication.WebAssembly.Msal.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
 
-internal static class GraphClientExtensions
+namespace ContributionSystem.UI.Extensions
 {
-    public static IServiceCollection AddGraphClient(
-        this IServiceCollection services, params string[] scopes)
+    /// <summary>
+    /// Provides methods to add GraphClient.
+    /// </summary>
+    public static class GraphClientExtensions
     {
-        services.Configure<RemoteAuthenticationOptions<MsalProviderOptions>>(
-            options =>
-            {
-                foreach (var scope in scopes)
+        /// <summary>
+        /// Addes GraphClient.
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection" /> instance.</param>
+        /// <param name="scopes">API permissions.</param>
+        public static void AddGraphClient(
+            this IServiceCollection services, params string[] scopes)
+        {
+            services.Configure<RemoteAuthenticationOptions<MsalProviderOptions>>(
+                options =>
                 {
-                    options.ProviderOptions.AdditionalScopesToConsent.Add(scope);
-                }
-            });
-
-        services.AddScoped<IAuthenticationProvider,
-            NoOpGraphAuthenticationProvider>();
-        services.AddScoped<IHttpProvider, HttpClientHttpProvider>(sp =>
-            new HttpClientHttpProvider(new HttpClient()));
-        services.AddScoped(sp =>
-        {
-            return new GraphServiceClient(
-                sp.GetRequiredService<IAuthenticationProvider>(),
-                sp.GetRequiredService<IHttpProvider>());
-        });
-
-        return services;
-    }
-
-    private class NoOpGraphAuthenticationProvider : IAuthenticationProvider
-    {
-        public NoOpGraphAuthenticationProvider(IAccessTokenProvider tokenProvider)
-        {
-            TokenProvider = tokenProvider;
-        }
-
-        public IAccessTokenProvider TokenProvider { get; }
-
-        public async Task AuthenticateRequestAsync(HttpRequestMessage request)
-        {
-            var result = await TokenProvider.RequestAccessToken(
-                new AccessTokenRequestOptions()
-                {
-                    Scopes = new[] { "https://graph.microsoft.com/User.Read", "https://graph.microsoft.com/User.Read.All", "https://graph.microsoft.com/profile", "https://graph.microsoft.com/openid"}
+                    foreach (var scope in scopes)
+                    {
+                        options.ProviderOptions.AdditionalScopesToConsent.Add(scope);
+                    }
                 });
 
-            if (result.TryGetToken(out var token))
-            {
-                request.Headers.Authorization ??= new AuthenticationHeaderValue(
-                    "Bearer", token.Value);
-            }
-        }
-    }
-
-    private class HttpClientHttpProvider : IHttpProvider
-    {
-        private readonly HttpClient http;
-
-        public HttpClientHttpProvider(HttpClient http)
-        {
-            this.http = http;
-        }
-
-        public ISerializer Serializer { get; } = new Serializer();
-
-        public TimeSpan OverallTimeout { get; set; } = TimeSpan.FromSeconds(300);
-
-        public void Dispose()
-        {
-        }
-
-        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
-        {
-            return http.SendAsync(request);
-        }
-
-        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
-            HttpCompletionOption completionOption,
-            CancellationToken cancellationToken)
-        {
-            return http.SendAsync(request, completionOption, cancellationToken);
+            services.AddScoped<IAuthenticationProvider,
+                CustomAuthenticationProvider>();
+            services.AddScoped<IHttpProvider, CustomHttpProvider>(sp =>
+                new CustomHttpProvider(new HttpClient()));
+            services.AddScoped(sp => new GraphServiceClient(
+                sp.GetRequiredService<IAuthenticationProvider>(),
+                sp.GetRequiredService<IHttpProvider>()));
         }
     }
 }

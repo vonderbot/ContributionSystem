@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace ContributionSystem.UI.Components
 {
+    /// <summary>
+    /// LoginDisplay component code behind.
+    /// </summary>
     public partial class LoginDisplay : ComponentBase
     {
         [Inject]
@@ -19,12 +22,12 @@ namespace ContributionSystem.UI.Components
         private async Task BeginLogout()
         {
             await SignOutManager.SetSignOutState();
-            NavigationManager.NavigateTo("authentication/logout");
+            NavigationManager.NavigateTo(UriConstants.Logout);
         }
 
         private void RedirectToLogin()
         {
-            NavigationManager.NavigateTo($"{URIs.Login}?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}");
+            NavigationManager.NavigateTo($"{UriConstants.Login}?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}");
         }
     }
 }

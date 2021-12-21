@@ -3,8 +3,9 @@
 @using ContributionSystem.UI.Constants;
 
 @code {
+    /// <inheritdoc /> 
     protected override void OnInitialized()
     {
-        Navigation.NavigateTo($"{URIs.Login}?returnUrl={Uri.EscapeDataString(Navigation.Uri)}");
+        Navigation.NavigateTo($"{UriConstants.Login}?returnUrl={Uri.EscapeDataString(Navigation.Uri)}");
     }
 }

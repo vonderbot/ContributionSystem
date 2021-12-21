@@ -10,15 +10,26 @@ using ContributionSystem.API.Extensions;
 
 namespace ContributionSystem.API
 {
+    /// <summary>
+    /// Provides the entry point for the application.
+    /// </summary>
     public class Startup
     {
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="Startup" />.
+        /// </summary>
+        /// <param name="config"><see cref="IConfiguration" /> instance.</param>
         public Startup(IConfiguration config)
         {
-            configuration = config;
+            _configuration = config;
         }
 
+        /// <summary>
+        /// Configures services that are used by application.
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection" /> instance.</param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddFluentValidation(fv =>
@@ -27,19 +38,24 @@ namespace ContributionSystem.API
                 fv.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
 
-            services.SetInject(configuration);
+            services.SetInject(_configuration);
 
-            var connection = configuration.GetConnectionString("DefaultConnection");
+            var connection = _configuration.GetConnectionString("DefaultConnection");
 
 
             services.AddDbContext<ContributionDbContext>(options =>
                 options.UseSqlServer(connection));
 
-            services.AddAzureAdAuthentication(configuration);
+            services.AddAzureAdAuthentication(_configuration);
 
-            services.ConfigureCorsForOrigins(configuration);
+            services.ConfigureCorsForOrigins(_configuration);
         }
 
+        /// <summary>
+        /// Specifies how the application will respond to individual HTTP requests.
+        /// </summary>
+        /// <param name="app"><see cref="IApplicationBuilder" /> instance.</param>
+        /// <param name="env"><see cref="IWebHostEnvironment" /> instance.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -47,7 +63,7 @@ namespace ContributionSystem.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(configuration.GetSection("CorsOrigin:AllowOrigins").Value);
+            app.UseCors(_configuration.GetSection("CorsOrigin:AllowOrigins").Value);
 
             app.UseHttpsRedirection();
 

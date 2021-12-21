@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Bunit.TestDoubles;
 using System.Security.Claims;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace ContributionSystem.UI.UnitTests.Common
 {
@@ -33,13 +34,20 @@ namespace ContributionSystem.UI.UnitTests.Common
             TestAuthorizationContext = TestContext.AddTestAuthorization();
             TestAuthorizationContext.SetAuthorized("TEST USER");
             TestAuthorizationContext.SetClaims(new Claim("oid", UserId));
-            TestAuthorizationContext.SetRoles(new string[]{"UserAdmin"});
+            TestAuthorizationContext.SetRoles(new string[] { "UserAdmin" });
             TestContext.Services.AddSingleton(TestAuthorizationContext);
             TestContext.Services.AddSingleton<SignOutSessionStateManager>();
             TestContext.JSInterop.SetupVoid(
                 "sessionStorage.setItem",
                 inv => string.Equals(inv.Arguments.FirstOrDefault(), "Microsoft.AspNetCore.Components.WebAssembly.Authentication.SignOutState")
                 ).SetVoidResult();
+            var inMemorySettings = new Dictionary<string, string> {
+                {"Take", "8"},
+            };
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(inMemorySettings)
+                .Build();
+            TestContext.Services.AddSingleton(configuration);
             NavigationManager = TestContext.Services.GetRequiredService<NavigationManager>();
         }
 

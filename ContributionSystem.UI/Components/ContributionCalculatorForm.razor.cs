@@ -7,29 +7,47 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Components
 {
+    /// <summary>
+    /// ContributionCalculatorForm component code behind.
+    /// </summary>
     public partial class ContributionCalculatorForm : ComponentBase
     {
+
+        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel;
+
         [Inject]
         private IContributionService ContributionService { get; set; }
 
         [Inject]
         private  AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
+        /// <summary>
+        /// Response model with calculation result.
+        /// </summary>
         [Parameter]
         public ResponseCalculateContributionViewModel ResponseCalculateContributionViewModel { get; set; }
 
-
+        /// <summary>
+        /// EventCallback for ResponseCalculateContributionViewModel.
+        /// </summary>
         [Parameter]
         public EventCallback<ResponseCalculateContributionViewModel> ResponseCalculateContributionViewModelChanged { get; set; }
 
+        /// <summary>
+        /// Error message.
+        /// </summary>
         [Parameter]
         public string ErrorMessage { get; set; }
 
+        /// <summary>
+        /// EventCallback for ErrorMessage.
+        /// </summary>
         [Parameter]
         public EventCallback<string> ErrorMessageChanged { get; set; }
 
-        private RequestCalculateContributionViewModel _requestCalculateContributionViewModel;
-
+        /// <summary>
+        /// Creates a new instance of <see cref="ContributionCalculatorForm" />.
+        /// </summary>
         public ContributionCalculatorForm()
         {
             _requestCalculateContributionViewModel = new RequestCalculateContributionViewModel();

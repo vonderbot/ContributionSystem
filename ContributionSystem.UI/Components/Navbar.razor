@@ -1,18 +1,18 @@
 ﻿<div class="p-3">
     <ul class="nav nav-fill w-100">
         <li class="nav-item col-3 p-0">
-            <a class="nav-link border rounded-top @_calculationButtonExtraClasses" type="button" id="Calculations" @onclick="NavigateToCalculationPage" Match="NavLinkMatch.All">
+            <a class="nav-link border rounded-top @_calculationButtonIsActive" type="button" id="Calculations" @onclick="NavigateToCalculationPage" Match="NavLinkMatch.All">
                 Calculations
             </a>
         </li>
         <li class="nav-item col-3 p-0">
-            <a class="nav-link border rounded-top @_historyButtonExtraClasses" type="button" @onclick="NavigateToHistoryPage" id="History">
+            <a class="nav-link border rounded-top @_historyButtonIsActive" type="button" @onclick="NavigateToHistoryPage" id="History">
                 History
             </a>
         </li>
         <AuthorizeView Roles="UserAdmin">
             <li class="nav-item col-3 p-0">
-                <a class="nav-link border rounded-top @_usersButtonExtraClasses" type="button" @onclick="NavigateToUsersList" id="Users">
+                <a class="nav-link border rounded-top @_usersButtonIsActive" type="button" @onclick="NavigateToUsersList" id="Users">
                     Users
                 </a>
             </li>

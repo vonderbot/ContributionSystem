@@ -8,15 +8,21 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
+    /// <inheritdoc/>
     public class UserService : IUserService
     {
         private readonly GraphServiceClient _graphClient;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="UserService" />.
+        /// </summary>
+        /// <param name="graphClient"><see cref="GraphServiceClient" /> instance.</param>
         public UserService(GraphServiceClient graphClient)
         {
             _graphClient = graphClient;
         }
 
+        /// <inheritdoc/>
         public async Task ChangeUserStatus(RequestChangeUserStatusUserViewModel request)
         {
             CheckChangeUserStatusRequest(request);
@@ -27,6 +33,7 @@ namespace ContributionSystem.BusinessLogic.Services
             await _graphClient.Users[request.Id].Request().UpdateAsync(user);
         }
 
+        /// <inheritdoc/>
         public async Task<ResponseGetUsersListUserViewModel> GetUsersList()
         {
             var users = await _graphClient.Users.Request().Select("Id,DisplayName,Mail,AccountEnabled").GetAsync();
@@ -44,6 +51,7 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
+        /// <inheritdoc/>
         public string GetUserId(ClaimsPrincipal user)
         {
             var userId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;

@@ -7,31 +7,38 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Pages
 {
+    /// <summary>
+    /// Details page code behind.
+    /// </summary>
     public partial class Details : ComponentBase
     {
+        /// <summary>
+        /// Contribution identifier.
+        /// </summary>
+        [Parameter]
+        public int Id { get; set; }
+
         [Inject]
         private IContributionService ContributionService { get; set; }
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        [Parameter]
-        public int Id { get; set; }
-
-        private ResponseGetDetailsByIdContributionViewModel _responseGetDetailsByIdContributionViewModel { get; set; }
+        private ResponseGetDetailsByIdContributionViewModel _responseGetDetailsByIdContributionViewModel;
         private string _message;
 
-        public void NavigateToHistoryComponent()
+        private void NavigateToHistoryComponent()
         {
-            NavigationManager.NavigateTo(URIs.History);
+            NavigationManager.NavigateTo(UriConstants.History);
         }
 
+        /// <inheritdoc /> 
         protected override async Task OnInitializedAsync()
         {
             await LoadData();
         }
 
-        public async Task LoadData()
+        private async Task LoadData()
         {
             try
             {

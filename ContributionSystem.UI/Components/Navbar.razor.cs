@@ -3,44 +3,53 @@ using ContributionSystem.UI.Constants;
 
 namespace ContributionSystem.UI.Components
 {
+    /// <summary>
+    /// Navbar component code behind.
+    /// </summary>
     public partial class Navbar : ComponentBase
     {
+        private const string Active = "active";
+
+        private string _calculationButtonIsActive;
+        private string _historyButtonIsActive;
+        private string _usersButtonIsActive;
+
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        private string _calculationButtonExtraClasses;
-        private string _historyButtonExtraClasses;
-        private string _usersButtonExtraClasses;
-
+        /// <inheritdoc /> 
         protected override void OnInitialized()
         {
-            if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == URIs.Calculation)
+            CheckCurrentUri(out _calculationButtonIsActive, UriConstants.Calculation);
+            CheckCurrentUri(out _historyButtonIsActive, UriConstants.History);
+            CheckCurrentUri(out _usersButtonIsActive, UriConstants.Users);
+        }
+
+        private void CheckCurrentUri(out string buttonIsActive, string uri)
+        {
+            if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..].Equals(uri))
             {
-                _calculationButtonExtraClasses += "active ";
+                buttonIsActive = Active;
             }
-            else if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == URIs.History)
+            else
             {
-                _historyButtonExtraClasses += "active ";
-            }
-            else if (NavigationManager.Uri[(NavigationManager.BaseUri.Length - 1)..] == URIs.Users)
-            {
-                _usersButtonExtraClasses += "active ";
+                buttonIsActive = string.Empty;
             }
         }
 
         private void NavigateToUsersList()
         {
-            NavigationManager.NavigateTo(URIs.Users);
+            NavigationManager.NavigateTo(UriConstants.Users);
         }
 
         private void NavigateToCalculationPage()
         {
-            NavigationManager.NavigateTo(URIs.Calculation);
+            NavigationManager.NavigateTo(UriConstants.Calculation);
         }
 
         private void NavigateToHistoryPage()
         {
-            NavigationManager.NavigateTo(URIs.History);
+            NavigationManager.NavigateTo(UriConstants.History);
         }
     }
 }

@@ -7,8 +7,8 @@ using System.Security.Claims;
 using Moq;
 using Microsoft.Graph;
 using System.Threading.Tasks;
-using System.Threading;
 using ContributionSystem.ViewModels.Models.User;
+using System.Threading;
 
 namespace ContributionSystem.BusinesLogic.UnitTests.Services
 {
@@ -43,7 +43,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
         }
 
         [Test]
-        public async Task GetUsersList_NoParametersPassed_ValidResponce()
+        public async Task GetUsersList_NoParametersPassed_ValidResponse()
         {
             var response = await _userService.GetUsersList();
 
@@ -104,6 +104,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
 
             act.Should().Throw<Exception>().WithMessage("User have no id");
         }
+
         private RequestChangeUserStatusUserViewModel GetChangeUserStatusRequest(string id, bool userStatus)
         {
             var correctResponse = new RequestChangeUserStatusUserViewModel() 
@@ -111,6 +112,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                 Id = id, 
                 AccountEnabled = userStatus
             };
+
             return correctResponse;
         }
 
@@ -129,6 +131,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                     }
                 }
             };
+
             return correctResponse;
         }
 
@@ -142,6 +145,7 @@ namespace ContributionSystem.BusinesLogic.UnitTests.Services
                 Mail = UserEmail,
                 AccountEnabled = UserStatus
             });
+
             return correctResponse;
         }
     }

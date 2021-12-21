@@ -75,6 +75,7 @@ namespace ContributionSystem.UI.UnitTests.Services
                 Id = id,
                 AccountEnabled = userStatus
             };
+
             return correctResponse;
         }
 
@@ -93,6 +94,7 @@ namespace ContributionSystem.UI.UnitTests.Services
                     }
                 }
             };
+
             return correctResponse;
         }
 

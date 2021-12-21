@@ -10,6 +10,7 @@ namespace ContributionSystem.DataAccess.Migrations
     [DbContext(typeof(ContributionDbContext))]
     partial class ContributionDbContextModelSnapshot : ModelSnapshot
     {
+        /// <inheritdoc />
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

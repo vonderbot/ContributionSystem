@@ -2,6 +2,7 @@
 using ContributionSystem.UI.Interfaces;
 using ContributionSystem.ViewModels.Models.Contribution;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,33 +10,34 @@ using System.Threading.Tasks;
 
 namespace ContributionSystem.UI.Pages
 {
+    /// <summary>
+    /// History page code behind.
+    /// </summary>
     public partial class History : ComponentBase
     {
+        private int _take;
+        private int _skip;
+        private IEnumerable<ResponseGetUsersListContributionViewModelItems> _requestsHistory;
+        private string _message;
+
         [Inject]
         private IContributionService ContributionService { get; set; }
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        private int _take;
-        private int _skip;
-        private IEnumerable<ResponseGetUsersListContributionViewModelItems> _requestsHistory;
-        private string _message;
+        [Inject]
+        private IConfiguration Configuration { get; set; }
 
-        public void NavigateToDetailsComponent(int id)
+        private void NavigateToDetailsComponent(int id)
         {
-            NavigationManager.NavigateTo($"{URIs.Details}/{id}");
+            NavigationManager.NavigateTo($"{UriConstants.Details}/{id}");
         }
 
-        public async Task LoadMore()
-        {
-            await LoadData();
-        }
-
+        /// <inheritdoc /> 
         protected override async Task OnInitializedAsync()
         {
-            _take = 8;
-            _skip = 0;
+            _take = Configuration.GetValue<int>("Take");
             _requestsHistory = new List<ResponseGetUsersListContributionViewModelItems>();
             await LoadData();
         }

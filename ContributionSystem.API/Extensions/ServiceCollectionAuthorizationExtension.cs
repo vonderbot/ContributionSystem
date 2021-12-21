@@ -6,8 +6,16 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ContributionSystem.API.Extensions
 {
+    /// <summary>
+    /// Provides methods for setting authorization.
+    /// </summary>
     public static class ServiceCollectionAuthorizationExtension
     {
+        /// <summary>
+        /// Provides azure active directory authentification.
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection" /> instance.</param>
+        /// <param name="configuration"><see cref="IConfiguration" /> instance.</param>
         public static void AddAzureAdAuthentication(this IServiceCollection services,
                                                          IConfiguration configuration)
         {

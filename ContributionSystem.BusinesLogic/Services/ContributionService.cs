@@ -11,6 +11,7 @@ using System;
 
 namespace ContributionSystem.BusinessLogic.Services
 {
+    /// <inheritdoc/>
     public class ContributionService : IContributionService
     {
         private const int Hundred = 100;
@@ -19,11 +20,16 @@ namespace ContributionSystem.BusinessLogic.Services
 
         private readonly IContributionRepository _contributionRepository;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="ContributionService" />.
+        /// </summary>
+        /// <param name="contributionRepository"><see cref="IContributionRepository" /> instance.</param>
         public ContributionService(IContributionRepository contributionRepository)
         {
             _contributionRepository = contributionRepository;
         }
 
+        /// <inheritdoc/>
         public async Task<ResponseGetDetailsByIdContributionViewModel> GetDetailsById(int id)
         {
             var contribution = await _contributionRepository.GetById(id);
@@ -36,12 +42,13 @@ namespace ContributionSystem.BusinessLogic.Services
                     MonthNumber = u.MonthNumber,
                     Income = u.Income,
                     Sum = u.Sum
-                }).ToList()
+                }).OrderBy(u => u.MonthNumber).ToList()
             };
 
             return response;
         }
 
+        /// <inheritdoc/>
         public async Task<ResponseGetHistoryByUserIdContributionViewModel> GetHistoryByUserId(RequestGetHistoryByUserIdContributionViewModel request)
         {
             CheckGetHistoryByUserIdRequest(request);
@@ -66,6 +73,7 @@ namespace ContributionSystem.BusinessLogic.Services
             return response;
         }
 
+        /// <inheritdoc/>
         public async Task<ResponseCalculateContributionViewModel> Calculate(RequestCalculateContributionViewModel request)
         {
             CheckCalculationRequest(request);
